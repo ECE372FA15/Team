@@ -8,6 +8,9 @@
 #ifndef INITTIMER_H
 #define	INITTIMER_H
 
+#define FLAG_DOWN 0
+#define FLAG_RAISED 1
+
 void delayUs(unsigned int delay);
 
 #endif	/* INITTIMER_H */
