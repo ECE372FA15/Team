@@ -10,23 +10,25 @@
  * File: leds.c 
 */
 
-#include "leds.h"
 #include <xc.h>
+#include "leds.h"
 #define OUTPUT 0
 #define OFF 0
 #define ON 1
 
-void initLEDs()
+void initLED(int i)
 {
-    TRISDbits.TRISD1 = OUTPUT;
-    TRISDbits.TRISD2 = OUTPUT;    
+    if(i == 1)
+        TRISDbits.TRISD1 = OUTPUT;
+    else if ( i == 2)      
+        TRISDbits.TRISD2 = OUTPUT;    
 }
 
 void turnOnLED(int i)
 {
     if(i == 1)
         LATDbits.LATD1 = ON;
-    else
+    else if (i == 2)
         LATDbits.LATD2 = ON;
 }
 
@@ -34,7 +36,7 @@ void turnOffLED(int i)
 {
     if(i == 1)
         LATDbits.LATD1 = OFF;
-    else
+    else if (i == 2)
         LATDbits.LATD2 = OFF;
 }
 

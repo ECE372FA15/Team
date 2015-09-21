@@ -9,7 +9,7 @@
 #define	LEDS_H
 
 // initialize the led 
-void initLEDs();
+void initLED(int i);
 
 // turn on the specified led 
 void turnOnLED(int i);

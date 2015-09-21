@@ -15,12 +15,18 @@
 #include "timer.h"
 
 
-/* Please note that the configuration file has changed from lab 0.
- * the oscillator is now of a different frequency.
- */
+//TODO: Define states of the state machine
+typedef enum stateTypeEnum{
+    runOn, stopOn, dbPress, dbRelease
+} stateType;
+
+//TODO: Use volatile variables that change within interrupts
+volatile stateType state = runOn; 
+
 int main(void)
 {
-
+   // intitsw(); 
+    
     
     while(1)
     {
