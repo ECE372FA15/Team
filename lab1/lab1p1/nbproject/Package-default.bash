@@ -10,9 +10,9 @@ CND_CONF=default
 CND_DISTDIR=dist
 TMPDIR=build/${CND_CONF}/${IMAGE_TYPE}/tmp-packaging
 TMPDIRNAME=tmp-packaging
-OUTPUT_PATH=dist/${CND_CONF}/${IMAGE_TYPE}/lab1p1-student.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
-OUTPUT_BASENAME=lab1p1-student.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
-PACKAGE_TOP_DIR=lab1p1-student/
+OUTPUT_PATH=dist/${CND_CONF}/${IMAGE_TYPE}/lab1p1.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+OUTPUT_BASENAME=lab1p1.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+PACKAGE_TOP_DIR=lab1p1/
 
 # Functions
 function checkReturnCode
@@ -57,15 +57,15 @@ mkdir -p ${TMPDIR}
 
 # Copy files and create directories and links
 cd "${TOP}"
-makeDirectory ${TMPDIR}/lab1p1-student/bin
+makeDirectory ${TMPDIR}/lab1p1/bin
 copyFileToTmpDir "${OUTPUT_PATH}" "${TMPDIR}/${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}" 0755
 
 
 # Generate tar file
 cd "${TOP}"
-rm -f ${CND_DISTDIR}/${CND_CONF}/package/lab1p1-student.tar
+rm -f ${CND_DISTDIR}/${CND_CONF}/package/lab1p1.tar
 cd ${TMPDIR}
-tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/package/lab1p1-student.tar *
+tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/package/lab1p1.tar *
 checkReturnCode
 
 # Cleanup

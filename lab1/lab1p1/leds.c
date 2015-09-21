@@ -1,14 +1,40 @@
 /*
-* File:   leds.c
-* Author: 
-*
-* Created on December 27, 2014, 1:31 PM
+ *	Jonathan    Hawkins
+ *  Abigail     Francis
+ *  Brandon     Lipjanic
+ *  Pierce      Simpson
+ * 
+ *	University of Arizona
+ *	ece 372 lab 1
+ * 
+ * File: leds.c 
 */
 
+#include "leds.h"
 #include <xc.h>
+#define OUTPUT 0
+#define OFF 0
+#define ON 1
 
-
-void initLEDs(){
-    //TODO: Initialize the appropriate pins to work with the LEDs
-    
+void initLEDs()
+{
+    TRISDbits.TRISD1 = OUTPUT;
+    TRISDbits.TRISD2 = OUTPUT;    
 }
+
+void turnOnLED(int i)
+{
+    if(i == 1)
+        LATDbits.LATD1 = ON;
+    else
+        LATDbits.LATD2 = ON;
+}
+
+void turnOffLED(int i)
+{
+    if(i == 1)
+        LATDbits.LATD1 = OFF;
+    else
+        LATDbits.LATD2 = OFF;
+}
+
