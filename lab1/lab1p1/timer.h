@@ -11,7 +11,7 @@
 #define FLAG_DOWN 0
 #define FLAG_RAISED 1
 
-void delayUs(unsigned int delay);
+void delayUs(float delay);
 
 #endif	/* INITTIMER_H */
 

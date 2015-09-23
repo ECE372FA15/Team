@@ -16,27 +16,30 @@
 #define OFF 0
 #define ON 1
 
+//Changed LED1 to reflect assignment to TRD1 on reg G pin 12
+//Changed LED2 to reflect assignment to TRD2 on reg G pin 14
+
 void initLED(int i)
 {
     if(i == 1)
-        TRISDbits.TRISD1 = OUTPUT;
+        TRISGbits.TRISG12 = OUTPUT;
     else if ( i == 2)      
-        TRISDbits.TRISD2 = OUTPUT;    
+        TRISGbits.TRISG14 = OUTPUT;    
 }
 
 void turnOnLED(int i)
 {
     if(i == 1)
-        LATDbits.LATD1 = ON;
+        LATGbits.LATG12 = ON;
     else if (i == 2)
-        LATDbits.LATD2 = ON;
+        LATGbits.LATG14 = ON;
 }
 
 void turnOffLED(int i)
 {
     if(i == 1)
-        LATDbits.LATD1 = OFF;
+        LATGbits.LATG12 = OFF;
     else if (i == 2)
-        LATDbits.LATD2 = OFF;
+        LATGbits.LATG14 = OFF;
 }
 

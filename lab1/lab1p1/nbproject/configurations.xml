@@ -7,8 +7,8 @@
       <itemPath>leds.h</itemPath>
       <itemPath>timer.h</itemPath>
       <itemPath>config.h</itemPath>
-      <itemPath>interrupt.h</itemPath>
       <itemPath>switch.h</itemPath>
+      <itemPath>interrupt.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -41,7 +41,7 @@
         <targetDevice>PIC32MX470F512L</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>PICkit3PlatformTool</platformTool>
+        <platformTool>PKOBSKDEPlatformTool</platformTool>
         <languageToolchain>XC32</languageToolchain>
         <languageToolchainVersion>1.40</languageToolchainVersion>
         <platform>3</platform>
@@ -91,6 +91,9 @@
         <property key="use-iar" value="false"/>
         <property key="use-indirect-calls" value="false"/>
       </C32>
+      <C32-AR>
+        <property key="additional-options-chop-files" value="false"/>
+      </C32-AR>
       <C32-LD>
         <property key="additional-options-use-response-files" value="false"/>
         <property key="enable-check-sections" value="false"/>

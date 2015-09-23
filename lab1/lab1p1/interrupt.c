@@ -8,8 +8,6 @@
 #include <xc.h>
 #include "interrupt.h"
 
-
-
 void enableInterrupts(){
     unsigned int val;
 
@@ -176,4 +174,12 @@ extern void DmaResume(int susp)
 	{
 		DMACONCLR=_DMACON_SUSPEND_MASK;     // resume DMA activity
 	}
+}
+
+void __attribute__ ((nomips16)) CheKseg0CacheOn()
+{
+	register unsigned long tmp;
+	asm("mfc0 %0,$16,0" :  "=r"(tmp));
+	tmp = (tmp & ~7) | 3;
+	asm("mtc0 %0,$16,0" :: "r" (tmp));
 }

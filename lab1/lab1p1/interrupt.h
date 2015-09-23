@@ -38,6 +38,7 @@ extern void OSCSetPBDIV(unsigned int oscPbDiv);
 void __attribute__((nomips16))  INTRestoreInterrupts(unsigned int status);
 unsigned int __attribute__((nomips16))  INTEnableInterrupts(void);
 unsigned int __attribute__((nomips16)) INTDisableInterrupts(void);
+void __attribute__ ((nomips16)) CheKseg0CacheOn();
 
 #endif	/* INTERRUPT_H */
 

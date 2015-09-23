@@ -28,11 +28,16 @@ int main(void)
     //Initialize new interrupt fix
     SYSTEMConfigPerformance(40000000);
     
-   // initsw(); 
-    
+   initSW(); 
+   initLED(1);
+   initLED(2);
     
     while(1)
     {
+        
+        turnOnLED(1);
+        turnOnLED(2);
+        
         //TODO: Using a finite-state machine, define the behavior of the LEDs
         //Debounce the switch
     }
