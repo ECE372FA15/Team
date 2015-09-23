@@ -25,7 +25,10 @@ volatile stateType state = runOn;
 
 int main(void)
 {
-   // intitsw(); 
+    //Initialize new interrupt fix
+    SYSTEMConfigPerformance(40000000);
+    
+   // initsw(); 
     
     
     while(1)
