@@ -27,6 +27,9 @@
                     SYSKEY = 0, SYSKEY = 0xAA996655, SYSKEY = 0x556699AA;}while(0)
 #define mSYSTEMLock(intStat, dmaSusp)   do{SYSKEY = 0x33333333; DmaResume(dmaSusp); INTRestoreInterrupts(intStat);}while(0)
 
+#define FLAG_DOWN 0
+#define FLAG_UP 1
+
 void enableInterrupts();
 void disableInterrupts();
 extern unsigned int SYSTEMConfigWaitStatesAndPB(unsigned int sys_clock);

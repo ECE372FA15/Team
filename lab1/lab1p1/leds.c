@@ -21,25 +21,25 @@
 
 void initLED(int i)
 {
-    if(i == 1)
+    if(i == RUN_LED)
         TRISGbits.TRISG12 = OUTPUT;
-    else if ( i == 2)      
+    else if ( i == STOP_LED)      
         TRISGbits.TRISG14 = OUTPUT;    
 }
 
 void turnOnLED(int i)
 {
-    if(i == 1)
+    if(i == RUN_LED)
         LATGbits.LATG12 = ON;
-    else if (i == 2)
+    else if (i == STOP_LED)
         LATGbits.LATG14 = ON;
 }
 
 void turnOffLED(int i)
 {
-    if(i == 1)
+    if(i == RUN_LED)
         LATGbits.LATG12 = OFF;
-    else if (i == 2)
+    else if (i == STOP_LED)
         LATGbits.LATG14 = OFF;
 }
 

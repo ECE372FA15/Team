@@ -8,6 +8,9 @@
 #ifndef LEDS_H
 #define	LEDS_H
 
+#define RUN_LED 1
+#define STOP_LED 2
+
 // initialize the led 
 void initLED(int i);
 
