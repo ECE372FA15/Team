@@ -1,8 +1,9 @@
-// ******************************************************************************************* //
-//
-// File:         lab1p2.c
-// Date:         12-30-2014
-// Authors:      Garrett Vanhoy
+// File:         main.c
+// Date:         9/24/2015
+// Authors:      Brandon Lipjanic
+//               Jonathan Hawkins
+//               Abigail Francis
+//               Pierce Simpson
 //
 // Description: 
 // ******************************************************************************************* //

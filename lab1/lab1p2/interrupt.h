@@ -1,9 +1,10 @@
-/* 
- * File:   interrupt.h
- * Author: gvanhoy
- *
- * Created on August 27, 2015, 3:32 PM
- */
+
+// File:         interupt.h
+// Date:         9/24/2015
+// Authors:      Brandon Lipjanic
+//               Jonathan Hawkins
+//               Abigail Francis
+//               Pierce Simpson
 
 #ifndef INTERRUPT_H
 #define	INTERRUPT_H

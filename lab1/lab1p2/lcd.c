@@ -1,9 +1,10 @@
-/*
- * File:   lcd.c
- * Authors:
- *
- * Created on December 31, 2014, 1:39 PM
- */
+
+// File:         lcd.c
+// Date:         9/24/2015
+// Authors:      Brandon Lipjanic
+//               Jonathan Hawkins
+//               Abigail Francis
+//               Pierce Simpson
 
 /* TODO: Make define statements for each pin used in the LCD
  */

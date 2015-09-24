@@ -1,9 +1,10 @@
-/*
- * File:   lcd.h
- * Authors:
- *
- * Created on December 31, 2014, 1:39 PM
- */
+
+// File:         lcd.h
+// Date:         9/24/2015
+// Authors:      Brandon Lipjanic
+//               Jonathan Hawkins
+//               Abigail Francis
+//               Pierce Simpson
 
 void writeLCD(unsigned char word, unsigned int commandType, unsigned int delay);
 void writeFourBits(unsigned char word, unsigned int commandType, unsigned int delayAfter, unsigned int lower);

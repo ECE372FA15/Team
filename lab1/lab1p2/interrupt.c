@@ -1,9 +1,10 @@
-/* 
- * File:   interrupt.c
- * Author: gvanhoy
- *
- * Created on August 27, 2015, 3:32 PM
- */
+
+// File:         interrupt.c
+// Date:         9/24/2015
+// Authors:      Brandon Lipjanic
+//               Jonathan Hawkins
+//               Abigail Francis
+//               Pierce Simpson
 
 #include <xc.h>
 
