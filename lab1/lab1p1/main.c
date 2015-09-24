@@ -1,8 +1,10 @@
-// ******************************************************************************************* //
-//
-// File:         lab1p1.c
-// Date:         
-// Authors:      
+
+// File:         main.c
+// Date:         9/24/2015
+// Authors:      Brandon Lipjanic
+//               Jonathan Hawkins
+//               Abigail Francis
+//               Pierce Simpson
 //
 // Description: Part 1 for lab 1
 // ******************************************************************************************* //
@@ -87,8 +89,8 @@ int main(void)
 
 void __ISR(_CHANGE_NOTICE_VECTOR, IPL3SRS) _CNInterrupt(void){
     //TODO: Implement the interrupt to capture the press of the button
-    dummyVariable = PORTDbits.RD6;
-    IFS1bits.CNDIF = 0;
+    dummyVariable = PORTDbits.RD6; //Read a value from PORTDbits because Vanhoy said so
+    IFS1bits.CNDIF = FLAG_DOWN; //Put the CN flag down
     if((state == runOn) || (state == stopOn)){
         state = waitForPress; //runOn OR stopOn into waitForPress
     }

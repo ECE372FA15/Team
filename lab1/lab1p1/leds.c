@@ -1,14 +1,10 @@
-/*
- *	Jonathan    Hawkins
- *  Abigail     Francis
- *  Brandon     Lipjanic
- *  Pierce      Simpson
- * 
- *	University of Arizona
- *	ece 372 lab 1
- * 
- * File: leds.c 
-*/
+
+// File:         leds.c
+// Date:         9/24/2015
+// Authors:      Brandon Lipjanic
+//               Jonathan Hawkins
+//               Abigail Francis
+//               Pierce Simpson
 
 #include <xc.h>
 #include "leds.h"

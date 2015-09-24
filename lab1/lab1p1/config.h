@@ -1,11 +1,10 @@
-/* 
- * File:   config.h
- * Author: gvanhoy
- * Description: This file sets the configuration bits for the PIC32MX. This is 
- * important for debugging and using the clock correctly.
- * Created on August 27, 2015, 12:17 PM
- */
 
+// File:         config.h
+// Date:         9/24/2015
+// Authors:      Brandon Lipjanic
+//               Jonathan Hawkins
+//               Abigail Francis
+//               Pierce Simpson
 #ifndef CONFIG_H
 #define	CONFIG_H
 

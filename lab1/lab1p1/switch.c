@@ -1,9 +1,10 @@
-/*
- * File:   switch.c
- * Author: Garrett
- *
- * Created on September 19, 2015, 10:46 AM
- */
+
+// File:         switch.c
+// Date:         9/24/2015
+// Authors:      Brandon Lipjanic
+//               Jonathan Hawkins
+//               Abigail Francis
+//               Pierce Simpson
 
 #include <proc/p32mx470f512l.h>
 

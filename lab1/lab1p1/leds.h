@@ -1,9 +1,10 @@
-/* 
-* File:   leds.h
-* Author: 
-*
-* Created on December 27, 2014, 1:31 PM
-*/
+
+// File:         leds.h
+// Date:         9/24/2015
+// Authors:      Brandon Lipjanic
+//               Jonathan Hawkins
+//               Abigail Francis
+//               Pierce Simpson
 
 #ifndef LEDS_H
 #define	LEDS_H
