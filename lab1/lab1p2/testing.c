@@ -1,4 +1,4 @@
-// File:         main.c
+// File:         testing.c
 // Date:         9/24/2015
 // Authors:      Brandon Lipjanic
 //               Jonathan Hawkins
@@ -15,17 +15,3 @@
 #include "config.h"
 #include "interrupt.h"
 #include "testing.h"
-
-
-// ******************************************************************************************* //
-
-int main(void)
-{
-
-    while(1)
-    {
-        testLCD();
-    }
-    
-    return 0;
-}
