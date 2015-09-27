@@ -29,6 +29,7 @@
 #define LOWER 1
 #define UPPER 0
 
+#define LETTER_t 0b01110100
 #define DELAY_AFTER 100 //TODO: Find the ream value this is a placeholder
 
 /* This function should take in a two-byte word and writes either the lower or upper
@@ -88,7 +89,7 @@ void printCharLCD(char c) {
 void initLCD(void) {
     // Setup D, RS, and E to be outputs (0).
 
-    // Initilization sequence utilizes specific LCD commands before the general configuration
+    // Initialization sequence utilizes specific LCD commands before the general configuration
     // commands can be utilized. The first few initilition commands cannot be done using the
     // WriteLCD function. Additionally, the specific sequence and timing is very important.
 
@@ -147,11 +148,11 @@ void testLCD(){
     for(i = 0; i < 1000; i++) delayUs(1000);
 }
 
-    //Testing writeLCD function
+ //Testing writeLCD function
 void testWriteLCD(){
     initLCD();
     int i = 0;
-    writeLCD("word", LCD_WRITE_DATA, 5);
+    writeLCD(LETTER_t, LCD_WRITE_DATA, 5); //Should write the letter t.
     for(i = 0; i < 2000; i++) delayUs(1000); //Delays for 2 seconds.
     clearLCD();
 }
