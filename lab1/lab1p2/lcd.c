@@ -12,16 +12,24 @@
 #include "lcd.h"
 #include "timer.h"
 
-#define LCD_DATA  
-#define LCD_RS  
-#define LCD_E   
+#define LCD_DATA  LATB
+#define LCD_RS  LATBbits.LATB7
+#define LCD_E   LATBbits.LATB6
 
-#define TRIS_D7 
-#define TRIS_D6 
-#define TRIS_D5 
-#define TRIS_D4 
-#define TRIS_RS 
-#define TRIS_E  
+#define TRIS_D7  TRISBbits.TRISB15
+#define TRIS_D6  TRISBbits.TRISB14
+#define TRIS_D5  TRISBbits.TRISB13
+#define TRIS_D4  TRISBbits.TRISB12
+#define TRIS_RS  TRISBbits.TRISB7
+#define TRIS_E   TRISBbits.TRISB6
+
+#define LCD_WRITE_DATA    1
+#define LCD_WRITE_CONTROL 0
+
+#define LOWER 1
+#define UPPER 0
+
+#define DELAY_AFTER 100 //TODO: Find the ream value this is a placeholder
 
 /* This function should take in a two-byte word and writes either the lower or upper
  * byte to the last four bits of LATB. Additionally, according to the LCD data sheet
@@ -31,20 +39,49 @@
  * when you are simply writing a character. Otherwise, RS is '0'.
  */
 void writeFourBits(unsigned char word, unsigned int commandType, unsigned int delayAfter, unsigned int lower){
-    //TODO:
+    
+    //TODO: What to do we with the other 4 bits? Do they just get discarded?
+    
+    //If the user enters a 1 for the lower input it writes lower byte to the last four bits of LATB
+    if(lower == LOWER){
+        LATBbits.LATB15 = word<3>;
+        LATBbits.LATB14 = word<2>;
+        LATBbits.LATB13 = word<1>;
+        LATBbits.LATB12 = word<0>;
+    }
+    
+    //If the user enters a 0 for the lower input it writes upper byte to the last four bits of LATB
+    else if(lower == UPPER){
+        LATBbits.LATB15 = word<7>;
+        LATBbits.LATB14 = word<6>;
+        LATBbits.LATB13 = word<5>;
+        LATBbits.LATB12 = word<4>;
+    }
+    
+    //Don't write if they don't enter a 0 or 1 for lower
+    
+    LCD_RS = commandType; delayUs(5);
+    LCD_E = 1;  delayUs(5);         //TODO: How long do these delays need to be??? 
+    LCD_E = 0;  delayUs(5);
+    delayUs(delayAfter);
 }
+
 
 /* Using writeFourBits, this function should write the two bytes of a character
  * to the LCD.
  */
 void writeLCD(unsigned char word, unsigned int commandType, unsigned int delayAfter){
-    //TODO:
+    
+    //TODO: IS THIS RIGHT?
+    writeFourBits(word, commandType, delayAfter, UPPER); 
+    writeFourBits(word, commandType, delayAfter, LOWER);
 }
 
 /* Given a character, write it to the LCD. RS should be set to the appropriate value.
  */
 void printCharLCD(char c) {
-    //TODO:
+    //TODO: Confirm --> The RS value is set in writeFourBits so no need to do it in here.
+    writeLCD(c,LCD_WRITE_DATA, DELAY_AFTER);
 }
 /*Initialize the LCD
  */
@@ -108,4 +145,13 @@ void testLCD(){
     for(i = 0; i < 1000; i++) delayUs(1000);
     printStringLCD("Hello!");
     for(i = 0; i < 1000; i++) delayUs(1000);
+}
+
+    //Testing writeLCD function
+void testWriteLCD(){
+    initLCD();
+    int i = 0;
+    writeLCD("word", LCD_WRITE_DATA, 5);
+    for(i = 0; i < 2000; i++) delayUs(1000); //Delays for 2 seconds.
+    clearLCD();
 }
