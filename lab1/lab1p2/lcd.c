@@ -12,16 +12,17 @@
 #include "lcd.h"
 #include "timer.h"
 
-#define LCD_DATA  LATB
-#define LCD_RS  LATBbits.LATB7
-#define LCD_E   LATBbits.LATB6
+//#define LCD_DATA  LATB
+#define LCD_RS  LATGbits.LATG0
+#define LCD_E   LATGbits.LATG0
 
 #define TRIS_D7  TRISGbits.TRISG1
 #define TRIS_D6  TRISFbits.TRISF0
 #define TRIS_D5  TRISDbits.TRISD13
 #define TRIS_D4  TRISDbits.TRISD7
-#define TRIS_RS  TRISGbits.TRISB7
-#define TRIS_E   TRISGbits.TRISB6
+// not sure what these are for 
+#define TRIS_RS  TRISGbits.TRISG13
+#define TRIS_E   TRISGbits.TRISG0
 
 #define LCD_WRITE_DATA    1
 #define LCD_WRITE_CONTROL 0
