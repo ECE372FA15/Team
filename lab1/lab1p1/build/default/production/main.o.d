@@ -3,4 +3,5 @@ main.c  \
 leds.h  \
 interrupt.h  \
 switch.h  \
- timer.h 
+ timer.h  \
+config.h 

@@ -24,7 +24,7 @@ void initTimer2(){
     //Enable interrupt
    // IEC0bits.T2IE = ENABLE;
     //Set interrupt priority
-    IPC2bits.T2IP = 3;
+//    IPC2bits.T2IP = 3;
     IFS0bits.T2IF = FLAG_DOWN;  //Interrupt Flag Down
 
 
