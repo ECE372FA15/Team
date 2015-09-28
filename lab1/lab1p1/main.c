@@ -16,7 +16,7 @@
 #include "switch.h"
 #include "timer.h"
 #include "config.h"
-#define run
+#define part1
 #define DBdelayTime 500
 
 //#define test 
@@ -52,7 +52,7 @@ int main(void)
     }
 #endif
    
-#ifdef run
+#ifdef part1
    initSW(); 
    initLED(RUN_LED);
    initLED(STOP_LED);
@@ -67,20 +67,23 @@ int main(void)
     while(1){
         
         switch(state){
+            // the state that toggles the LEDs 
             case runToggle:
-                
+                // switch the led's
                 toggleAllLEDs();
                 prevState = runToggle;
                 
                 state = waitForPress; //Go to debounce press state
                 break;
                 
+            // wait for user input i.e. button press
             case waitForPress:
                 
                 while (state == waitForPress);
                 
                 break;
                 
+            // once the button has been pressed 
             case dbPress:
                 
                 delayUs(DBdelayTime); // Delay for 5ms
@@ -88,7 +91,8 @@ int main(void)
                 while(state == dbPress );
                
                 break;
-                
+            
+            // once the button has been released 
             case dbRelease:
                 
                 delayUs(DBdelayTime); //Delay for 5ms
@@ -110,15 +114,15 @@ void __ISR(_CHANGE_NOTICE_VECTOR, IPL6SRS) _CNInterrupt(void){
     IFS1bits.CNAIF = 0;
     
     if((state == runToggle)){
-        state = waitForPress; //runOn OR stopOn into waitForPress
+        //runOn OR stopOn into waitForPress
+        state = waitForPress; 
     }
     else if(state == waitForPress){
-        
-        state = dbPress; //Going from waitForPress to dbPress
+        //Going from waitForPress to dbPress
+        state = dbPress; 
     }
     else{               
-        state = dbRelease; //Going from dbPress to dbRelease
+        //Going from dbPress to dbRelease
+        state = dbRelease; 
     }
-    //Change state from dbRelease into runOn or stopOn in the switch statement.
-
 }

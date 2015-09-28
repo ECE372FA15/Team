@@ -45,18 +45,18 @@ void writeFourBits(unsigned char word, unsigned int commandType, unsigned int de
     
     //If the user enters a 1 for the lower input it writes lower byte to the last four bits of LATB
     if(lower == LOWER){
-        LATBbits.LATB15 = word<3>;
-        LATBbits.LATB14 = word<2>;
-        LATBbits.LATB13 = word<1>;
-        LATBbits.LATB12 = word<0>;
+        LATBbits.LATB15 = (word & 0b00001000)>> 3;
+        LATBbits.LATB14 = (word & 0b00000100)>> 2;
+        LATBbits.LATB13 = (word & 0b00000010)>> 1;
+        LATBbits.LATB12 = (word & 0b00000001);
     }
     
     //If the user enters a 0 for the lower input it writes upper byte to the last four bits of LATB
     else if(lower == UPPER){
-        LATBbits.LATB15 = word<7>;
-        LATBbits.LATB14 = word<6>;
-        LATBbits.LATB13 = word<5>;
-        LATBbits.LATB12 = word<4>;
+        LATBbits.LATB15 = (word & 0b10000000)>> 7;
+        LATBbits.LATB14 = (word & 0b01000000)>> 6;
+        LATBbits.LATB13 = (word & 0b00100000)>> 5;
+        LATBbits.LATB12 = (word & 0b00010000)>> 4;
     }
     
     //Don't write if they don't enter a 0 or 1 for lower
