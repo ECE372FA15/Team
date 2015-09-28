@@ -23,6 +23,7 @@ void initSW(){
     IEC1bits.CNDIE = 1;         // Enable overall CN Interrupt
     IFS1bits.CNDIF = 0;         // Put Interrupt flag down
     CNPUGbits.CNPUG13 = 1;       // Enable Internal Pull-up resistor
+    IPC8bits.CNIP = 3;
 
 }
 

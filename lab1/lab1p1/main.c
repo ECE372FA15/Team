@@ -16,7 +16,7 @@
 #include "switch.h"
 #include "timer.h"
 
-
+#define run
 
 //TODO: Define states of the state machine
 typedef enum stateTypeEnum{
@@ -32,41 +32,72 @@ int main(void)
     //Initialize new interrupt fix
     SYSTEMConfigPerformance(40000000);
     
+#ifdef test
    initSW(); 
    initLED(RUN_LED);
    initLED(STOP_LED);
    initTimer2();
    enableInterrupts();
+    while (1){
+    LATGbits.LATG14 = PORTGbits.RG13;
+    }
+#endif
+   
+#ifdef run
+   initSW(); 
+   initLED(RUN_LED);
+   initLED(STOP_LED);
+   initTimer2();
+   // enableInterrupts();
+   // turn on both leds to verify setup...
 
+   turnOnLED(STOP_LED); //Turn on the RunLED
+   turnOnLED(RUN_LED); //Turn on the RunLED
+   delayUs(2000000);
+   turnOffLED(STOP_LED); //Turn on the RunLED
+   delayUs(2000000);
+   turnOnLED(STOP_LED); //Turn on the RunLED
+   turnOnLED(RUN_LED); //Turn on the RunLED
+   delayUs(2000000);
+   
+   dummyVariable = PORTGbits.RG13 = 0; //Read a value from PORTDbits because Vanhoy said so
+   //PORTGbits.RG13 = 1;
+           
+   state = runOn; 
     
     while(1){
         
         switch(state){
             case runOn:
                 turnOnLED(RUN_LED); //Turn on the RunLED
-       
+                turnOffLED(STOP_LED);
+                
                 
                 state = waitForPress; //Go to debounce press state
                 break;
                 
-            case stopOn:
+            case stopOn: 
                 turnOnLED(STOP_LED); //Turn on the StopLED
+                turnOffLED(RUN_LED);
              
                 
                 state = waitForPress; //Go to debounce press state
                 break;
                 
             case waitForPress:
-                while(IFS1bits.CNDIF == FLAG_DOWN); //Wait for button press to enable CN flag
-                IFS1bits.CNDIF == FLAG_DOWN; //Put the CN flag down
                 
+                //while(IFS1bits.CNDIF == FLAG_DOWN); //Wait for button to be released
+                
+                while (state == waitForPress);
+                LATGbits.LATG14 = 0;
                 break;
                 
             case dbPress:
+                LATGbits.LATG14 = 0;//FIXME
                 delayUs(5000); // Delay for 5ms
                 while(IFS1bits.CNDIF == FLAG_DOWN); //Wait for button to be released
-                IFS1bits.CNDIF == FLAG_DOWN; //Put the CN flag down
                 TMR2 = 0;   //Reset Timer2
+                
                 break;
                 
             case dbRelease:
@@ -83,22 +114,29 @@ int main(void)
                 break;
         } 
     }
-    
+#endif
     return 0;
 }
 
-void __ISR(_CHANGE_NOTICE_VECTOR, IPL3SRS) _CNInterrupt(void){
+//void __ISR(_CHANGE_NOTICE_VECTOR, IPL3SRS) _CNInterrupt(void){
+void __attribute__((__interrupt__, auto_psv ))__ISR_CNInterrupt(void){
+    
+LATGbits.LATG14 = 0;
+
     //TODO: Implement the interrupt to capture the press of the button
-    dummyVariable = PORTDbits.RD6; //Read a value from PORTDbits because Vanhoy said so
-    IFS1bits.CNDIF = FLAG_DOWN; //Put the CN flag down
+    dummyVariable = PORTGbits.RG13 = 1;//Put the CN flag down
+    dummyVariable = PORTDbits.RD6 = 1;//Put the CN flag down
+    
     if((state == runOn) || (state == stopOn)){
         state = waitForPress; //runOn OR stopOn into waitForPress
     }
     else if(state == waitForPress){
+        
         state = dbPress; //Going from waitForPress to dbPress
     }
     else{               
         state = dbRelease; //Going from dbPress to dbRelease
     }
     //Change state from dbRelease into runOn or stopOn in the switch statement.
+
 }

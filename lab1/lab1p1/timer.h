@@ -12,7 +12,7 @@
 #define FLAG_DOWN 0
 #define FLAG_RAISED 1
 
-
+void initTimer2();
 
 void delayUs(float delay);
 

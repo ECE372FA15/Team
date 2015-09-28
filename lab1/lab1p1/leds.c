@@ -9,8 +9,8 @@
 #include <xc.h>
 #include "leds.h"
 #define OUTPUT 0
-#define OFF 0
-#define ON 1
+#define OFF 1
+#define ON 0
 
 //Changed LED1 to reflect assignment to TRD1 on reg G pin 12
 //Changed LED2 to reflect assignment to TRD2 on reg G pin 14
