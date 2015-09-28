@@ -16,7 +16,7 @@
 #include "switch.h"
 #include "timer.h"
 #include "config.h"
-#define test
+#define run
 
 //TODO: Define states of the state machine
 typedef enum stateTypeEnum{
@@ -25,6 +25,7 @@ typedef enum stateTypeEnum{
 
 //TODO: Use volatile variables that change within interrupts
 volatile stateType state = runOn; 
+volatile stateType prevState = runOn;
 unsigned int dummyVariable = 0;
 
 int main(void)
@@ -50,13 +51,14 @@ int main(void)
    initLED(RUN_LED);
    initLED(STOP_LED);
    initTimer2();
-   // enableInterrupts();
+   enableInterrupts();
    // turn on both leds to verify setup...
 
-//   turnOnLED(STOP_LED); //Turn on the RunLED
-//   turnOnLED(RUN_LED); //Turn on the RunLED
-//   delayUs(2000000);
-//   turnOffLED(STOP_LED); //Turn on the RunLED
+   turnOnLED(STOP_LED); //Turn on the RunLED
+   turnOnLED(RUN_LED); //Turn on the RunLED
+   delayUs(2000000);
+   turnOffLED(STOP_LED); //Turn on the RunLED
+   turnOffLED(RUN_LED); //Turn on the RunLED
 //   delayUs(2000000);
 //   turnOnLED(STOP_LED); //Turn on the RunLED
 //   turnOnLED(RUN_LED); //Turn on the RunLED
@@ -73,7 +75,7 @@ int main(void)
             case runOn:
                 turnOnLED(RUN_LED); //Turn on the RunLED
                 turnOffLED(STOP_LED);
-                
+                prevState = runOn;
                 
                 state = waitForPress; //Go to debounce press state
                 break;
@@ -81,7 +83,7 @@ int main(void)
             case stopOn: 
                 turnOnLED(STOP_LED); //Turn on the StopLED
                 turnOffLED(RUN_LED);
-             
+                prevState = stopOn;
                 
                 state = waitForPress; //Go to debounce press state
                 break;
@@ -91,21 +93,22 @@ int main(void)
                 //while(IFS1bits.CNDIF == FLAG_DOWN); //Wait for button to be released
                 
                 while (state == waitForPress);
-                LATGbits.LATG14 = 0;
+                
                 break;
                 
             case dbPress:
-                LATGbits.LATG14 = 0;//FIXME
-                delayUs(5000); // Delay for 5ms
-                while(IFS1bits.CNDIF == FLAG_DOWN); //Wait for button to be released
+                
+                delayUs(1000); // Delay for 5ms
+               // while(IFS1bits.CNAIF == 0); //Wait for button to be released
+                while(state ==dbPress );
                 TMR2 = 0;   //Reset Timer2
                 
                 break;
                 
             case dbRelease:
-                delayUs(5000); //Delay for 5ms
+                delayUs(1000); //Delay for 5ms
                 
-                if(state == runOn){ //Previous State was runOn
+                if(prevState == runOn){ //Previous State was runOn
                     state = stopOn;
                 }
                 
@@ -123,7 +126,7 @@ int main(void)
 //void __ISR(_CHANGE_NOTICE_VECTOR, IPL3SRS) _CNInterrupt(void){
 void __ISR(_CHANGE_NOTICE_VECTOR, IPL6SRS) _CNInterrupt(void){
     
-LATGbits.LATG14 = 0;
+//LATGbits.LATG14 = 0;
 
     //TODO: Implement the interrupt to capture the press of the button
     dummyVariable = PORTAbits.RA7 = 1;//Put the CN flag down

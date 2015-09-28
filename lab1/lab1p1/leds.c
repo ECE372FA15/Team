@@ -39,3 +39,10 @@ void turnOffLED(int i)
         LATGbits.LATG14 = OFF;
 }
 
+//void toggleLED()
+//{
+//
+//        LATGbits.LATG12 = !LATGbits.LATG12;
+// 
+//        LATGbits.LATG14 = !LATGbits.LATG14;
+//}
