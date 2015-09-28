@@ -21,5 +21,7 @@ void turnOnLED(int i);
 // turn off the specified led 
 void turnOffLED(int i);
 
+void toggleAllLEDs();
+
 #endif	/* LEDS_H */
 
