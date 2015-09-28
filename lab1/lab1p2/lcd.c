@@ -16,12 +16,12 @@
 #define LCD_RS  LATBbits.LATB7
 #define LCD_E   LATBbits.LATB6
 
-#define TRIS_D7  TRISBbits.TRISB15
-#define TRIS_D6  TRISBbits.TRISB14
-#define TRIS_D5  TRISBbits.TRISB13
-#define TRIS_D4  TRISBbits.TRISB12
-#define TRIS_RS  TRISBbits.TRISB7
-#define TRIS_E   TRISBbits.TRISB6
+#define TRIS_D7  TRISGbits.TRISG1
+#define TRIS_D6  TRISFbits.TRISF0
+#define TRIS_D5  TRISDbits.TRISD13
+#define TRIS_D4  TRISDbits.TRISD7
+#define TRIS_RS  TRISGbits.TRISB7
+#define TRIS_E   TRISGbits.TRISB6
 
 #define LCD_WRITE_DATA    1
 #define LCD_WRITE_CONTROL 0
@@ -115,7 +115,13 @@ void initLCD(void) {
  * Since a string is just a character array, try to be clever with your use of pointers.
  */
 void printStringLCD(const char* s) {
-    //TODO:
+    //TODO:call printCharLCD for each char of char* s
+    
+    char* i = NULL;
+    
+    for(i=s; *i; i++){
+        printCharLCD(*i);
+    }
 }
 
 /*
