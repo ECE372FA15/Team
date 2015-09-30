@@ -29,10 +29,12 @@
 #define DB4      LATDbits.LATD4      //DB4 Write data
 
 //RS and enable pin definitions
-#define TRIS_RS  TRISGbits.TRISG13  //RS Input/output
-#define RS       LATGbits.LATG13    //RS Write data
+#define TRIS_RS  TRISGbits.TRISG14  //RS Input/output
+#define RS       LATGbits.LATG14    //RS Write data
 #define TRIS_E   TRISGbits.TRISG0   //E Input/output
 #define E        LATGbits.LATG0     //E Write data
+#define TRIS_RW   TRISEbits.TRISE6   //
+#define RW        LATEbits.LATE6     //
 
 //Define command types
 #define LCD_WRITE_DATA    1
@@ -79,10 +81,10 @@ void writeFourBits(unsigned char word, unsigned int commandType, unsigned int de
      if(commandType == 0){ 
          delay = LCD_DELAY_clear;} 
      
-    RS = commandType; delayUs(delayAfter);
-    E = 1;  delayUs(delayAfter);         //TODO: How long do these delays need to be??? 
-    E = 0;  delayUs(delayAfter);
-    delayUs(delayAfter);
+    RS = commandType; delayUs(delay);
+    E = 1;  delayUs(delay);         //TODO: How long do these delays need to be??? 
+    E = 0;  delayUs(delay);
+    delayUs(delay);
 }
 
 
@@ -123,34 +125,61 @@ void initLCD(void) {
     // Enable 4-bit interface
     
     // wait 15 ms or more after VDD reaches 4.5V
+    E = 0; 
     delayUs(0xFFFF);// this is maxval... hope it works!
-     RS = 0;/*R/W = 0*/ DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
+    delayUs(0xFFFF);
+    delayUs(0xFFFF);
+     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1;
     // wait 4.1 mS or more 
     delayUs(0xFFFF);// this is maxval... hope it works!
-     RS = 0;/*R/W = 0*/ DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
+    delayUs(0xFFFF);// this is maxval... hope it works!
+    delayUs(0xFFFF);// this is maxval... hope it works!
+     E = 1; E = 0;
+     
+     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
     // wait 100uS or more 
     delayUs(0xFFFF);// this is maxval... hope it works!
-     RS = 0;/*R/W = 0*/ DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
+     E = 1; E = 0;
+     
+     RS = 0; RW = 0;  DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
      delayUs(LCD_DELAY_standard);
+     E = 1; E = 0;
     
-     RS = 0;/*R/W = 0*/ DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 0; 
+     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 0; 
+     delayUs(LCD_DELAY_standard);
+     E = 1; E = 0; 
+     
+     RS = 0; RW = 0;  DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 0; 
+     delayUs(LCD_DELAY_standard);
+     E = 1; E = 0; 
+     
+     RS = 0; RW = 0; DB7 = 1; DB6 = 0; DB5 = 0; DB4 = 0; 
+     delayUs(LCD_DELAY_standard);
+     E = 1; E = 0; 
+     
+     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
      delayUs(LCD_DELAY_standard); 
-     RS = 0;/*R/W = 0*/ DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 0; 
-     delayUs(LCD_DELAY_standard); 
-     RS = 0;/*R/W = 0*/ DB7 = 1; DB6 = 0; DB5 = 0; DB4 = 0; 
-     delayUs(LCD_DELAY_standard); 
-     RS = 0;/*R/W = 0*/ DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
-     delayUs(LCD_DELAY_standard); 
-     RS = 0;/*R/W = 0*/ DB7 = 1; DB6 = 0; DB5 = 0; DB4 = 0; 
-     delayUs(LCD_DELAY_standard); 
-     RS = 0;/*R/W = 0*/ DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
-     delayUs(LCD_DELAY_standard); 
-     RS = 0;/*R/W = 0*/ DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 1; 
-     delayUs(LCD_DELAY_standard); 
-     RS = 0;/*R/W = 0*/ DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
-     delayUs(LCD_DELAY_standard); 
-     RS = 0;/*R/W = 0*/ DB7 = 0; DB6 = 1; DB5 = 1; DB4 = 0; 
-     delayUs(LCD_DELAY_standard);   
+     E = 1; E = 0;
+     
+     RS = 0; RW = 0; DB7 = 1; DB6 = 0; DB5 = 0; DB4 = 0; 
+     delayUs(LCD_DELAY_standard);
+     E = 1; E = 0; 
+     
+     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
+     delayUs(LCD_DELAY_standard);
+     E = 1; E = 0; 
+     
+     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 1; 
+     delayUs(LCD_DELAY_standard);
+     E = 1; E = 0; 
+     
+     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
+     delayUs(LCD_DELAY_standard);
+     E = 1; E = 0; 
+     
+     RS = 0; RW = 0; DB7 = 0; DB6 = 1; DB5 = 1; DB4 = 0; 
+     delayUs(LCD_DELAY_standard);
+     E = 1; E = 0;   
      
     // Function Set (specifies data width, lines, and font.
 
