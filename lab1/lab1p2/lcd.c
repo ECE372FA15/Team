@@ -18,21 +18,23 @@
 // 1.7 mS microsecond
 #define LCD_DELAY_clear 1700
 
-#define TRIS_D7 TRISGbits.TRISG1
-#define D7      LATGbits.LATG1
-#define TRIS_D6 TRISFbits.TRISF0
-#define D6      LATFbits.LATF0
-#define TRIS_D5 TRISDbits.TRISD13
-#define D5      LATDbits.LATD13
-#define TRIS_D4 TRISDbits.TRISD7
-#define D4      LATDbits.LATD4
+//data pin definitions 
+#define TRIS_D7 TRISGbits.TRISG1    //DB7 Input/output 
+#define D7      LATGbits.LATG1      //DB7 Write data
+#define TRIS_D6 TRISFbits.TRISF0    //DB6 Input/output 
+#define D6      LATFbits.LATF0      //DB6 Write data
+#define TRIS_D5 TRISDbits.TRISD13   //DB5 Input/output 
+#define D5      LATDbits.LATD13     //DB5 Write data
+#define TRIS_D4 TRISDbits.TRISD7    //DB4 Input/output 
+#define D4      LATDbits.LATD4      //DB4 Write data
 
-// not sure what these are for 
-#define TRIS_RS  TRISGbits.TRISG13
-#define RS       LATGbits.LATG13 
-#define TRIS_E   TRISGbits.TRISG0
-#define E        LATGbits.LATG0
+//RS and enable pin definitions
+#define TRIS_RS  TRISGbits.TRISG13  //RS Input/output
+#define RS       LATGbits.LATG13    //RS Write data
+#define TRIS_E   TRISGbits.TRISG0   //E Input/output
+#define E        LATGbits.LATG0     //E Write data
 
+//Define command types
 #define LCD_WRITE_DATA    1
 #define LCD_WRITE_CONTROL 0
 
@@ -87,7 +89,7 @@ void writeFourBits(unsigned char word, unsigned int commandType, unsigned int de
  */
 void writeLCD(unsigned char word, unsigned int commandType, unsigned int delayAfter){
     
-    //TODO: IS THIS RIGHT?
+    //commandType is data or command:LCD_WRITE_DATA and LCD_WRITE_CONTROL
     writeFourBits(word, commandType, delayAfter, UPPER); 
     writeFourBits(word, commandType, delayAfter, LOWER);
 }
@@ -95,7 +97,7 @@ void writeLCD(unsigned char word, unsigned int commandType, unsigned int delayAf
 /* Given a character, write it to the LCD. RS should be set to the appropriate value.
  */
 void printCharLCD(char c) {
-    //TODO: Confirm --> The RS value is set in writeFourBits so no need to do it in here.
+    //LCD_WRITE_DATA is the RS value
     writeLCD(c,LCD_WRITE_DATA, LCD_DELAY_standard);
 }
 
