@@ -18,16 +18,20 @@
 // 1.7 mS microsecond
 #define LCD_DELAY_clear 1700
 
-#define LCD_RS  LATGbits.LATG0
-#define LCD_E   LATGbits.LATG0
+#define TRIS_D7 TRISGbits.TRISG1
+#define D7      LATGbits.LATG1
+#define TRIS_D6 TRISFbits.TRISF0
+#define D6      LATFbits.LATF0
+#define TRIS_D5 TRISDbits.TRISD13
+#define D5      LATDbits.LATD13
+#define TRIS_D4 TRISDbits.TRISD7
+#define D4      LATDbits.LATD4
 
-#define TRIS_D7  TRISGbits.TRISG1
-#define TRIS_D6  TRISFbits.TRISF0
-#define TRIS_D5  TRISDbits.TRISD13
-#define TRIS_D4  TRISDbits.TRISD7
 // not sure what these are for 
 #define TRIS_RS  TRISGbits.TRISG13
+#define RS       LATGbits.LATG13 
 #define TRIS_E   TRISGbits.TRISG0
+#define E        LATGbits.LATG0
 
 #define LCD_WRITE_DATA    1
 #define LCD_WRITE_CONTROL 0
@@ -55,18 +59,18 @@ void writeFourBits(unsigned char word, unsigned int commandType, unsigned int de
     
     //If the user enters a 1 for the lower input it writes lower byte to the last four bits of LATG
     if(lower == LOWER){
-        TRIS_D7 = (word & 0b00001000) >> 3;
-        TRIS_D6 = (word & 0b00000100) >> 2;
-        TRIS_D5 = (word & 0b00000010) >> 1;
-        TRIS_D4 = (word & 0b00000001);
+        D7 = (word & 0b00001000) >> 3;
+        D6 = (word & 0b00000100) >> 2;
+        D5 = (word & 0b00000010) >> 1;
+        D4 = (word & 0b00000001);
     }
     
     //If the user enters a 0 for the lower input it writes upper byte to the last four bits of LATG
     else if(lower == UPPER){
-        TRIS_D7 = (word & 0b10000000) >> 7;
-        TRIS_D6 = (word & 0b01000000) >> 6;
-        TRIS_D5 = (word & 0b00100000) >> 5;
-        TRIS_D4 = (word & 0b00010000) >> 4;
+        D7 = (word & 0b10000000) >> 7;
+        D6 = (word & 0b01000000) >> 6;
+        D5 = (word & 0b00100000) >> 5;
+        D4 = (word & 0b00010000) >> 4;
     }
     
     //Don't write if they don't enter a 0 or 1 for lower
@@ -106,7 +110,7 @@ void initLCDSequence(void){
     // wait 100uS or more 
     delayUs(0xFFFF);// this is maxval... hope it works!
     // RS = 0; R/W = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
-    LCD_RS.pu
+    LCD_RS
     
     // RS = 0; R/W = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 0; 
     // RS = 0; R/W = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 0; 
