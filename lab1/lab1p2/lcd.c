@@ -20,13 +20,13 @@
 
 //data pin definitions 
 #define TRIS_D7 TRISGbits.TRISG1    //DB7 Input/output 
-#define D7      LATGbits.LATG1      //DB7 Write data
+#define DB7      LATGbits.LATG1      //DB7 Write data
 #define TRIS_D6 TRISFbits.TRISF0    //DB6 Input/output 
-#define D6      LATFbits.LATF0      //DB6 Write data
+#define DB6      LATFbits.LATF0      //DB6 Write data
 #define TRIS_D5 TRISDbits.TRISD13   //DB5 Input/output 
-#define D5      LATDbits.LATD13     //DB5 Write data
+#define DB5      LATDbits.LATD13     //DB5 Write data
 #define TRIS_D4 TRISDbits.TRISD7    //DB4 Input/output 
-#define D4      LATDbits.LATD4      //DB4 Write data
+#define DB4      LATDbits.LATD4      //DB4 Write data
 
 //RS and enable pin definitions
 #define TRIS_RS  TRISGbits.TRISG13  //RS Input/output
@@ -105,27 +105,33 @@ void initLCDSequence(void){
     
     // wait 15 ms or more after VDD reaches 4.5V
     delayUs(0xFFFF);// this is maxval... hope it works!
-    // RS = 0; R/W = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
+     RS = 0;/*R/W = 0*/ DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
     // wait 4.1 mS or more 
     delayUs(0xFFFF);// this is maxval... hope it works!
-    // RS = 0; R/W = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
+     RS = 0;/*R/W = 0*/ DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
     // wait 100uS or more 
     delayUs(0xFFFF);// this is maxval... hope it works!
-    // RS = 0; R/W = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
-    RS
+     RS = 0;/*R/W = 0*/ DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
+     delayUs(LCD_DELAY_standard);
     
-    // RS = 0; R/W = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 0; 
-    // RS = 0; R/W = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 0; 
-    // RS = 0; R/W = 0; DB7 = 1; DB6 = 0; DB5 = 0; DB4 = 0; 
-    // RS = 0; R/W = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
-    // RS = 0; R/W = 0; DB7 = 1; DB6 = 0; DB5 = 0; DB4 = 0; 
-    // RS = 0; R/W = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
-    // RS = 0; R/W = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 1; 
-    // RS = 0; R/W = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
-    // RS = 0; R/W = 0; DB7 = 0; DB6 = 1; DB5 = I/D; DB4 = S; 
-    
-    delayUs(0xFFFF);// this is maxval... hope it works!
-    
+     RS = 0;/*R/W = 0*/ DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 0; 
+     delayUs(LCD_DELAY_standard); 
+     RS = 0;/*R/W = 0*/ DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 0; 
+     delayUs(LCD_DELAY_standard); 
+     RS = 0;/*R/W = 0*/ DB7 = 1; DB6 = 0; DB5 = 0; DB4 = 0; 
+     delayUs(LCD_DELAY_standard); 
+     RS = 0;/*R/W = 0*/ DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
+     delayUs(LCD_DELAY_standard); 
+     RS = 0;/*R/W = 0*/ DB7 = 1; DB6 = 0; DB5 = 0; DB4 = 0; 
+     delayUs(LCD_DELAY_standard); 
+     RS = 0;/*R/W = 0*/ DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
+     delayUs(LCD_DELAY_standard); 
+     RS = 0;/*R/W = 0*/ DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 1; 
+     delayUs(LCD_DELAY_standard); 
+     RS = 0;/*R/W = 0*/ DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
+     delayUs(LCD_DELAY_standard); 
+     RS = 0;/*R/W = 0*/ DB7 = 0; DB6 = 1; DB5 = 1; DB4 = 0; 
+     delayUs(LCD_DELAY_standard);     
 
 }
 void initLCD(void) {
