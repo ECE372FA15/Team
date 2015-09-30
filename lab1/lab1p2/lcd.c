@@ -61,18 +61,18 @@ void writeFourBits(unsigned char word, unsigned int commandType, unsigned int de
     
     //If the user enters a 1 for the lower input it writes lower byte to the last four bits of LATG
     if(lower == LOWER){
-        D7 = (word & 0b00001000) >> 3;
-        D6 = (word & 0b00000100) >> 2;
-        D5 = (word & 0b00000010) >> 1;
-        D4 = (word & 0b00000001);
+        DB7 = (word & 0b00001000) >> 3;
+        DB6 = (word & 0b00000100) >> 2;
+        DB5 = (word & 0b00000010) >> 1;
+        DB4 = (word & 0b00000001);
     }
     
     //If the user enters a 0 for the lower input it writes upper byte to the last four bits of LATG
     else if(lower == UPPER){
-        D7 = (word & 0b10000000) >> 7;
-        D6 = (word & 0b01000000) >> 6;
-        D5 = (word & 0b00100000) >> 5;
-        D4 = (word & 0b00010000) >> 4;
+        DB7 = (word & 0b10000000) >> 7;
+        DB6 = (word & 0b01000000) >> 6;
+        DB5 = (word & 0b00100000) >> 5;
+        DB4 = (word & 0b00010000) >> 4;
     }
     
     //Don't write if they don't enter a 0 or 1 for lower
