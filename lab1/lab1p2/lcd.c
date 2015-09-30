@@ -54,7 +54,7 @@ void writeFourBits(unsigned char word, unsigned int commandType, unsigned int de
     //TODO: What to do we with the other 4 bits? Do they just get discarded? 
     // SLN, Yes, this fucnt gets called twice in a row....
     
-     LCD_E = 0; // set enable low to reduce future headaches 
+     E = 0; // set enable low to reduce future headaches 
     
     
     //If the user enters a 1 for the lower input it writes lower byte to the last four bits of LATG
@@ -75,9 +75,9 @@ void writeFourBits(unsigned char word, unsigned int commandType, unsigned int de
     
     //Don't write if they don't enter a 0 or 1 for lower
     
-    LCD_RS = commandType; delayUs(delayAfter);
-    LCD_E = 1;  delayUs(delayAfter);         //TODO: How long do these delays need to be??? 
-    LCD_E = 0;  delayUs(delayAfter);
+    RS = commandType; delayUs(delayAfter);
+    E = 1;  delayUs(delayAfter);         //TODO: How long do these delays need to be??? 
+    E = 0;  delayUs(delayAfter);
     delayUs(delayAfter);
 }
 
@@ -110,7 +110,7 @@ void initLCDSequence(void){
     // wait 100uS or more 
     delayUs(0xFFFF);// this is maxval... hope it works!
     // RS = 0; R/W = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
-    LCD_RS
+    RS
     
     // RS = 0; R/W = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 0; 
     // RS = 0; R/W = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 0; 
@@ -128,8 +128,8 @@ void initLCDSequence(void){
 }
 void initLCD(void) {
     // Setup D, RS, and E to be outputs (0).
-    LCD_RS = 0; // LATGbits.LATG0
-    LCD_E = 0;  // LATGbits.LATG0
+    RS = 0; // LATGbits.LATG0
+    E = 0;  // LATGbits.LATG0
 
     TRIS_D7 = 0;  // TRISGbits.TRISG1
     TRIS_D6 = 0;  // TRISFbits.TRISF0
