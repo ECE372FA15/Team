@@ -3,5 +3,4 @@ main.c  \
 lcd.h  \
 timer.h  \
 config.h  \
- interrupt.h  \
-testing.h 
+ interrupt.h 

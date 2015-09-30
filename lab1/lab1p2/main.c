@@ -14,7 +14,6 @@
 #include "timer.h"
 #include "config.h"
 #include "interrupt.h"
-#include "testing.h"
 
 
 // ******************************************************************************************* //
@@ -24,7 +23,8 @@ int main(void)
 
     while(1)
     {
-        testLCD();
+        testLCD1();
+     //   testLCD2();
     }
     
     return 0;

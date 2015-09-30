@@ -12,7 +12,7 @@
 #include "lcd.h"
 #include "timer.h"
 
-//#define LCD_DATA  LATB
+//#define LCD_DATA  LATG
 #define LCD_RS  LATGbits.LATG0
 #define LCD_E   LATGbits.LATG0
 
@@ -30,11 +30,9 @@
 #define LOWER 1
 #define UPPER 0
 
-#define LETTER_t 0b01110100
-#define DELAY_AFTER 100 //TODO: Find the ream value this is a placeholder
 
 /* This function should take in a two-byte word and writes either the lower or upper
- * byte to the last four bits of LATB. Additionally, according to the LCD data sheet
+ * byte to the last four bits of LATG. Additionally, according to the LCD data sheet
  * It should set LCD_RS and LCD_E with the appropriate values and delays.
  * After these commands are issued, there should be a delay.
  * The command type is a simplification. From the data sheet, the RS is '1'
@@ -44,28 +42,28 @@ void writeFourBits(unsigned char word, unsigned int commandType, unsigned int de
     
     //TODO: What to do we with the other 4 bits? Do they just get discarded?
     
-    //If the user enters a 1 for the lower input it writes lower byte to the last four bits of LATB
+    //If the user enters a 1 for the lower input it writes lower byte to the last four bits of LATG
     if(lower == LOWER){
-        LATBbits.LATB15 = (word & 0b00001000)>> 3;
-        LATBbits.LATB14 = (word & 0b00000100)>> 2;
-        LATBbits.LATB13 = (word & 0b00000010)>> 1;
-        LATBbits.LATB12 = (word & 0b00000001);
+        LATGbits.LATG15 = (word & 0b00001000)>> 3;
+        LATGbits.LATG14 = (word & 0b00000100)>> 2;
+        LATGbits.LATG13 = (word & 0b00000010)>> 1;
+        LATGbits.LATG12 = (word & 0b00000001);
     }
     
-    //If the user enters a 0 for the lower input it writes upper byte to the last four bits of LATB
+    //If the user enters a 0 for the lower input it writes upper byte to the last four bits of LATG
     else if(lower == UPPER){
-        LATBbits.LATB15 = (word & 0b10000000)>> 7;
-        LATBbits.LATB14 = (word & 0b01000000)>> 6;
-        LATBbits.LATB13 = (word & 0b00100000)>> 5;
-        LATBbits.LATB12 = (word & 0b00010000)>> 4;
+        LATGbits.LATG15 = (word & 0b10000000)>> 7;
+        LATGbits.LATG14 = (word & 0b01000000)>> 6;
+        LATGbits.LATG13 = (word & 0b00100000)>> 5;
+        LATGbits.LATG12 = (word & 0b00010000)>> 4;
     }
     
     //Don't write if they don't enter a 0 or 1 for lower
     
-    LCD_RS = commandType; delayUs(5);
-    LCD_E = 1;  delayUs(5);         //TODO: How long do these delays need to be??? 
-    LCD_E = 0;  delayUs(5);
-    delayUs(delayAfter);
+    LCD_RS = commandType; delayUs(1);
+    LCD_E = 1;  delayUs(1);         //TODO: How long do these delays need to be??? 
+    LCD_E = 0;  delayUs(1);
+    delayUs(1);
 }
 
 
@@ -129,12 +127,17 @@ void printStringLCD(const char* s) {
  * Clear the display.
  */
 void clearLCD(){
+    
+   // LATG &= 0x0000;
+    
 }
 
 /*
  Use the command for changing the DD RAM address to put the cursor somewhere.
  */
 void moveCursorLCD(unsigned char x, unsigned char y){
+
+
 }
 
 /*
@@ -142,7 +145,7 @@ void moveCursorLCD(unsigned char x, unsigned char y){
  * If everything is working properly, you should get this to look like the video on D2L
  * However, it is suggested that you test more than just this one function.
  */
-void testLCD(){
+void testLCD1(){
     initLCD();
     int i = 0;
     printCharLCD('c');
@@ -156,10 +159,23 @@ void testLCD(){
 }
 
  //Testing writeLCD function
-void testWriteLCD(){
+void testLCD2(){
     initLCD();
     int i = 0;
-    writeLCD(LETTER_t, LCD_WRITE_DATA, 5); //Should write the letter t.
-    for(i = 0; i < 2000; i++) delayUs(1000); //Delays for 2 seconds.
+    printStringLCD("Test");
+    for(i = 0; i < 1000; i++) delayUs(1000);
     clearLCD();
+    moveCursorLCD(2,3);
+    printStringLCD("Test");
+    for(i = 0; i < 1000; i++) delayUs(1000);
+    clearLCD();
+}
+
+void testWriteLCD(){
+    
+    while(1){
+        
+        writeLCD('a',1,1000);
+        delayUs(1000);
+    }
 }
