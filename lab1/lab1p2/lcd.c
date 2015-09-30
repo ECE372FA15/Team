@@ -55,7 +55,7 @@ void writeFourBits(unsigned char word, unsigned int commandType, unsigned int de
     
     //TODO: What to do we with the other 4 bits? Do they just get discarded? 
     // SLN, Yes, this fucnt gets called twice in a row....
-    
+    int delay = LCD_DELAY_standard; 
      E = 0; // set enable low to reduce future headaches 
     
     
@@ -76,7 +76,9 @@ void writeFourBits(unsigned char word, unsigned int commandType, unsigned int de
     }
     
     //Don't write if they don't enter a 0 or 1 for lower
-    
+     if(commandType == 0){ 
+         delay = LCD_DELAY_clear;} 
+     
     RS = commandType; delayUs(delayAfter);
     E = 1;  delayUs(delayAfter);         //TODO: How long do these delays need to be??? 
     E = 0;  delayUs(delayAfter);
@@ -101,7 +103,24 @@ void printCharLCD(char c) {
     writeLCD(c,LCD_WRITE_DATA, LCD_DELAY_standard);
 }
 
-void initLCDSequence(void){
+void initLCD(void) {
+    // Setup D, RS, and E to be outputs (0).
+    RS = 0; // LATGbits.LATG0
+    E = 0;  // LATGbits.LATG0
+
+    TRIS_D7 = 0;  // TRISGbits.TRISG1
+    TRIS_D6 = 0;  // TRISFbits.TRISF0
+    TRIS_D5 = 0;  // TRISDbits.TRISD13
+    TRIS_D4 = 0;  // TRISDbits.TRISD7
+
+    TRIS_RS = 0;  // TRISGbits.TRISG13
+    TRIS_E = 0;   // TRISGbits.TRISG0
+    
+    // Initialization sequence utilizes specific LCD commands before the general configuration
+    // commands can be utilized. The first few initilition commands cannot be done using the
+    // WriteLCD function. Additionally, the specific sequence and timing is very important.
+
+    // Enable 4-bit interface
     
     // wait 15 ms or more after VDD reaches 4.5V
     delayUs(0xFFFF);// this is maxval... hope it works!
@@ -131,28 +150,8 @@ void initLCDSequence(void){
      RS = 0;/*R/W = 0*/ DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
      delayUs(LCD_DELAY_standard); 
      RS = 0;/*R/W = 0*/ DB7 = 0; DB6 = 1; DB5 = 1; DB4 = 0; 
-     delayUs(LCD_DELAY_standard);     
-
-}
-void initLCD(void) {
-    // Setup D, RS, and E to be outputs (0).
-    RS = 0; // LATGbits.LATG0
-    E = 0;  // LATGbits.LATG0
-
-    TRIS_D7 = 0;  // TRISGbits.TRISG1
-    TRIS_D6 = 0;  // TRISFbits.TRISF0
-    TRIS_D5 = 0;  // TRISDbits.TRISD13
-    TRIS_D4 = 0;  // TRISDbits.TRISD7
-
-    TRIS_RS = 0;  // TRISGbits.TRISG13
-    TRIS_E = 0;   // TRISGbits.TRISG0
-    
-    // Initialization sequence utilizes specific LCD commands before the general configuration
-    // commands can be utilized. The first few initilition commands cannot be done using the
-    // WriteLCD function. Additionally, the specific sequence and timing is very important.
-
-    // Enable 4-bit interface
-
+     delayUs(LCD_DELAY_standard);   
+     
     // Function Set (specifies data width, lines, and font.
 
     // 4-bit mode initialization is complete. We can now configure the various LCD
