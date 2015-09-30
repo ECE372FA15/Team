@@ -13,6 +13,11 @@
 #include "timer.h"
 
 //#define LCD_DATA  LATG
+// 46 uS
+#define LCD_DELAY_standard 50
+// 1.7 mS microsecond
+#define LCD_DELAY_clear 1700
+
 #define LCD_RS  LATGbits.LATG0
 #define LCD_E   LATGbits.LATG0
 
@@ -27,6 +32,8 @@
 #define LCD_WRITE_DATA    1
 #define LCD_WRITE_CONTROL 0
 
+#define DELAY_AFTER 100
+
 #define LOWER 1
 #define UPPER 0
 
@@ -40,30 +47,34 @@
  */
 void writeFourBits(unsigned char word, unsigned int commandType, unsigned int delayAfter, unsigned int lower){
     
-    //TODO: What to do we with the other 4 bits? Do they just get discarded?
+    //TODO: What to do we with the other 4 bits? Do they just get discarded? 
+    // SLN, Yes, this fucnt gets called twice in a row....
+    
+     LCD_E = 0; // set enable low to reduce future headaches 
+    
     
     //If the user enters a 1 for the lower input it writes lower byte to the last four bits of LATG
     if(lower == LOWER){
-        LATGbits.LATG15 = (word & 0b00001000)>> 3;
-        LATGbits.LATG14 = (word & 0b00000100)>> 2;
-        LATGbits.LATG13 = (word & 0b00000010)>> 1;
-        LATGbits.LATG12 = (word & 0b00000001);
+        TRIS_D7 = (word & 0b00001000) >> 3;
+        TRIS_D6 = (word & 0b00000100) >> 2;
+        TRIS_D5 = (word & 0b00000010) >> 1;
+        TRIS_D4 = (word & 0b00000001);
     }
     
     //If the user enters a 0 for the lower input it writes upper byte to the last four bits of LATG
     else if(lower == UPPER){
-        LATGbits.LATG15 = (word & 0b10000000)>> 7;
-        LATGbits.LATG14 = (word & 0b01000000)>> 6;
-        LATGbits.LATG13 = (word & 0b00100000)>> 5;
-        LATGbits.LATG12 = (word & 0b00010000)>> 4;
+        TRIS_D7 = (word & 0b10000000) >> 7;
+        TRIS_D6 = (word & 0b01000000) >> 6;
+        TRIS_D5 = (word & 0b00100000) >> 5;
+        TRIS_D4 = (word & 0b00010000) >> 4;
     }
     
     //Don't write if they don't enter a 0 or 1 for lower
     
-    LCD_RS = commandType; delayUs(1);
-    LCD_E = 1;  delayUs(1);         //TODO: How long do these delays need to be??? 
-    LCD_E = 0;  delayUs(1);
-    delayUs(1);
+    LCD_RS = commandType; delayUs(delayAfter);
+    LCD_E = 1;  delayUs(delayAfter);         //TODO: How long do these delays need to be??? 
+    LCD_E = 0;  delayUs(delayAfter);
+    delayUs(delayAfter);
 }
 
 
@@ -81,13 +92,49 @@ void writeLCD(unsigned char word, unsigned int commandType, unsigned int delayAf
  */
 void printCharLCD(char c) {
     //TODO: Confirm --> The RS value is set in writeFourBits so no need to do it in here.
-    writeLCD(c,LCD_WRITE_DATA, DELAY_AFTER);
+    writeLCD(c,LCD_WRITE_DATA, LCD_DELAY_standard);
 }
-/*Initialize the LCD
- */
+
+void initLCDSequence(void){
+    
+    // wait 15 ms or more after VDD reaches 4.5V
+    delayUs(0xFFFF);// this is maxval... hope it works!
+    // RS = 0; R/W = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
+    // wait 4.1 mS or more 
+    delayUs(0xFFFF);// this is maxval... hope it works!
+    // RS = 0; R/W = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
+    // wait 100uS or more 
+    delayUs(0xFFFF);// this is maxval... hope it works!
+    // RS = 0; R/W = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
+    LCD_RS.pu
+    
+    // RS = 0; R/W = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 0; 
+    // RS = 0; R/W = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 0; 
+    // RS = 0; R/W = 0; DB7 = 1; DB6 = 0; DB5 = 0; DB4 = 0; 
+    // RS = 0; R/W = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
+    // RS = 0; R/W = 0; DB7 = 1; DB6 = 0; DB5 = 0; DB4 = 0; 
+    // RS = 0; R/W = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
+    // RS = 0; R/W = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 1; 
+    // RS = 0; R/W = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
+    // RS = 0; R/W = 0; DB7 = 0; DB6 = 1; DB5 = I/D; DB4 = S; 
+    
+    delayUs(0xFFFF);// this is maxval... hope it works!
+    
+
+}
 void initLCD(void) {
     // Setup D, RS, and E to be outputs (0).
+    LCD_RS = 0; // LATGbits.LATG0
+    LCD_E = 0;  // LATGbits.LATG0
 
+    TRIS_D7 = 0;  // TRISGbits.TRISG1
+    TRIS_D6 = 0;  // TRISFbits.TRISF0
+    TRIS_D5 = 0;  // TRISDbits.TRISD13
+    TRIS_D4 = 0;  // TRISDbits.TRISD7
+
+    TRIS_RS = 0;  // TRISGbits.TRISG13
+    TRIS_E = 0;   // TRISGbits.TRISG0
+    
     // Initialization sequence utilizes specific LCD commands before the general configuration
     // commands can be utilized. The first few initilition commands cannot be done using the
     // WriteLCD function. Additionally, the specific sequence and timing is very important.
@@ -106,6 +153,8 @@ void initLCD(void) {
         // Set Increment Display, No Shift (i.e. cursor move)
     // TODO: Display On/Off Control
         // Turn Display (D) On, Cursor (C) Off, and Blink(B) Off
+
+
 }
 
 /*
