@@ -60,10 +60,10 @@ void writeFourBits(unsigned char word, unsigned int commandType, unsigned int de
     
     //TODO: What to do we with the other 4 bits? Do they just get discarded? 
     // SLN, Yes, this fucnt gets called twice in a row....
-    int delay = LCD_DELAY_standard; 
+
      E = 0; // set enable low to reduce future headaches 
     
-    
+     delayUs(delayAfter);
     //If the user enters a 1 for the lower input it writes lower byte to the last four bits of LATG
     if(lower == LOWER){
         DB7 = (word & 0b00001000) >> 3;
@@ -81,13 +81,11 @@ void writeFourBits(unsigned char word, unsigned int commandType, unsigned int de
     }
     
     //Don't write if they don't enter a 0 or 1 for lower
-     if(commandType == 0){ 
-         delay = LCD_DELAY_clear;} 
      
-    RS = commandType; delayUs(delay);
-    E = 1;  delayUs(delay);         //TODO: How long do these delays need to be??? 
-    E = 0;  delayUs(delay);
-    delayUs(delay);
+    RS = commandType; 
+    E = 1;  delayUs(delayAfter);         //TODO: How long do these delays need to be??? 
+    E = 0;  delayUs(delayAfter);
+    
 }
 
 
