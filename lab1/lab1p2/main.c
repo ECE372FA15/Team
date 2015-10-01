@@ -41,7 +41,7 @@
 int main(void)
 {
     initLCD();
-    testLCD1();
+    testLCD2();
     while(1){
         
         

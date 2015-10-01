@@ -19,25 +19,25 @@
 #define LCD_DELAY_clear 1700
 
 //data pin definitions 
-#define TRIS_D7 TRISGbits.TRISG1    //DB7 Input/output 
-#define DB7      LATGbits.LATG1      //DB7 Write data
-#define TRIS_D6 TRISFbits.TRISF0    //DB6 Input/output 
-#define DB6      LATFbits.LATF0      //DB6 Write data
-#define TRIS_D5 TRISDbits.TRISD13   //DB5 Input/output 
-#define DB5      LATDbits.LATD13     //DB5 Write data
-#define TRIS_D4 TRISDbits.TRISD7    //DB4 Input/output 
-#define DB4      LATDbits.LATD4      //DB4 Write data
+#define TRIS_D7 TRISGbits.TRISG1    //DB7 Input/output  //
+#define DB7      LATGbits.LATG1      //DB7 Write data   // j11 pin 5 to lcd pin 14
+#define TRIS_D6 TRISFbits.TRISF0    //DB6 Input/output  // 
+#define DB6      LATFbits.LATF0      //DB6 Write data   // j11 pin 7 to lcd pin 13
+#define TRIS_D5 TRISDbits.TRISD13   //DB5 Input/output  //       
+#define DB5      LATDbits.LATD13     //DB5 Write data   // j11 pin 9 to lcd pin 12 
+#define TRIS_D4 TRISDbits.TRISD7    //DB4 Input/output  //
+#define DB4      LATDbits.LATD4      //DB4 Write data   // j11 pin 11 to lcd pin 11 
 
 #define TRIS_LCD_busy
 #define LCD_busy 
 
 //RS and enable pin definitions
 #define TRIS_RS  TRISGbits.TRISG14  //RS Input/output
-#define RS       LATGbits.LATG14    //RS Write data
-#define TRIS_E   TRISEbits.TRISE4   //E Input/output
-#define E        LATEbits.LATE4     //E Write data
+#define RS       LATGbits.LATG14    //RS Write data     // j10 pin 4 to lcd pin 4 
+#define TRIS_E   TRISEbits.TRISE4   //E Input/output    //
+#define E        LATEbits.LATE4     //E Write data      // j10 pin 8 to lcd pin 6
 #define TRIS_RW   TRISEbits.TRISE6   //
-#define RW        LATEbits.LATE6     //
+#define RW        LATEbits.LATE6     //                 // j10 pin 6 to lcd pin 5 
 
 //Define command types
 #define LCD_WRITE_DATA    1
@@ -279,15 +279,15 @@ void testLCD1(){
 
  //Testing writeLCD function
 void testLCD2(){
-    initLCD();
+    //initLCD();
     int i = 0;
     printStringLCD("Test");
     for(i = 0; i < 1000; i++) delayUs(1000);
     clearLCD();
-    moveCursorLCD(2,3);
-    printStringLCD("Test");
-    for(i = 0; i < 1000; i++) delayUs(1000);
-    clearLCD();
+   // moveCursorLCD(2,3);
+    //printStringLCD("Test");
+    //for(i = 0; i < 1000; i++) delayUs(1000);
+    //clearLCD();
 }
 
 void testWriteLCD(){
