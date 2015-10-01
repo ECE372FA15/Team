@@ -28,6 +28,9 @@
 #define TRIS_D4 TRISDbits.TRISD7    //DB4 Input/output 
 #define DB4      LATDbits.LATD4      //DB4 Write data
 
+#define TRIS_LCD_busy
+#define LCD_busy 
+
 //RS and enable pin definitions
 #define TRIS_RS  TRISGbits.TRISG14  //RS Input/output
 #define RS       LATGbits.LATG14    //RS Write data
@@ -125,9 +128,11 @@ void initLCD(void) {
     // Enable 4-bit interface
     
     // wait 15 ms or more after VDD reaches 4.5V
-#ifdef softwareInit
+
     E = 0; 
     delayUs(0xFFFF);// this is maxval... hope it works!
+    delayUs(0xFFFF);
+    delayUs(0xFFFF);
     delayUs(0xFFFF);
     delayUs(0xFFFF);
      RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1;
@@ -205,7 +210,7 @@ void initLCD(void) {
      E = 1; 
      delayUs(0xFFFF);
      E = 0;   
-#endif
+
     // Function Set (specifies data width, lines, and font.
 
     // 4-bit mode initialization is complete. We can now configure the various LCD
@@ -292,4 +297,124 @@ void testWriteLCD(){
         writeLCD('a',1,1000);
         delayUs(1000);
     }
+}
+
+
+void initLCDViaPollingBusy(void) {
+    // Setup D, RS, and E to be outputs (0).
+    RS = 0; // LATGbits.LATG0
+    E = 0;  // LATGbits.LATG0
+
+    TRIS_D7 = 0;  // TRISGbits.TRISG1
+    TRIS_D6 = 0;  // TRISFbits.TRISF0
+    TRIS_D5 = 0;  // TRISDbits.TRISD13
+    TRIS_D4 = 0;  // TRISDbits.TRISD7
+
+    TRIS_RS = 0;  // TRISGbits.TRISG13
+    TRIS_E = 0;   // TRISGbits.TRISG0
+    
+    // Initialization sequence utilizes specific LCD commands before the general configuration
+    // commands can be utilized. The first few initilition commands cannot be done using the
+    // WriteLCD function. Additionally, the specific sequence and timing is very important.
+
+    // Enable 4-bit interface
+    
+    // wait 15 ms or more after VDD reaches 4.5V
+
+    E = 0; 
+    delayUs(0xFFFF);// this is maxval... hope it works!
+    delayUs(0xFFFF);
+    delayUs(0xFFFF);
+    delayUs(0xFFFF);
+    delayUs(0xFFFF);
+     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1;
+    // wait 4.1 mS or more 
+    delayUs(0xFFFF);// this is maxval... hope it works!
+    delayUs(0xFFFF);// this is maxval... hope it works!
+    delayUs(0xFFFF);// this is maxval... hope it works!
+     E = 1;
+     delayUs(0xFFFF);
+     E = 0;
+     delayUs(0xFFFF);
+     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
+    // wait 100uS or more 
+    delayUs(0xFFFF);// this is maxval... hope it works!
+     E = 1; 
+     delayUs(0xFFFF);
+     E = 0;
+     delayUs(0xFFFF);
+     RS = 0; RW = 0;  DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
+     delayUs(LCD_DELAY_standard);
+     E = 1; 
+     delayUs(0xFFFF);
+     E = 0;
+    
+     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 0; 
+     delayUs(LCD_DELAY_standard);
+     E = 1; 
+     delayUs(0xFFFF);
+     E = 0; 
+     
+     RS = 0; RW = 0;  DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 0; 
+     delayUs(LCD_DELAY_standard);
+     E = 1; 
+     delayUs(0xFFFF);
+     E = 0; 
+     
+     RS = 0; RW = 0; DB7 = 1; DB6 = 0; DB5 = 0; DB4 = 0; 
+     delayUs(LCD_DELAY_standard);
+     E = 1; 
+     delayUs(0xFFFF);
+     E = 0; 
+     
+     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
+     delayUs(LCD_DELAY_standard); 
+     E = 1; 
+     delayUs(0xFFFF);
+     E = 0;
+     
+     RS = 0; RW = 0; DB7 = 1; DB6 = 0; DB5 = 0; DB4 = 0; 
+     delayUs(LCD_DELAY_standard);
+     E = 1; 
+     delayUs(0xFFFF);
+     E = 0; 
+     
+     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
+     delayUs(LCD_DELAY_standard);
+     E = 1; 
+     delayUs(0xFFFF);
+     E = 0; 
+     
+     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 1; 
+     delayUs(LCD_DELAY_standard);
+     E = 1; 
+     delayUs(0xFFFF);
+     E = 0; 
+     
+     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
+     delayUs(LCD_DELAY_standard);
+     E = 1; 
+     delayUs(0xFFFF);
+     E = 0; 
+     
+     RS = 0; RW = 0; DB7 = 0; DB6 = 1; DB5 = 1; DB4 = 0; 
+     delayUs(LCD_DELAY_standard);
+     E = 1; 
+     delayUs(0xFFFF);
+     E = 0;   
+
+    // Function Set (specifies data width, lines, and font.
+
+    // 4-bit mode initialization is complete. We can now configure the various LCD
+    // options to control how the LCD will function.
+
+    // TODO: Display On/Off Control
+        // Turn Display (D) Off
+    // TODO: Clear Display (The delay is not specified in the data sheet at this point. You really need to have the clear display delay here.
+    // TODO: Entry Mode Set
+        // Set Increment Display, No Shift (i.e. cursor move)
+    // TODO: Display On/Off Control
+        // Turn Display (D) On, Cursor (C) Off, and Blink(B) Off
+
+
 }
