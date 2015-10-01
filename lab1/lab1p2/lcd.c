@@ -11,7 +11,7 @@
 #include <xc.h>
 #include "lcd.h"
 #include "timer.h"
-
+//#define softwareInit
 //#define LCD_DATA  LATG
 // 46 uS
 #define LCD_DELAY_standard 50
@@ -31,8 +31,8 @@
 //RS and enable pin definitions
 #define TRIS_RS  TRISGbits.TRISG14  //RS Input/output
 #define RS       LATGbits.LATG14    //RS Write data
-#define TRIS_E   TRISGbits.TRISG0   //E Input/output
-#define E        LATGbits.LATG0     //E Write data
+#define TRIS_E   TRISEbits.TRISE4   //E Input/output
+#define E        LATEbits.LATE4     //E Write data
 #define TRIS_RW   TRISEbits.TRISE6   //
 #define RW        LATEbits.LATE6     //
 
@@ -125,6 +125,7 @@ void initLCD(void) {
     // Enable 4-bit interface
     
     // wait 15 ms or more after VDD reaches 4.5V
+#ifdef softwareInit
     E = 0; 
     delayUs(0xFFFF);// this is maxval... hope it works!
     delayUs(0xFFFF);
@@ -134,53 +135,77 @@ void initLCD(void) {
     delayUs(0xFFFF);// this is maxval... hope it works!
     delayUs(0xFFFF);// this is maxval... hope it works!
     delayUs(0xFFFF);// this is maxval... hope it works!
-     E = 1; E = 0;
-     
+     E = 1;
+     delayUs(0xFFFF);
+     E = 0;
+     delayUs(0xFFFF);
      RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
     // wait 100uS or more 
     delayUs(0xFFFF);// this is maxval... hope it works!
-     E = 1; E = 0;
-     
+     E = 1; 
+     delayUs(0xFFFF);
+     E = 0;
+     delayUs(0xFFFF);
      RS = 0; RW = 0;  DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
      delayUs(LCD_DELAY_standard);
-     E = 1; E = 0;
+     E = 1; 
+     delayUs(0xFFFF);
+     E = 0;
     
      RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 0; 
      delayUs(LCD_DELAY_standard);
-     E = 1; E = 0; 
+     E = 1; 
+     delayUs(0xFFFF);
+     E = 0; 
      
      RS = 0; RW = 0;  DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 0; 
      delayUs(LCD_DELAY_standard);
-     E = 1; E = 0; 
+     E = 1; 
+     delayUs(0xFFFF);
+     E = 0; 
      
      RS = 0; RW = 0; DB7 = 1; DB6 = 0; DB5 = 0; DB4 = 0; 
      delayUs(LCD_DELAY_standard);
-     E = 1; E = 0; 
+     E = 1; 
+     delayUs(0xFFFF);
+     E = 0; 
      
      RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
      delayUs(LCD_DELAY_standard); 
-     E = 1; E = 0;
+     E = 1; 
+     delayUs(0xFFFF);
+     E = 0;
      
      RS = 0; RW = 0; DB7 = 1; DB6 = 0; DB5 = 0; DB4 = 0; 
      delayUs(LCD_DELAY_standard);
-     E = 1; E = 0; 
+     E = 1; 
+     delayUs(0xFFFF);
+     E = 0; 
      
      RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
      delayUs(LCD_DELAY_standard);
-     E = 1; E = 0; 
+     E = 1; 
+     delayUs(0xFFFF);
+     E = 0; 
      
      RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 1; 
      delayUs(LCD_DELAY_standard);
-     E = 1; E = 0; 
+     E = 1; 
+     delayUs(0xFFFF);
+     E = 0; 
      
      RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
      delayUs(LCD_DELAY_standard);
-     E = 1; E = 0; 
+     E = 1; 
+     delayUs(0xFFFF);
+     E = 0; 
      
      RS = 0; RW = 0; DB7 = 0; DB6 = 1; DB5 = 1; DB4 = 0; 
      delayUs(LCD_DELAY_standard);
-     E = 1; E = 0;   
-     
+     E = 1; 
+     delayUs(0xFFFF);
+     E = 0;   
+#endif
     // Function Set (specifies data width, lines, and font.
 
     // 4-bit mode initialization is complete. We can now configure the various LCD
