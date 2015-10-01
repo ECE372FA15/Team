@@ -1,4 +1,3 @@
-
 // File:         lcd.c
 // Date:         9/24/2015
 // Authors:      Brandon Lipjanic
@@ -19,25 +18,25 @@
 #define LCD_DELAY_clear 1700
 
 //data pin definitions 
-#define TRIS_D7 TRISGbits.TRISG1    //DB7 Input/output  //
-#define DB7      LATGbits.LATG1      //DB7 Write data   // j11 pin 5 to lcd pin 14
-#define TRIS_D6 TRISFbits.TRISF0    //DB6 Input/output  // 
-#define DB6      LATFbits.LATF0      //DB6 Write data   // j11 pin 7 to lcd pin 13
-#define TRIS_D5 TRISDbits.TRISD13   //DB5 Input/output  //       
-#define DB5      LATDbits.LATD13     //DB5 Write data   // j11 pin 9 to lcd pin 12 
-#define TRIS_D4 TRISDbits.TRISD7    //DB4 Input/output  //
-#define DB4      LATDbits.LATD4      //DB4 Write data   // j11 pin 11 to lcd pin 11 
+#define TRIS_D7 TRISGbits.TRISG1    //DB7 Input/output 
+#define DB7      LATGbits.LATG1      //DB7 Write data
+#define TRIS_D6 TRISFbits.TRISF0    //DB6 Input/output 
+#define DB6      LATFbits.LATF0      //DB6 Write data
+#define TRIS_D5 TRISDbits.TRISD13   //DB5 Input/output 
+#define DB5      LATDbits.LATD13     //DB5 Write data
+#define TRIS_D4 TRISDbits.TRISD7    //DB4 Input/output 
+#define DB4      LATDbits.LATD4      //DB4 Write data
 
 #define TRIS_LCD_busy
 #define LCD_busy 
 
 //RS and enable pin definitions
 #define TRIS_RS  TRISGbits.TRISG14  //RS Input/output
-#define RS       LATGbits.LATG14    //RS Write data     // j10 pin 4 to lcd pin 4 
-#define TRIS_E   TRISEbits.TRISE4   //E Input/output    //
-#define E        LATEbits.LATE4     //E Write data      // j10 pin 8 to lcd pin 6
+#define RS       LATGbits.LATG14    //RS Write data
+#define TRIS_E   TRISEbits.TRISE4   //E Input/output
+#define E        LATEbits.LATE4     //E Write data
 #define TRIS_RW   TRISEbits.TRISE6   //
-#define RW        LATEbits.LATE6     //                 // j10 pin 6 to lcd pin 5 
+#define RW        LATEbits.LATE6     //
 
 //Define command types
 #define LCD_WRITE_DATA    1
@@ -60,10 +59,10 @@ void writeFourBits(unsigned char word, unsigned int commandType, unsigned int de
     
     //TODO: What to do we with the other 4 bits? Do they just get discarded? 
     // SLN, Yes, this fucnt gets called twice in a row....
-    int delay = LCD_DELAY_standard; 
+
      E = 0; // set enable low to reduce future headaches 
     
-    
+     delayUs(delayAfter);
     //If the user enters a 1 for the lower input it writes lower byte to the last four bits of LATG
     if(lower == LOWER){
         DB7 = (word & 0b00001000) >> 3;
@@ -81,13 +80,11 @@ void writeFourBits(unsigned char word, unsigned int commandType, unsigned int de
     }
     
     //Don't write if they don't enter a 0 or 1 for lower
-     if(commandType == 0){ 
-         delay = LCD_DELAY_clear;} 
      
-    RS = commandType; delayUs(delay);
-    E = 1;  delayUs(delay);         //TODO: How long do these delays need to be??? 
-    E = 0;  delayUs(delay);
-    delayUs(delay);
+    RS = commandType; 
+    E = 1;  delayUs(delayAfter);         //TODO: How long do these delays need to be??? 
+    E = 0;  delayUs(delayAfter);
+    
 }
 
 
@@ -109,107 +106,48 @@ void printCharLCD(char c) {
 }
 
 void initLCD(void) {
-    // Setup D, RS, and E to be outputs (0).
-    RS = 0; // LATGbits.LATG0
-    E = 0;  // LATGbits.LATG0
-
-    TRIS_D7 = 0;  // TRISGbits.TRISG1
-    TRIS_D6 = 0;  // TRISFbits.TRISF0
-    TRIS_D5 = 0;  // TRISDbits.TRISD13
-    TRIS_D4 = 0;  // TRISDbits.TRISD7
-
     TRIS_RS = 0;  // TRISGbits.TRISG13
     TRIS_E = 0;   // TRISGbits.TRISG0
+    TRIS_D7 = 0;
+    TRIS_D6 = 0;
+    TRIS_D5 = 0;
+    TRIS_D4 = 0;
+    RW = 0;
+    E = 0;  // LATGbits.LATG0
+    int i = 0;
     
-    // Initialization sequence utilizes specific LCD commands before the general configuration
-    // commands can be utilized. The first few initilition commands cannot be done using the
-    // WriteLCD function. Additionally, the specific sequence and timing is very important.
+    //wait 15ms
+    for(i=0;i<15; i++){
+        delayUs(1000);
+    }
+    
+    //assign 1st set of values
+    writeFourBits(0b00110011,0,LCD_DELAY_standard,UPPER);
+    
+    
+    //wait 5ms
+    for(i=0;i<5;i++){
+        delayUs(1000);
+    }
+    
+    writeFourBits(0b00110011,0,LCD_DELAY_standard,UPPER);
+ 
 
-    // Enable 4-bit interface
+    //wait 100Us
+    delayUs(100);
     
-    // wait 15 ms or more after VDD reaches 4.5V
-
-    E = 0; 
-    delayUs(0xFFFF);// this is maxval... hope it works!
-    delayUs(0xFFFF);
-    delayUs(0xFFFF);
-    delayUs(0xFFFF);
-    delayUs(0xFFFF);
-     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1;
-    // wait 4.1 mS or more 
-    delayUs(0xFFFF);// this is maxval... hope it works!
-    delayUs(0xFFFF);// this is maxval... hope it works!
-    delayUs(0xFFFF);// this is maxval... hope it works!
-     E = 1;
-     delayUs(0xFFFF);
-     E = 0;
-     delayUs(0xFFFF);
-     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
-    // wait 100uS or more 
-    delayUs(0xFFFF);// this is maxval... hope it works!
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0;
-     delayUs(0xFFFF);
-     RS = 0; RW = 0;  DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0;
+    writeLCD(0b00110010,0,LCD_DELAY_standard);
     
-     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 0; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0; 
-     
-     RS = 0; RW = 0;  DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 0; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0; 
-     
-     RS = 0; RW = 0; DB7 = 1; DB6 = 0; DB5 = 0; DB4 = 0; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0; 
-     
-     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
-     delayUs(LCD_DELAY_standard); 
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0;
-     
-     RS = 0; RW = 0; DB7 = 1; DB6 = 0; DB5 = 0; DB4 = 0; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0; 
-     
-     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0; 
-     
-     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 1; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0; 
-     
-     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0; 
-     
-     RS = 0; RW = 0; DB7 = 0; DB6 = 1; DB5 = 1; DB4 = 0; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0;   
+    writeLCD(0b00101000,0,LCD_DELAY_standard);
+    
+    writeLCD(0b00001000,0,LCD_DELAY_standard);
+    
+    writeLCD(0b00000001,0,LCD_DELAY_clear);
+    
+    writeLCD(0b00000110,0,LCD_DELAY_standard);
+    
+    
+    
 
     // Function Set (specifies data width, lines, and font.
 
@@ -247,7 +185,7 @@ void printStringLCD(const char* s) {
  */
 void clearLCD(){
     
-   // LATG &= 0x0000;
+    writeLCD(0b00000001,0,LCD_DELAY_clear);
     
 }
 
@@ -255,7 +193,8 @@ void clearLCD(){
  Use the command for changing the DD RAM address to put the cursor somewhere.
  */
 void moveCursorLCD(unsigned char x, unsigned char y){
-
+    
+       
 
 }
 
@@ -279,15 +218,15 @@ void testLCD1(){
 
  //Testing writeLCD function
 void testLCD2(){
-    //initLCD();
+  //  initLCD();
     int i = 0;
     printStringLCD("Test");
     for(i = 0; i < 1000; i++) delayUs(1000);
     clearLCD();
-   // moveCursorLCD(2,3);
-    //printStringLCD("Test");
-    //for(i = 0; i < 1000; i++) delayUs(1000);
-    //clearLCD();
+  //  moveCursorLCD(2,3);
+  //  printStringLCD("Test");
+   // for(i = 0; i < 1000; i++) delayUs(1000);
+   // clearLCD();
 }
 
 void testWriteLCD(){
@@ -418,3 +357,5 @@ void initLCDViaPollingBusy(void) {
 
 
 }
+
+  

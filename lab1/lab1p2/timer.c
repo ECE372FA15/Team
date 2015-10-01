@@ -13,7 +13,7 @@
 #include "vardefs.h"
 
 #define FCY 80000000
-#define SCALAR 0.00001
+#define SCALAR 0.000001/1.7
 #define PRE_SCALAR 8
 
 //Uses timer 2
