@@ -40,57 +40,11 @@
 
 int main(void)
 {
-    char data = 'A';
-        //initLCD(); 
-       // printCharLCD(data);
-    
-        delayUs(0xFFFF);
-        delayUs(0xFFFF);
-        delayUs(0xFFFF);
-        delayUs(0xFFFF);
-        delayUs(0xFFFF);
-        E = 0;
-        RS = 0;
-        RW = 0;
-        DB7 = 0;
-        DB6 = 0;
-        DB5 = 0;
-        DB4 = 0;
-        delayUs(0xFFFF);
-        E = 1; 
-        delayUs(0xFFFF);
-        delayUs(0xFFFF);
-        delayUs(0xFFFF);
-        delayUs(0xFFFF);
-        delayUs(0xFFFF);
-        delayUs(0xFFFF);
-        E = 0; 
-        delayUs(0xFFFF);
+    initLCD();
+    testLCD1();
+    while(1){
         
-        RS = 0;
-        RW = 0;
-        DB7 = 1;
-        DB6 = 1;
-        DB5 = 1;
-        DB4 = 1;
-        delayUs(0xFFFF);
-        E = 1;
-        delayUs(0xFFFF);
-        delayUs(0xFFFF);
-        delayUs(0xFFFF);
-        delayUs(0xFFFF);
-        delayUs(0xFFFF);
-        delayUs(0xFFFF);
-        E = 0; 
-        delayUs(0xFFFF);
-        while (1);
-        //data = data + 1;
-        printCharLCD(0b01010101); 
-        //initLCD(); 
-       // printCharLCD('A');
-        //testLCD1();
-     //   testLCD2();
-    
-    
+        
+    }
     return 0;
 }
