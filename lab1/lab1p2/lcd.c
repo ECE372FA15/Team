@@ -109,107 +109,48 @@ void printCharLCD(char c) {
 }
 
 void initLCD(void) {
-    // Setup D, RS, and E to be outputs (0).
-    RS = 0; // LATGbits.LATG0
-    E = 0;  // LATGbits.LATG0
-
-    TRIS_D7 = 0;  // TRISGbits.TRISG1
-    TRIS_D6 = 0;  // TRISFbits.TRISF0
-    TRIS_D5 = 0;  // TRISDbits.TRISD13
-    TRIS_D4 = 0;  // TRISDbits.TRISD7
-
     TRIS_RS = 0;  // TRISGbits.TRISG13
     TRIS_E = 0;   // TRISGbits.TRISG0
+    TRIS_D7 = 0;
+    TRIS_D6 = 0;
+    TRIS_D5 = 0;
+    TRIS_D4 = 0;
+    RW = 0;
+    E = 0;  // LATGbits.LATG0
+    int i = 0;
     
-    // Initialization sequence utilizes specific LCD commands before the general configuration
-    // commands can be utilized. The first few initilition commands cannot be done using the
-    // WriteLCD function. Additionally, the specific sequence and timing is very important.
+    //wait 15ms
+    for(i=0;i<15; i++){
+        delayUs(1000);
+    }
+    
+    //assign 1st set of values
+    writeFourBits(0b00110011,0,LCD_DELAY_standard,UPPER);
+    
+    
+    //wait 5ms
+    for(i=0;i<5;i++){
+        delayUs(1000);
+    }
+    
+    writeFourBits(0b00110011,0,LCD_DELAY_standard,UPPER);
+ 
 
-    // Enable 4-bit interface
+    //wait 100Us
+    delayUs(100);
     
-    // wait 15 ms or more after VDD reaches 4.5V
-
-    E = 0; 
-    delayUs(0xFFFF);// this is maxval... hope it works!
-    delayUs(0xFFFF);
-    delayUs(0xFFFF);
-    delayUs(0xFFFF);
-    delayUs(0xFFFF);
-     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1;
-    // wait 4.1 mS or more 
-    delayUs(0xFFFF);// this is maxval... hope it works!
-    delayUs(0xFFFF);// this is maxval... hope it works!
-    delayUs(0xFFFF);// this is maxval... hope it works!
-     E = 1;
-     delayUs(0xFFFF);
-     E = 0;
-     delayUs(0xFFFF);
-     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
-    // wait 100uS or more 
-    delayUs(0xFFFF);// this is maxval... hope it works!
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0;
-     delayUs(0xFFFF);
-     RS = 0; RW = 0;  DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0;
+    writeLCD(0b00110010,0,LCD_DELAY_standard);
     
-     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 0; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0; 
-     
-     RS = 0; RW = 0;  DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 0; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0; 
-     
-     RS = 0; RW = 0; DB7 = 1; DB6 = 0; DB5 = 0; DB4 = 0; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0; 
-     
-     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
-     delayUs(LCD_DELAY_standard); 
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0;
-     
-     RS = 0; RW = 0; DB7 = 1; DB6 = 0; DB5 = 0; DB4 = 0; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0; 
-     
-     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0; 
-     
-     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 1; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0; 
-     
-     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0; 
-     
-     RS = 0; RW = 0; DB7 = 0; DB6 = 1; DB5 = 1; DB4 = 0; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0;   
+    writeLCD(0b00101000,0,LCD_DELAY_standard);
+    
+    writeLCD(0b00001000,0,LCD_DELAY_standard);
+    
+    writeLCD(0b00000001,0,LCD_DELAY_clear);
+    
+    writeLCD(0b00000110,0,LCD_DELAY_standard);
+    
+    
+    
 
     // Function Set (specifies data width, lines, and font.
 
@@ -247,7 +188,7 @@ void printStringLCD(const char* s) {
  */
 void clearLCD(){
     
-   // LATG &= 0x0000;
+    writeLCD(0b00000001,0,LCD_DELAY_clear);
     
 }
 
@@ -255,7 +196,8 @@ void clearLCD(){
  Use the command for changing the DD RAM address to put the cursor somewhere.
  */
 void moveCursorLCD(unsigned char x, unsigned char y){
-
+    
+       
 
 }
 
