@@ -43,16 +43,15 @@
 int main(void)
 {
     SYSTEMConfigPerformance(40000000);
-    initLCD();
-    //testLCD2();
     initTimer2();
+    initLCD();
+    testLCD2();
     Tio = 0; 
     while(1){
-        Ti = 0;
-        delayUs(100);
-        Ti = 1; 
-        delayUs(100);
         
+         testWriteLCD();
+         delayMs(100);
+         Tio != Tio; 
     }
     return 0;
 }
