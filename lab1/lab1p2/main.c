@@ -49,9 +49,9 @@ int main(void)
     Tio = 0; 
     while(1){
         Ti = 0;
-        delayUs(1);
+        delayUs(100);
         Ti = 1; 
-        delayUs(1);
+        delayUs(100);
         
     }
     return 0;

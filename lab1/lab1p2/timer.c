@@ -43,8 +43,16 @@ void initTimer2(){
 
     return;
 }
-
-void delayUs(float delay){
+void delay50Us(){
+    int i = 0;
+    for(i = 0; i < 5; i++){
+        delay9Us(); 
+    }
+}
+void delay9Us(){
+    
+    PR2 = 18;
+        
     //TODO: Create a delay using timer 2 for "delay" microseconds.
     TMR2 = 0;   //reset timer 2 register
     IFS0bits.T2IF = FLAG_DOWN; // Flag Down
@@ -58,5 +66,21 @@ void delayUs(float delay){
 
     //TODO: Using timer 2, create a delay
     // that is delay amount of us.
-    return;
+}
+
+void delayUs(int delay){
+    int i = 0;
+    int stop = delay/9 ;
+    for (i = 1; i < stop; i++){
+        delay9Us();
+    }
+
+}
+
+void delayMs(float delay){
+    int i = 0;
+    int stop = delay * 20 - 1;
+    for( i = 0; i < stop; i++){
+        delay50Us();
+    }
 }
