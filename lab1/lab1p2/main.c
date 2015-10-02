@@ -24,13 +24,13 @@
 #define TRIS_D5 TRISDbits.TRISD13   //DB5 Input/output 
 #define DB5      LATDbits.LATD13     //DB5 Write data
 #define TRIS_D4 TRISDbits.TRISD7    //DB4 Input/output 
-#define DB4      LATDbits.LATD4      //DB4 Write data
+#define DB4      LATDbits.LATD7      //DB4 Write data
 
 //RS and enable pin definitions
 #define TRIS_RS  TRISGbits.TRISG14  //RS Input/output
 #define RS       LATGbits.LATG14    //RS Write data
-#define TRIS_E   TRISGbits.TRISG0   //E Input/output
-#define E        LATGbits.LATG0     //E Write data
+#define TRIS_E   TRISEbits.TRISE4   //E Input/output
+#define E        LATEbits.LATE4     //E Write data
 #define TRIS_RW   TRISEbits.TRISE6   //
 #define RW        LATEbits.LATE6     //
 
@@ -42,16 +42,25 @@
 
 int main(void)
 {
+     
     SYSTEMConfigPerformance(40000000);
     initTimer2();
     initLCD();
-    testLCD2();
-    Tio = 0; 
+    //testLCD2();
+    clearLCD();
+   // printStringLCD("hello!");
+   // printCharLCD('a');
     while(1){
-        
-         testWriteLCD();
-         delayMs(100);
-         Tio != Tio; 
+        //entryModeSet(0,1);
+        //clearLCD();
+        writeLCD(1,0,50);
+         delayUs(50);
+         //delayMs(1.6);
+         Ti = 0; 
+         delayUs(50);
+         //delayMs(1.6);
+         Ti = 1; 
+       
     }
     return 0;
 }

@@ -25,7 +25,7 @@
 #define TRIS_D5 TRISDbits.TRISD13   //DB5 Input/output 
 #define DB5      LATDbits.LATD13     //DB5 Write data
 #define TRIS_D4 TRISDbits.TRISD7    //DB4 Input/output 
-#define DB4      LATDbits.LATD4      //DB4 Write data
+#define DB4      LATDbits.LATD7      //DB4 Write data
 
 #define TRIS_LCD_busy
 #define LCD_busy 
@@ -112,27 +112,22 @@ void initLCD(void) {
     TRIS_D6 = 0;
     TRIS_D5 = 0;
     TRIS_D4 = 0;
+    TRIS_RW = 0; //  TRISEbits.TRISE6   //
     RW = 0;
     E = 0;  // LATGbits.LATG0
     int i = 0;
     
     //wait 15ms
-    for(i=0;i<15; i++){
-        delayUs(1000);
-    }
+    delayMs(15); 
     
     //assign 1st set of values
     writeFourBits(0b00110011,0,LCD_DELAY_standard,UPPER);
     
-    
     //wait 5ms
-    for(i=0;i<5;i++){
-        delayUs(1000);
-    }
+    delayMs(5); 
     
     writeFourBits(0b00110011,0,LCD_DELAY_standard,UPPER);
  
-
     //wait 100Us
     delayUs(100);
     
@@ -185,7 +180,7 @@ void printStringLCD(const char* s) {
  */
 void clearLCD(){
     
-    writeLCD(0b00000001,0,LCD_DELAY_clear);
+    writeLCD(1,0,LCD_DELAY_clear);
     
 }
 
@@ -237,8 +232,14 @@ void testWriteLCD(){
         delayUs(1000);
     }
 }
-
-
+// 1 for increment          0 for dectement
+// 1 for display shift      0 for cursor move 
+void entryModeSet(int increment_decrement,int cursor_move){
+    int word = 4;
+    word |= (increment_decrement<<2);
+    word |= cursor_move;
+    writeLCD(word, 0, LCD_DELAY_standard);
+}
 void initLCDViaPollingBusy(void) {
     // Setup D, RS, and E to be outputs (0).
     RS = 0; // LATGbits.LATG0

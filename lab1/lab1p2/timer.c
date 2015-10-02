@@ -70,8 +70,11 @@ void delay9Us(){
 
 void delayUs(int delay){
     int i = 0;
-    int stop = delay/9 ;
-    for (i = 1; i < stop; i++){
+    i+=1;i-=1;i+=1;i-=1;i+=1;i-=1;i+=1;i-=1;
+    i+=1;i-=1;i+=1;i-=1;i+=1;
+    
+    int stop = delay/9 -1 ;
+    for (i = 0; i < stop; i++){
         delay9Us();
     }
 

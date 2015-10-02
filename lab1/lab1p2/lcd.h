@@ -18,4 +18,7 @@ void testLCD1();
 void testLCD2();
 void testWriteLCD();
 
+
+void entryModeSet(int increment_decrement,int cursor_move);
+
 #endif 
