@@ -34,6 +34,8 @@
 #define TRIS_RW   TRISEbits.TRISE6   //
 #define RW        LATEbits.LATE6     //
 
+#define Tio     TRISAbits.TRISA7
+#define Ti      LATAbits.LATA7
 #endif 
 
 // ******************************************************************************************* //
@@ -42,8 +44,12 @@ int main(void)
 {
     initLCD();
     testLCD2();
+    Tio = 0; 
     while(1){
-        
+        Ti = 0;
+        delayUs(1);
+        Ti = 1; 
+        delayUs(1);
         
     }
     return 0;
