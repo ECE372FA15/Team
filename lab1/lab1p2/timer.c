@@ -13,8 +13,8 @@
 #include "vardefs.h"
 
 #define FCY 80000000
-#define SCALAR 0.000001/1.7
-#define PRE_SCALAR 8
+#define SCALAR 0.000001
+#define PRE_SCALAR 1
 
 //Uses timer 2
 
@@ -22,10 +22,7 @@ void initTimer2(){
 
     TMR2 = 0; //reset timer register
     T2CONbits.TCS = DISABLE; // Enable Internal peripheral clock
-    T2CONbits.TCKPS = 0b011; //Prescalar of 8
-    //Enable interrupt
-   // IEC0bits.T2IE = ENABLE;
-    //Set interrupt priority
+    T2CONbits.TCKPS = 0b000; //Prescalar of 8
 //    IPC2bits.T2IP = 3;
     IFS0bits.T2IF = FLAG_DOWN;  //Interrupt Flag Down
 

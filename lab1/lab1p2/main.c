@@ -43,7 +43,8 @@
 int main(void)
 {
     initLCD();
-    testLCD2();
+    //testLCD2();
+    initTimer2();
     Tio = 0; 
     while(1){
         Ti = 0;
