@@ -42,6 +42,7 @@
 
 int main(void)
 {
+    SYSTEMConfigPerformance(40000000);
     initLCD();
     //testLCD2();
     initTimer2();

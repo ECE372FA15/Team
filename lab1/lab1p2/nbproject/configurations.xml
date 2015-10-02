@@ -6,8 +6,9 @@
                    projectFiles="true">
       <itemPath>timer.h</itemPath>
       <itemPath>lcd.h</itemPath>
-      <itemPath>interrupt.h</itemPath>
       <itemPath>vardefs.h</itemPath>
+      <itemPath>interrupt.h</itemPath>
+      <itemPath>config.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -18,8 +19,8 @@
                    projectFiles="true">
       <itemPath>timer.c</itemPath>
       <itemPath>lcd.c</itemPath>
-      <itemPath>interrupt.c</itemPath>
       <itemPath>main.c</itemPath>
+      <itemPath>interrupt.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -29,6 +30,7 @@
   </logicalFolder>
   <sourceRootList>
     <Elem>../../../../Program Files (x86)/Microchip/xc16/v1.23/support/PIC24F/h</Elem>
+    <Elem>.</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>

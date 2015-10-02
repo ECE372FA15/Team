@@ -1,2 +1,3 @@
 build/default/debug/interrupt.o:  \
-interrupt.c 
+interrupt.c  \
+interrupt.h 
