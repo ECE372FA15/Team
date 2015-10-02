@@ -21,7 +21,7 @@
 
 // DEVCFG2
 #pragma config FPLLIDIV = DIV_2         // PLL Input Divider (2x Divider)
-#pragma config FPLLMUL = MUL_20         // PLL Multiplier (20x Multiplier)
+#pragma config FPLLMUL = MUL_24         // PLL Multiplier (20x Multiplier)
 #pragma config UPLLIDIV = DIV_12        // USB PLL Input Divider (12x Divider)
 #pragma config UPLLEN = OFF             // USB PLL Enable (Disabled and Bypassed)
 #pragma config FPLLODIV = DIV_1        // System PLL Output Clock Divider (PLL Divide by 1)

@@ -11,7 +11,7 @@
 #include <proc/p32mx470f512l.h>
 #include "timer.h"
 #include "vardefs.h"
-#define FCY 80000000
+#define FCY 96000000
 #define SCALAR .000001
 #define PRE_SCALAR 1
 
@@ -23,22 +23,23 @@ void initTimer2(){
     T2CONbits.TCS = DISABLE; // Enable Internal peripheral clock
     T2CONbits.TCKPS = 0b000; //Prescalar of 8
     IFS0bits.T2IF = FLAG_DOWN;  //Interrupt Flag Down
-    long int prVal = (((FCY*SCALAR)/PRE_SCALAR) - 1.0)/100; //Calculate the PR value using delay as the time, converted to ms.
+    long int prVal = (((FCY*SCALAR)/PRE_SCALAR) - 1.0); //Calculate the PR value using delay as the time, converted to ms.
    
     // if the delay value is less than about 200 (or something) PR2 would be 
     //     assigned to 0 and thats not good 
-    if (prVal <= 0)
-    { 
-        PR2 = 1; 
-    }
-    else if (prVal >= 0xFFFF)
-    {
-        PR2 = 0xFFFF;
-    }
-    else 
-    {
-        PR2 = prVal;
-    }
+    PR2 = 1;
+//    if (prVal <= 0)
+//    { 
+//        PR2 = 1; 
+//    }
+//    else if (prVal >= 0xFFFF)
+//    {
+//        PR2 = 0xFFFF;
+//    }
+//    else 
+//    {
+//        PR2 = prVal;
+//    }
 
     return;
 }
