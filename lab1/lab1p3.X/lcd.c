@@ -47,6 +47,24 @@
 #define LOWER 1
 #define UPPER 0
 
+void printTimeLCD(int hundredthsOfSeconds){
+    
+}
+
+void writeRunning(int hundredthsOfSeconds){
+
+//TODO implement functionality that will write this to our LCD..
+           printStringLCD("STOPTED:");
+           printTimeLCD(hundredthsOfSeconds);
+}
+
+void writeStopped(int hundredthsOfSeconds){
+
+//TODO implement functionality that will write this to our LCD..
+           printStringLCD("STOPTED:");
+           printTimeLCD(hundredthsOfSeconds);
+}
+
 
 /* This function should take in a two-byte word and writes either the lower or upper
  * byte to the last four bits of LATG. Additionally, according to the LCD data sheet
