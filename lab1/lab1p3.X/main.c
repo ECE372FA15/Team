@@ -57,8 +57,10 @@ int main(void)
             case stoppedWaitForPress:
                 turnOnLED(runLED);
                 turnOffLED(stopLED);
-                if(0/*reset pressed*/){
-                    timeCountInHundredthsOfASecond = 0; 
+                while(state == stoppedWaitForPress){
+                    if(0/*reset pressed*/){
+                        timeCountInHundredthsOfASecond = 0; 
+                    }
                 }
                 break;
                 
