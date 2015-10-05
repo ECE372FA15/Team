@@ -15,6 +15,7 @@
 #include "config.h"
 #include "interrupt.h"
 //#define test
+#define test
 
 #ifdef test 
 #define TRIS_D7 TRISGbits.TRISG1    //DB7 Input/output  
@@ -34,8 +35,6 @@
 #define TRIS_RW   TRISEbits.TRISE6   //
 #define RW        LATEbits.LATE6     //              // i/o board j10 pin 6     
 
-#define Tio     TRISAbits.TRISA7
-#define Ti      LATAbits.LATA7
 #endif 
 
 // ******************************************************************************************* //
@@ -46,21 +45,11 @@ int main(void)
     SYSTEMConfigPerformance(40000000);
     initTimer2();
     initLCD();
-    //testLCD2();
     clearLCD();
-   // printStringLCD("hello!");
-   // printCharLCD('a');
+    writeLCD(0b00001111, 0, 50);
     while(1){
-        //entryModeSet(0,1);
-        //clearLCD();
-        writeLCD(1,0,50);
-         delayUs(50);
-         //delayMs(1.6);
-         //Ti = 0; 
-         delayUs(50);
-         //delayMs(1.6);
-        // Ti = 1; 
-       
+        writeLCD(0b00011100, 0, 50);
+        delayUs(500000);
     }
     return 0;
 }

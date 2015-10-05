@@ -80,8 +80,10 @@ void writeFourBits(unsigned char word, unsigned int commandType, unsigned int de
     // SLN, Yes, this fucnt gets called twice in a row....
 
      E = 0; // set enable low to reduce future headaches 
-    
+     
      delayUs(delayAfter);
+    RS = commandType; 
+    RW = 0;
     //If the user enters a 1 for the lower input it writes lower byte to the last four bits of LATG
     if(lower == LOWER){
         DB7 = (word & 0b00001000) >> 3;
@@ -100,9 +102,11 @@ void writeFourBits(unsigned char word, unsigned int commandType, unsigned int de
     
     //Don't write if they don't enter a 0 or 1 for lower
      
-    RS = commandType; 
-    E = 1;  delayUs(delayAfter);         //TODO: How long do these delays need to be??? 
-    E = 0;  delayUs(delayAfter);
+    
+    E = 1;  
+    delayUs(delayAfter);         //TODO: How long do these delays need to be??? 
+    E = 0; 
+    delayUs(delayAfter);
     
 }
 
@@ -137,13 +141,14 @@ void initLCD(void) {
     int i = 0;
     
     //wait 15ms
-    delayMs(15); 
-    
+    //delayMs(15); 
+    delayUs(15000);
     //assign 1st set of values
     writeFourBits(0b00110011,0,LCD_DELAY_standard,UPPER);
     
-    //wait 5ms
-    delayMs(5); 
+    //wait 4.5ms
+   // delayMs(5);
+    delayUs(4500);
     
     writeFourBits(0b00110011,0,LCD_DELAY_standard,UPPER);
  
