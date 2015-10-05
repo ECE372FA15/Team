@@ -41,14 +41,15 @@
 
 int main(void)
 {
-     
+    ANSELE = 0;
     SYSTEMConfigPerformance(40000000);
     initTimer2();
     initLCD();
     clearLCD();
     writeLCD(0b00001111, 0, 50);
     while(1){
-        writeLCD(0b00011100, 0, 50);
+        testLCD1();
+        clearLCD();
         delayUs(500000);
     }
     return 0;
