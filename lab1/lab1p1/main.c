@@ -19,14 +19,11 @@
 #define part1
 #define DBdelayTime 500
 
-//#define test 
 
-//TODO: Define states of the state machine
 typedef enum stateTypeEnum{
     runToggle, dbPress, dbRelease, waitForPress
 } stateType;
 
-//TODO: Use volatile variables that change within interrupts
 volatile stateType state = runToggle; 
 volatile stateType prevState = runToggle;
 unsigned int dummyVariable = 0;
@@ -36,21 +33,6 @@ int main(void)
     //Initialize new interrupt fix
     SYSTEMConfigPerformance(40000000);
     
-#ifdef test
-   initSW(); 
-   initLED(RUN_LED);
-   initLED(STOP_LED);
-   initTimer2();
-   enableInterrupts();
-   
-   turnOnLED(1); //Turn on the RunLED
-   turnOffLED(2);
-
-   // continusuly toggle LED's 
-    while (1){
-       delayUs(10000000);  toggleAllLEDs();
-    }
-#endif
    
 #ifdef part1
    initSW(); 
@@ -106,11 +88,9 @@ int main(void)
     return 0;
 }
 
-//void __ISR(_CHANGE_NOTICE_VECTOR, IPL3SRS) _CNInterrupt(void){
 void __ISR(_CHANGE_NOTICE_VECTOR, IPL6SRS) _CNInterrupt(void){
 
     dummyVariable = PORTAbits.RA7 = 1;//Put the CN flag down
-  //  dummyVariable = PORTDbits.RD6 = 1;//Put the CN flag down
     IFS1bits.CNAIF = 0;
     
     if((state == runToggle)){
