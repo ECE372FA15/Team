@@ -17,6 +17,25 @@
 // 1.7 mS microsecond
 #define LCD_DELAY_clear 1700
 
+#ifdef pins
+#define TRIS_D7 TRISGbits.TRISG1    //DB7 Input/output  
+#define DB7      LATGbits.LATG1      //DB7 Write data   // i/o board j11 pin 5
+#define TRIS_D6 TRISFbits.TRISF0    //DB6 Input/output 
+#define DB6      LATFbits.LATF0      //DB6 Write data   // i/o board j11 pin 7
+#define TRIS_D5 TRISDbits.TRISD13   //DB5 Input/output 
+#define DB5      LATDbits.LATD13     //DB5 Write data   // i/o board j11 pin 9
+#define TRIS_D4 TRISDbits.TRISD7    //DB4 Input/output 
+#define DB4      LATDbits.LATD7      //DB4 Write data   // i/o board j11 pin 11
+
+//RS and enable pin definitions
+#define TRIS_RS  TRISGbits.TRISG14  //RS Input/output
+#define RS       LATGbits.LATG14    //RS Write data   // i/o board j10 pin 4
+#define TRIS_E   TRISEbits.TRISE4   //E Input/output
+#define E        LATEbits.LATE4     //E Write data   // i/o board j10 pin 8
+#define TRIS_RW   TRISEbits.TRISE6   //
+#define RW        LATEbits.LATE6     //              // i/o board j10 pin 6     
+
+#endif
 //data pin definitions 
 #define TRIS_D7 TRISGbits.TRISG1    //DB7 Input/output 
 #define DB7      LATGbits.LATG1      //DB7 Write data
@@ -46,6 +65,7 @@
 
 #define LOWER 1
 #define UPPER 0
+
 
 void printTimeLCD(int hundredthsOfSeconds){
     int hundrethsMilliSeconds = 0;
@@ -104,7 +124,6 @@ void writeStopped(int hundredthsOfSeconds){
            printTimeLCD(hundredthsOfSeconds);
 }
 
-
 /* This function should take in a two-byte word and writes either the lower or upper
  * byte to the last four bits of LATG. Additionally, according to the LCD data sheet
  * It should set LCD_RS and LCD_E with the appropriate values and delays.
@@ -118,8 +137,10 @@ void writeFourBits(unsigned char word, unsigned int commandType, unsigned int de
     // SLN, Yes, this fucnt gets called twice in a row....
 
      E = 0; // set enable low to reduce future headaches 
-    
+     
      delayUs(delayAfter);
+    RS = commandType; 
+    RW = 0;
     //If the user enters a 1 for the lower input it writes lower byte to the last four bits of LATG
     if(lower == LOWER){
         DB7 = (word & 0b00001000) >> 3;
@@ -138,9 +159,11 @@ void writeFourBits(unsigned char word, unsigned int commandType, unsigned int de
     
     //Don't write if they don't enter a 0 or 1 for lower
      
-    RS = commandType; 
-    E = 1;  delayUs(delayAfter);         //TODO: How long do these delays need to be??? 
-    E = 0;  delayUs(delayAfter);
+    
+    E = 1;  
+    delayUs(delayAfter);         //TODO: How long do these delays need to be??? 
+    E = 0; 
+    delayUs(delayAfter);
     
 }
 
@@ -175,13 +198,14 @@ void initLCD(void) {
     int i = 0;
     
     //wait 15ms
-    delayMs(15); 
-    
+    //delayMs(15); 
+    delayUs(15000);
     //assign 1st set of values
     writeFourBits(0b00110011,0,LCD_DELAY_standard,UPPER);
     
-    //wait 5ms
-    delayMs(5); 
+    //wait 4.5ms
+   // delayMs(5);
+    delayUs(4500);
     
     writeFourBits(0b00110011,0,LCD_DELAY_standard,UPPER);
  
@@ -275,7 +299,7 @@ void moveCursorLCD(unsigned char x, unsigned char y){
  * However, it is suggested that you test more than just this one function.
  */
 void testLCD1(){
-    initLCD();
+    //initLCD();
     int i = 0;
     printCharLCD('c');
     for(i = 0; i < 1000; i++) delayUs(1000);
@@ -308,18 +332,6 @@ void testWriteLCD(){
         delayUs(1000);
     }
 }
-void testPrintTimeLCD(){
-    int i = 0;
-    printTimeLCD(1234);
-    for(i = 0; i < 1000; i++){
-        delayUs(1000);
-    }
-    
-    //Expected output is 12:34
-    
-}
-
-
 // 1 for increment          0 for dectement
 // 1 for display shift      0 for cursor move 
 void entryModeSet(int increment_decrement,int cursor_move){
@@ -329,4 +341,10 @@ void entryModeSet(int increment_decrement,int cursor_move){
     writeLCD(word, 0, LCD_DELAY_standard);
 }
 
-  
+void testPrintTimeLCD(){
+    int i = 0;
+    printTimeLCD(1234); //SHould print 12:34
+    for(i = 0; < i 1000; i++){
+        delayUs(1000);
+    }
+}
