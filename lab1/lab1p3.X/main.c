@@ -148,16 +148,20 @@ int main(void){
     
    // initialize the project components 
    initSW(); 
+   
    initLCD();
+   clearLCD();
+   
    initLED(runLED);
    initLED(stopLED);
    initTimer2();
    enableInterrupts();
    turnOffLED(stopLED);
    turnOnLED(runLED);
- //  testPrintTimeLCD();
-   printCharLCD("A");
-   
+   while (1)
+   {
+      testPrintTimeLCD();
+   }
    
 }
 
