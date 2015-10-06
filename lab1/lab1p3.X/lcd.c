@@ -78,11 +78,11 @@ void printTimeLCD(int hundredthsOfSeconds){
     temp = temp / 10;
     tensSecondsC = onesSeconds + '0';
     
-    printChar(tensSecondsC);
-    printChar(onesSecondsC);
-    printChar(":");
-    printChar(tenthsMilliSecondsC);
-    printChar(hundrethsMilliSecondsC);
+    printCharLCD(tensSecondsC);
+    printCharLCD(onesSecondsC);
+    printCharLCD(":");
+    printCharLCD(tenthsMilliSecondsC);
+    printCharLCD(hundrethsMilliSecondsC);
     //Convert to char* pass into printStringLCD
     
     
