@@ -153,6 +153,7 @@ ANSELE = 0;
     
    // initialize the project components 
    initSW(); 
+   
    initLCD();
    clearLCD();
    writeLCD(0b00001111, 0, 50);
@@ -165,6 +166,13 @@ ANSELE = 0;
  //  testPrintTimeLCD();
    testPrintTimeLCD();
    
+   
+   initLED(runLED);
+   initLED(stopLED);
+   initTimer2();
+   enableInterrupts();
+   turnOffLED(stopLED);
+   turnOnLED(runLED);
    
 }
 

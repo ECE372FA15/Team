@@ -48,7 +48,7 @@ int main(void)
     clearLCD();
     writeLCD(0b00001111, 0, 50);
     while(1){
-        testLCD1();
+         testLCD1();
         clearLCD();
         delayUs(500000);
     }

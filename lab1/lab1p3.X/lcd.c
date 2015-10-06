@@ -164,7 +164,7 @@ void initLCD(void) {
     writeLCD(0b00000001,0,LCD_DELAY_clear);
     
     writeLCD(0b00000110,0,LCD_DELAY_standard);
-    
+    writeLCD(0b00001111, 0, 50);
     
     
 
@@ -333,6 +333,7 @@ void printTimeLCD(int hundredthsOfSeconds){
 void testPrintTimeLCD(){
     int i = 0;
     printTimeLCD(123457); //SHould print 12:34
+
     for(i = 0; i < 1000; i++){
         delayUs(1000);
     }
