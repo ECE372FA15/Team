@@ -21,6 +21,8 @@
 #define DBdelayTime 500
 #define runLED 0
 #define stopLED 1
+#define PRESSED 0
+#define RELEASED 1
 
 
 // state machine definitions 
@@ -58,7 +60,7 @@ int main(void)
                 turnOnLED(runLED);
                 turnOffLED(stopLED);
                 while(state == stoppedWaitForPress){
-                    if(0/*reset pressed*/){     //CN Flag is high should be the condition?
+                    if(PORTDbits.RD6 == PRESSED){     //CN Flag is high should be the condition?
                         timeCountInHundredthsOfASecond = 0; //should this be done in the ISR?
                     }
                 }

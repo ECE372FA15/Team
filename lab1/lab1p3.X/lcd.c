@@ -56,10 +56,10 @@ void printTimeLCD(int hundredthsOfSeconds){
   //  int tensMinutes = 0;
     int temp = 0;
     
-    char hundrethsMilliSecondsC = '';
-    char tenthsMilliSecondsC = '';
-    char onesSecondsC = '';
-    char tensSecondsC = '';
+    char hundrethsMilliSecondsC = ' ';
+    char tenthsMilliSecondsC = ' ';
+    char onesSecondsC = ' ';
+    char tensSecondsC = ' ';
     
     //Hundreths Place
     hundrethsMilliSeconds = hundredthsOfSeconds % 10;
