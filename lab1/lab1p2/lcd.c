@@ -17,6 +17,25 @@
 // 1.7 mS microsecond
 #define LCD_DELAY_clear 1700
 
+#ifdef pins
+#define TRIS_D7 TRISGbits.TRISG1    //DB7 Input/output  
+#define DB7      LATGbits.LATG1      //DB7 Write data   // i/o board j11 pin 5
+#define TRIS_D6 TRISFbits.TRISF0    //DB6 Input/output 
+#define DB6      LATFbits.LATF0      //DB6 Write data   // i/o board j11 pin 7
+#define TRIS_D5 TRISDbits.TRISD13   //DB5 Input/output 
+#define DB5      LATDbits.LATD13     //DB5 Write data   // i/o board j11 pin 9
+#define TRIS_D4 TRISDbits.TRISD7    //DB4 Input/output 
+#define DB4      LATDbits.LATD7      //DB4 Write data   // i/o board j11 pin 11
+
+//RS and enable pin definitions
+#define TRIS_RS  TRISGbits.TRISG14  //RS Input/output
+#define RS       LATGbits.LATG14    //RS Write data   // i/o board j10 pin 4
+#define TRIS_E   TRISEbits.TRISE4   //E Input/output
+#define E        LATEbits.LATE4     //E Write data   // i/o board j10 pin 8
+#define TRIS_RW   TRISEbits.TRISE6   //
+#define RW        LATEbits.LATE6     //              // i/o board j10 pin 6     
+
+#endif
 //data pin definitions 
 #define TRIS_D7 TRISGbits.TRISG1    //DB7 Input/output 
 #define DB7      LATGbits.LATG1      //DB7 Write data
@@ -61,8 +80,10 @@ void writeFourBits(unsigned char word, unsigned int commandType, unsigned int de
     // SLN, Yes, this fucnt gets called twice in a row....
 
      E = 0; // set enable low to reduce future headaches 
-    
+     
      delayUs(delayAfter);
+    RS = commandType; 
+    RW = 0;
     //If the user enters a 1 for the lower input it writes lower byte to the last four bits of LATG
     if(lower == LOWER){
         DB7 = (word & 0b00001000) >> 3;
@@ -81,9 +102,11 @@ void writeFourBits(unsigned char word, unsigned int commandType, unsigned int de
     
     //Don't write if they don't enter a 0 or 1 for lower
      
-    RS = commandType; 
-    E = 1;  delayUs(delayAfter);         //TODO: How long do these delays need to be??? 
-    E = 0;  delayUs(delayAfter);
+    
+    E = 1;  
+    delayUs(delayAfter);         //TODO: How long do these delays need to be??? 
+    E = 0; 
+    delayUs(delayAfter);
     
 }
 
@@ -118,13 +141,14 @@ void initLCD(void) {
     int i = 0;
     
     //wait 15ms
-    delayMs(15); 
-    
+    //delayMs(15); 
+    delayUs(15000);
     //assign 1st set of values
     writeFourBits(0b00110011,0,LCD_DELAY_standard,UPPER);
     
-    //wait 5ms
-    delayMs(5); 
+    //wait 4.5ms
+   // delayMs(5);
+    delayUs(4500);
     
     writeFourBits(0b00110011,0,LCD_DELAY_standard,UPPER);
  
@@ -218,7 +242,7 @@ void moveCursorLCD(unsigned char x, unsigned char y){
  * However, it is suggested that you test more than just this one function.
  */
 void testLCD1(){
-    initLCD();
+    //initLCD();
     int i = 0;
     printCharLCD('c');
     for(i = 0; i < 1000; i++) delayUs(1000);
@@ -259,125 +283,3 @@ void entryModeSet(int increment_decrement,int cursor_move){
     word |= cursor_move;
     writeLCD(word, 0, LCD_DELAY_standard);
 }
-
-
-void initLCDViaPollingBusy(void) {
-    // Setup D, RS, and E to be outputs (0).
-    RS = 0; // LATGbits.LATG0
-    E = 0;  // LATGbits.LATG0
-
-    TRIS_D7 = 0;  // TRISGbits.TRISG1
-    TRIS_D6 = 0;  // TRISFbits.TRISF0
-    TRIS_D5 = 0;  // TRISDbits.TRISD13
-    TRIS_D4 = 0;  // TRISDbits.TRISD7
-
-    TRIS_RS = 0;  // TRISGbits.TRISG13
-    TRIS_E = 0;   // TRISGbits.TRISG0
-    
-    // Initialization sequence utilizes specific LCD commands before the general configuration
-    // commands can be utilized. The first few initilition commands cannot be done using the
-    // WriteLCD function. Additionally, the specific sequence and timing is very important.
-
-    // Enable 4-bit interface
-    
-    // wait 15 ms or more after VDD reaches 4.5V
-
-    E = 0; 
-    delayUs(0xFFFF);// this is maxval... hope it works!
-    delayUs(0xFFFF);
-    delayUs(0xFFFF);
-    delayUs(0xFFFF);
-    delayUs(0xFFFF);
-     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1;
-    // wait 4.1 mS or more 
-    delayUs(0xFFFF);// this is maxval... hope it works!
-    delayUs(0xFFFF);// this is maxval... hope it works!
-    delayUs(0xFFFF);// this is maxval... hope it works!
-     E = 1;
-     delayUs(0xFFFF);
-     E = 0;
-     delayUs(0xFFFF);
-     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
-    // wait 100uS or more 
-    delayUs(0xFFFF);// this is maxval... hope it works!
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0;
-     delayUs(0xFFFF);
-     RS = 0; RW = 0;  DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 1; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0;
-    
-     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 0; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0; 
-     
-     RS = 0; RW = 0;  DB7 = 0; DB6 = 0; DB5 = 1; DB4 = 0; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0; 
-     
-     RS = 0; RW = 0; DB7 = 1; DB6 = 0; DB5 = 0; DB4 = 0; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0; 
-     
-     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
-     delayUs(LCD_DELAY_standard); 
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0;
-     
-     RS = 0; RW = 0; DB7 = 1; DB6 = 0; DB5 = 0; DB4 = 0; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0; 
-     
-     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0; 
-     
-     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 1; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0; 
-     
-     RS = 0; RW = 0; DB7 = 0; DB6 = 0; DB5 = 0; DB4 = 0; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0; 
-     
-     RS = 0; RW = 0; DB7 = 0; DB6 = 1; DB5 = 1; DB4 = 0; 
-     delayUs(LCD_DELAY_standard);
-     E = 1; 
-     delayUs(0xFFFF);
-     E = 0;   
-
-    // Function Set (specifies data width, lines, and font.
-
-    // 4-bit mode initialization is complete. We can now configure the various LCD
-    // options to control how the LCD will function.
-
-    // TODO: Display On/Off Control
-        // Turn Display (D) Off
-    // TODO: Clear Display (The delay is not specified in the data sheet at this point. You really need to have the clear display delay here.
-    // TODO: Entry Mode Set
-        // Set Increment Display, No Shift (i.e. cursor move)
-    // TODO: Display On/Off Control
-        // Turn Display (D) On, Cursor (C) Off, and Blink(B) Off
-
-
-}
-
-  
