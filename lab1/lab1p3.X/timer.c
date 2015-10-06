@@ -28,21 +28,23 @@ void initTimer2(){
     // if the delay value is less than about 200 (or something) PR2 would be 
     //     assigned to 0 and thats not good 
     PR2 = 1;
-//    if (prVal <= 0)
-//    { 
-//        PR2 = 1; 
-//    }
-//    else if (prVal >= 0xFFFF)
-//    {
-//        PR2 = 0xFFFF;
-//    }
-//    else 
-//    {
-//        PR2 = prVal;
-//    }
-
     return;
 }
+
+void initT1(){
+    
+    T1CONbits.TCKPS = 0;
+    T1CONbits.TCS = DISABLE;
+    IPC1bits.T1IP = 7;
+    IEC0bits.T1IE = 1;
+    TMR1 = 0;
+    IFS0bits.T1IF = 0;
+    PR1 = 10000;
+    T1CONbits.ON = 1;
+    
+    return;
+}
+
 void delay50Us(){
     int i = 0;
     for(i = 0; i < 5; i++){

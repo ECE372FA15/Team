@@ -54,7 +54,7 @@ int main(void)
    enableInterrupts();
    turnOffLED(stopLED);
    turnOnLED(runLED);
-   
+   initT1();
    
    // infinite loop 
     while(1){
@@ -75,6 +75,7 @@ int main(void)
             case runningWaitForPress:
                 turnOnLED(stopLED);
                 turnOffLED(runLED);
+                while (state == runningWaitForPress);
                 break;
                 
             // once the button has been pressed 
