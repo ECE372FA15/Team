@@ -145,16 +145,18 @@ int main(void){
 
     //Initialize new interrupt fix
     SYSTEMConfigPerformance(40000000);
-
+    
    // initialize the project components 
    initSW(); 
+   initLCD();
    initLED(runLED);
    initLED(stopLED);
    initTimer2();
    enableInterrupts();
    turnOffLED(stopLED);
    turnOnLED(runLED);
-   testPrintTimeLCD();
+ //  testPrintTimeLCD();
+   printCharLCD("A");
    
    
 }

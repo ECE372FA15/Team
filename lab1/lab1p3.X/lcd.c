@@ -186,6 +186,7 @@ void printCharLCD(char c) {
 }
 
 void initLCD(void) {
+    ANSELE = 0;
     TRIS_RS = 0;  // TRISGbits.TRISG13
     TRIS_E = 0;   // TRISGbits.TRISG0
     TRIS_D7 = 0;
