@@ -344,7 +344,7 @@ void entryModeSet(int increment_decrement,int cursor_move){
 void testPrintTimeLCD(){
     int i = 0;
     printTimeLCD(1234); //SHould print 12:34
-    for(i = 0; < i 1000; i++){
+    for(i = 0; i < 1000; i++){
         delayUs(1000);
     }
 }
