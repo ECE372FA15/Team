@@ -163,16 +163,7 @@ ANSELE = 0;
    enableInterrupts();
    //turnOffLED(stopLED);
    //turnOnLED(runLED);
- //  testPrintTimeLCD();
    testPrintTimeLCD();
-   
-   
-   initLED(runLED);
-   initLED(stopLED);
-   initTimer2();
-   enableInterrupts();
-   turnOffLED(stopLED);
-   turnOnLED(runLED);
    
 }
 
