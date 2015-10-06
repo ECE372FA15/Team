@@ -17,7 +17,7 @@ void printStringLCD(const char* s);
 void testLCD1();
 void testLCD2();
 void testWriteLCD();
-
+void testPrintTimeLCD();
 void writeRunning(int hundredthsOfSeconds);
 void writeStopped(int hundredthsOfSeconds);
 void printTimeLCD(int hundredthsOfSeconds);

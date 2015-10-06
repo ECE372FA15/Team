@@ -308,6 +308,18 @@ void testWriteLCD(){
         delayUs(1000);
     }
 }
+void testPrintTimeLCD(){
+    int i = 0;
+    printTimeLCD(1234);
+    for(i = 0; i < 1000; i++){
+        delayUs(1000);
+    }
+    
+    //Expected output is 12:34
+    
+}
+
+
 // 1 for increment          0 for dectement
 // 1 for display shift      0 for cursor move 
 void entryModeSet(int increment_decrement,int cursor_move){

@@ -24,7 +24,7 @@
 #define PRESSED 0
 #define RELEASED 1
 
-
+#define test
 // state machine definitions 
 typedef enum stateTypeEnum{
     dBPress, waitRelease, dBRelease, stoppedWaitForPress, runningWaitForPress
@@ -35,7 +35,7 @@ volatile stateType state = runningWaitForPress;
 volatile uint64_t timeCountInHundredthsOfASecond = 0; 
 unsigned int dummyVariable = 0;
 
-
+#ifdef mainFunction
 int main(void)
 {
     //Initialize new interrupt fix
@@ -136,3 +136,27 @@ void __ISR(_TIMER_1_VECTOR, IPL7SRS) _T1Interrupt(void){
            writeStopped(timeCountInHundredthsOfASecond);
        }
 }
+
+#endif
+
+#ifdef test
+
+int main(void){
+
+    //Initialize new interrupt fix
+    SYSTEMConfigPerformance(40000000);
+
+   // initialize the project components 
+   initSW(); 
+   initLED(runLED);
+   initLED(stopLED);
+   initTimer2();
+   enableInterrupts();
+   turnOffLED(stopLED);
+   turnOnLED(runLED);
+   testPrintTimeLCD();
+   
+   
+}
+
+#endif
