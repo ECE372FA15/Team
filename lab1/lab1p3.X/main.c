@@ -58,8 +58,8 @@ int main(void)
                 turnOnLED(runLED);
                 turnOffLED(stopLED);
                 while(state == stoppedWaitForPress){
-                    if(0/*reset pressed*/){
-                        timeCountInHundredthsOfASecond = 0; 
+                    if(0/*reset pressed*/){     //CN Flag is high should be the condition?
+                        timeCountInHundredthsOfASecond = 0; //should this be done in the ISR?
                     }
                 }
                 break;

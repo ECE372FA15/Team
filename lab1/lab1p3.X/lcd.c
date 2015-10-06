@@ -48,13 +48,52 @@
 #define UPPER 0
 
 void printTimeLCD(int hundredthsOfSeconds){
+    int hundrethsMilliSeconds = 0;
+    int tenthsMilliSeconds = 0;
+    int onesSeconds = 0;
+    int tensSeconds = 0;
+  //  int onesMinutes = 0;
+  //  int tensMinutes = 0;
+    int temp = 0;
     
+    char hundrethsMilliSecondsC = '';
+    char tenthsMilliSecondsC = '';
+    char onesSecondsC = '';
+    char tensSecondsC = '';
+    
+    //Hundreths Place
+    hundrethsMilliSeconds = hundredthsOfSeconds % 10;
+    temp = hundredthsOfSeconds / 10;
+    hundrethsMilliSecondsC = hundrethsMilliSeconds + '0';
+    //Tenths place
+    tenthsMilliSeconds = temp % 10;
+    temp = temp / 10;
+    tenthsMilliSecondsC = tenthsMilliSeconds + '0';
+    //Ones Place
+    onesSeconds = temp % 10;
+    temp = temp / 10;
+    onesSecondsC = onesSeconds + '0';
+    //Tens Place
+    tensSeconds = temp % 10;
+    temp = temp / 10;
+    tensSecondsC = onesSeconds + '0';
+    
+    printChar(tensSecondsC);
+    printChar(onesSecondsC);
+    printChar(":");
+    printChar(tenthsMilliSecondsC);
+    printChar(hundrethsMilliSecondsC);
+    //Convert to char* pass into printStringLCD
+    
+    
+    
+     
 }
 
 void writeRunning(int hundredthsOfSeconds){
 
 //TODO implement functionality that will write this to our LCD..
-           printStringLCD("STOPTED:");
+           printStringLCD("RUNNING:");
            printTimeLCD(hundredthsOfSeconds);
 }
 
