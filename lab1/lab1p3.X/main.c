@@ -18,7 +18,7 @@
 #include "timer.h"
 #include "config.h"
 
-#define DBdelayTime 500
+#define DBdelayTime 1000
 #define runLED 0
 #define stopLED 1
 #define PRESSED 0
@@ -33,6 +33,7 @@ typedef enum stateTypeEnum{
 
 //global varables declared to work in ISRs 
 volatile stateType state = runningWaitForPress; 
+volatile int t = 0; 
 volatile uint64_t timeCountInHundredthsOfASecond = 0; 
 unsigned int dummyVariable = 0;
 
@@ -48,13 +49,13 @@ int main(void)
    initLCD();
    clearLCD();
    writeLCD(0b00001111, 0, 50);
-   initLED(runLED);
-   initLED(stopLED);
+   initLED(1);
+   initLED(0);
    initTimer2();
    enableInterrupts();
-   turnOffLED(stopLED);
-   turnOnLED(runLED);
-   initT1();
+   initT1();       
+   TRISGbits.TRISG12 = 0;     
+   TRISGbits.TRISG14 = 0;  
    
    // infinite loop 
     while(1){
@@ -62,19 +63,28 @@ int main(void)
         switch(state){
             // the state that toggles the LEDs 
             case stoppedWaitForPress:
-                turnOnLED(runLED);
-                turnOffLED(stopLED);
+                //turnOnLED(0);
+                //turnOffLED(1);
+                LATGbits.LATG12 = 1;
+                LATGbits.LATG14 = 0;
+                t = 1;
                 while(state == stoppedWaitForPress){
-                    if(PORTDbits.RD6 == PRESSED){     //CN Flag is high should be the condition?
+                    if(PORTDbits.RD6 == 0){     //CN Flag is high should be the condition?
                         timeCountInHundredthsOfASecond = 0; //should this be done in the ISR?
+                    }
+                    if (IFS1bits.CNAIF == 1){
+                        int a = 0;
                     }
                 }
                 break;
                 
             // wait for user input i.e. button press
             case runningWaitForPress:
-                turnOnLED(stopLED);
-                turnOffLED(runLED);
+              //  turnOnLED(1);
+              //  turnOffLED(0);
+                LATGbits.LATG12 = 0;
+                LATGbits.LATG14 = 1;
+                t = 0; 
                 while (state == runningWaitForPress);
                 break;
                 
@@ -101,14 +111,14 @@ int main(void)
     return 0;
 }
 
-void __ISR(_CHANGE_NOTICE_VECTOR, IPL6SRS) _CNInterrupt(void){
+void __ISR(_CHANGE_NOTICE_VECTOR, IPL7SRS) _CNInterrupt(void){
 
     dummyVariable = PORTAbits.RA7 = 1;//Put the CN flag down
     IFS1bits.CNAIF = 0;
-
+    
    if(state == dBRelease){
         // if the run led is on 
-        if(TRISGbits.TRISG12 == 1){
+        if(t == 0){//LATGbits.LATG12 == 0){
             state = stoppedWaitForPress; // goto stopped 
         }
         else{
@@ -124,7 +134,7 @@ void __ISR(_CHANGE_NOTICE_VECTOR, IPL6SRS) _CNInterrupt(void){
     }
 }
 //time timer that should go off every 1/100 th of a second 
-void __ISR(_TIMER_1_VECTOR, IPL7SRS) _T1Interrupt(void){
+void __ISR(_TIMER_1_VECTOR, IPL6SRS) _T1Interrupt(void){
     
     // set the flag down 
     IFS0bits.T1IF = 0;
@@ -141,6 +151,7 @@ void __ISR(_TIMER_1_VECTOR, IPL7SRS) _T1Interrupt(void){
            // display stopped message and time 
            writeStopped(timeCountInHundredthsOfASecond);
        }
+
 }
 
 #endif

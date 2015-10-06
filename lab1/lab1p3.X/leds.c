@@ -17,26 +17,26 @@
 
 void initLED(int i)
 {
-    if(i == RUN_LED)
-        TRISGbits.TRISG12 = OUTPUT;
-    else if ( i == STOP_LED)      
-        TRISGbits.TRISG14 = OUTPUT;    
+    if(i == 0)
+        TRISGbits.TRISG12 = 0;
+    else if ( i == 1)      
+        TRISGbits.TRISG14 = 0;    
 }
 
 void turnOnLED(int i)
 {
-    if(i == RUN_LED)
-        LATGbits.LATG12 = ON;
-    else if (i == STOP_LED)
-        LATGbits.LATG14 = ON;
+    if(i == 0)
+        LATGbits.LATG12 = 0;
+    else if (i == 1)
+        LATGbits.LATG14 = 0;
 }
 
 void turnOffLED(int i)
 {
     if(i == RUN_LED)
-        LATGbits.LATG12 = OFF;
+        LATGbits.LATG12 = 1;
     else if (i == STOP_LED)
-        LATGbits.LATG14 = OFF;
+        LATGbits.LATG14 = 1;
 }
 
 void toggleAllLEDs()
