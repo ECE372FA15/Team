@@ -66,63 +66,6 @@
 #define LOWER 1
 #define UPPER 0
 
-void printTimeLCD(int hundredthsOfSeconds){
-    int hundrethsMilliSeconds = 0;
-    int tenthsMilliSeconds = 0;
-    int onesSeconds = 0;
-    int tensSeconds = 0;
-  //  int onesMinutes = 0;
-  //  int tensMinutes = 0;
-    int temp = 0;
-    
-    char hundrethsMilliSecondsC = ' ';
-    char tenthsMilliSecondsC = ' ';
-    char onesSecondsC = ' ';
-    char tensSecondsC = ' ';
-    
-    //Hundreths Place
-    hundrethsMilliSeconds = hundredthsOfSeconds % 10;
-    temp = hundredthsOfSeconds / 10;
-    hundrethsMilliSecondsC = hundrethsMilliSeconds + '0';
-    //Tenths place
-    tenthsMilliSeconds = temp % 10;
-    temp = temp / 10;
-    tenthsMilliSecondsC = tenthsMilliSeconds + '0';
-    //Ones Place
-    onesSeconds = temp % 10;
-    temp = temp / 10;
-    onesSecondsC = onesSeconds + '0';
-    //Tens Place
-    tensSeconds = temp % 10;
-    temp = temp / 10;
-    tensSecondsC = onesSeconds + '0';
-    
-    printCharLCD(tensSecondsC);
-    printCharLCD(onesSecondsC);
-    printCharLCD(":");
-    printCharLCD(tenthsMilliSecondsC);
-    printCharLCD(hundrethsMilliSecondsC);
-    //Convert to char* pass into printStringLCD
-    
-    
-    
-     
-}
-
-void writeRunning(int hundredthsOfSeconds){
-
-//TODO implement functionality that will write this to our LCD..
-           printStringLCD("RUNNING:");
-           printTimeLCD(hundredthsOfSeconds);
-}
-
-void writeStopped(int hundredthsOfSeconds){
-
-//TODO implement functionality that will write this to our LCD..
-           printStringLCD("STOPTED:");
-           printTimeLCD(hundredthsOfSeconds);
-}
-
 
 /* This function should take in a two-byte word and writes either the lower or upper
  * byte to the last four bits of LATG. Additionally, according to the LCD data sheet
@@ -340,10 +283,73 @@ void entryModeSet(int increment_decrement,int cursor_move){
     word |= cursor_move;
     writeLCD(word, 0, LCD_DELAY_standard);
 }
+
+
+
+void printTimeLCD(int hundredthsOfSeconds){
+    int hundrethsMilliSeconds = 0;
+    int tenthsMilliSeconds = 0;
+    int onesSeconds = 0;
+    int tensSeconds = 0;
+  //  int onesMinutes = 0;
+  //  int tensMinutes = 0;
+    int temp = 0;
+    
+    char hundrethsMilliSecondsC = ' ';
+    char tenthsMilliSecondsC = ' ';
+    char onesSecondsC = ' ';
+    char tensSecondsC = ' ';
+    
+    //Hundreths Place
+    hundrethsMilliSeconds = hundredthsOfSeconds % 10;
+    temp = hundredthsOfSeconds / 10;
+    hundrethsMilliSecondsC = hundrethsMilliSeconds + '0';
+    //Tenths place
+    tenthsMilliSeconds = temp % 10;
+    temp = temp / 10;
+    tenthsMilliSecondsC = tenthsMilliSeconds + '0';
+    //Ones Place
+    onesSeconds = temp % 10;
+    temp = temp / 10;
+    onesSecondsC = onesSeconds + '0';
+    //Tens Place
+    tensSeconds = temp % 10;
+    temp = temp / 10;
+    tensSecondsC = tensSeconds + '0';
+    
+    
+    
+    printCharLCD(hundredthsOfSeconds/600000 + '0');
+    printCharLCD( hundredthsOfSeconds/60000 + '0');
+    printCharLCD(':');
+    printCharLCD(tensSecondsC);
+    printCharLCD(onesSecondsC);
+    printCharLCD(':');
+    printCharLCD(tenthsMilliSecondsC);
+    printCharLCD(hundrethsMilliSecondsC);
+    //Convert to char* pass into printStringLCD
+}
+
 void testPrintTimeLCD(){
     int i = 0;
-    printTimeLCD(1234); //SHould print 12:34
+    printTimeLCD(123457); //SHould print 12:34
     for(i = 0; i < 1000; i++){
         delayUs(1000);
     }
+}
+
+void writeRunning(int hundredthsOfSeconds){
+
+//TODO implement functionality that will write this to our LCD..
+           printStringLCD("RUNNING:");
+           moveCursorLCD(1,1);
+           printTimeLCD(hundredthsOfSeconds);
+}
+
+void writeStopped(int hundredthsOfSeconds){
+
+//TODO implement functionality that will write this to our LCD..
+           printStringLCD("STOPTED:");
+           moveCursorLCD(1,1);
+           printTimeLCD(hundredthsOfSeconds);
 }
