@@ -66,7 +66,6 @@
 #define LOWER 1
 #define UPPER 0
 
-
 void printTimeLCD(int hundredthsOfSeconds){
     int hundrethsMilliSeconds = 0;
     int tenthsMilliSeconds = 0;
@@ -123,6 +122,7 @@ void writeStopped(int hundredthsOfSeconds){
            printStringLCD("STOPTED:");
            printTimeLCD(hundredthsOfSeconds);
 }
+
 
 /* This function should take in a two-byte word and writes either the lower or upper
  * byte to the last four bits of LATG. Additionally, according to the LCD data sheet
@@ -186,7 +186,6 @@ void printCharLCD(char c) {
 }
 
 void initLCD(void) {
-    ANSELE = 0;
     TRIS_RS = 0;  // TRISGbits.TRISG13
     TRIS_E = 0;   // TRISGbits.TRISG0
     TRIS_D7 = 0;
@@ -341,7 +340,6 @@ void entryModeSet(int increment_decrement,int cursor_move){
     word |= cursor_move;
     writeLCD(word, 0, LCD_DELAY_standard);
 }
-
 void testPrintTimeLCD(){
     int i = 0;
     printTimeLCD(1234); //SHould print 12:34
