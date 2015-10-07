@@ -36,68 +36,31 @@ volatile stateType state = runningWaitForPress;
 volatile int t = 0; 
 volatile uint64_t timeCountInHundredthsOfASecond = 0; 
 unsigned int dummyVariable = 0;
-#endif 
 
-#ifdef toggle_test
-int main(void){
-        ANSELE = 0;
-    //Initialize new interrupt fix
-    SYSTEMConfigPerformance(40000000);
-
-   // initialize the project components 
-   initSW(); 
-   initLCD();
-   clearLCD();
-   writeLCD(0b00001111, 0, 50);
-   initLED(1);
-   initLED(0);
-   initTimer2();
-   enableInterrupts();
-   initT1();       
-   TRISGbits.TRISG12 = 0;     
-   TRISGbits.TRISG14 = 0;  
-   TRISAbits.TRISA7 = 0;
-   
-   // infinite loop 
-   while (1){
-   }
-
-}
-
-//time timer that should go off every 1/100 th of a second 
-void __ISR(_TIMER_1_VECTOR, IPL6SRS) _T1Interrupt(void){
-    
-    // set the flag down 
-    IFS0bits.T1IF = 0;
-
-       LATAbits.LATA7 = !LATAbits.LATA7;
-
-}
-#endif
-#ifndef toggle_test
 
 int main(void)
 {
     ANSELE = 0;
     //Initialize new interrupt fix
-    SYSTEMConfigPerformance(80000000);
+    SYSTEMConfigPerformance(40000000);
 
    // initialize the project components 
    //initSW(); 
+   initT1();       
+   initTimer2();
    initLCD();
    clearLCD();
    writeLCD(0b00001111, 0, 50);
    initLED(1);
    initLED(0);
-   initTimer2();
    enableInterrupts();
-   initT1();       
    TRISGbits.TRISG12 = 0;     
    TRISGbits.TRISG14 = 0;  
-   TRISAbits.TRISA7 = 0; // toggle bit for debugging timing 
-   
+   TRISAbits.TRISA7 = 0;
    // infinite loop 
+   LATAbits.LATA7 = 1;
     while(1){
+        
         
         switch(state){
             // the state that toggles the LEDs 
@@ -173,7 +136,7 @@ void __ISR(_CHANGE_NOTICE_VECTOR, IPL7SRS) _CNInterrupt(void){
     }
 }
 //time timer that should go off every 1/100 th of a second 
-void __ISR(_TIMER_1_VECTOR, IPL7SRS) _T1Interrupt(void){
+void __ISR(_TIMER_1_VECTOR, IPL6SRS) _T1Interrupt(void){
     
     // set the flag down 
     IFS0bits.T1IF = 0;
@@ -190,7 +153,9 @@ void __ISR(_TIMER_1_VECTOR, IPL7SRS) _T1Interrupt(void){
            // display stopped message and time 
            writeStopped(timeCountInHundredthsOfASecond);
        }
-
+    TMR1 = 0;
+    //T1CONbits.ON = 1;
+    
 }
 
 #endif

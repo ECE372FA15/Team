@@ -287,8 +287,6 @@ void entryModeSet(int increment_decrement,int cursor_move){
 
 
 void printTimeLCD(int hundredthsOfSeconds){
-
-    
     
     int min10 = (hundredthsOfSeconds / 60000) % 10 +'0';
     int min1 = (hundredthsOfSeconds / 6000) % 10 +'0';
@@ -305,35 +303,7 @@ void printTimeLCD(int hundredthsOfSeconds){
     printCharLCD(':');
     printCharLCD(ms10);//% 100)/10 + '0');
     printCharLCD(ms1);
-    //Convert to char* pass into printStringLCD
-    
-    
-    
-//    //Hundreths Place
-//    hundrethsMilliSeconds = hundredthsOfSeconds % 10;
-//    temp = hundredthsOfSeconds / 10;
-//    hundrethsMilliSecondsC = hundrethsMilliSeconds + '0';
-//    //Tenths place
-//    tenthsMilliSeconds = temp % 10;
-//    temp = temp / 10;
-//    tenthsMilliSecondsC = tenthsMilliSeconds + '0';
-//    //Ones Place
-//    onesSeconds = temp % 10;
-//    temp = temp / 10;
-//    onesSecondsC = onesSeconds + '0';
-//    //Tens Place
-//    tensSeconds = temp % 10;
-//    
-//    
-//    if(tensSeconds > 6){
-//        tensSeconds = tensSeconds - 6;
-//        onesMinutes = onesMinutes + 1;
-//    }
-//    temp = temp / 10;
-//    tensSecondsC = tensSeconds + '0';
-//    
-    
-    
+  
 
 }
 
