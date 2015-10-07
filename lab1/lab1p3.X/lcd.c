@@ -287,52 +287,24 @@ void entryModeSet(int increment_decrement,int cursor_move){
 
 
 void printTimeLCD(int hundredthsOfSeconds){
-    int hundrethsMilliSeconds = 0;
-    int tenthsMilliSeconds = 0;
-    int onesSeconds = 0;
-    int tensSeconds = 0;
-    int onesMinutes = 0;
-    int tensMinutes = 0;
-    int temp = 0;
+
     
-    char hundrethsMilliSecondsC = ' ';
-    char tenthsMilliSecondsC = ' ';
-    char onesSecondsC = ' ';
-    char tensSecondsC = ' ';
-    char onesMinutesC = ' ';
-    char tensMinutesC = ' ';
     
-    tensMinutes = hundredthsOfSeconds / 600000;
-    temp = hundredthsOfSeconds % 600000;
-    tensMinutesC = tensMinutes + '0';
+    int min10 = (hundredthsOfSeconds / 60000) % 10 +'0';
+    int min1 = (hundredthsOfSeconds / 6000) % 10 +'0';
+    int s10 = (hundredthsOfSeconds / 1000) % 6 + '0';
+    int s1 = (hundredthsOfSeconds / 100) % 10 + '0';
+    int ms10 = (hundredthsOfSeconds / 10) % 10 + '0';
+    int ms1 = (hundredthsOfSeconds % 10) + '0';
     
-    onesMinutes = temp / 60000;
-    temp = temp % 60000;
-    onesMinutesC = onesMinutes + '0';
-    
-    tensSeconds = temp / 10000;
-    temp = temp % 10000;
-    tensSecondsC = tensSeconds + '0';
-    
-    onesSeconds = temp / 1000;
-    temp = temp % 1000;
-    onesSecondsC = onesSeconds + '0';
-    
-    tenthsMilliSeconds = temp / 100;
-    temp = temp % 100;
-    tenthsMilliSecondsC = tenthsMilliSeconds + '0';
-    
-    hundrethsMilliSeconds = temp / 10;
-    hundrethsMilliSecondsC = tenthsMilliSeconds + '0';
-    
-    printCharLCD(tensMinutesC);
-    printCharLCD(onesMinutesC);
+    printCharLCD(min10);
+    printCharLCD(min1);//(tensSecondsC ));
     printCharLCD(':');
-    printCharLCD(tensSecondsC);
-    printCharLCD(onesSecondsC);
+    printCharLCD(s10);//(onesSecondsC));
+    printCharLCD(s1); //% 1000)/100 + '0');
     printCharLCD(':');
-    printCharLCD(tenthsMilliSecondsC);
-    printCharLCD(hundrethsMilliSecondsC);
+    printCharLCD(ms10);//% 100)/10 + '0');
+    printCharLCD(ms1);
     //Convert to char* pass into printStringLCD
     
     
@@ -380,6 +352,7 @@ void writeRunning(int hundredthsOfSeconds){
            printStringLCD("RUNNING:");
            moveCursorLCD(1,1);
            printTimeLCD(hundredthsOfSeconds);
+           LATAbits.LATA7 = !LATAbits.LATA7;
 }
 
 void writeStopped(int hundredthsOfSeconds){

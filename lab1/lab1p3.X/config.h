@@ -1,11 +1,3 @@
-/* 
- * File:   config.h
- * Author: gvanhoy
- * Description: This file sets the configuration bits for the PIC32MX. This is 
- * important for debugging and using the clock correctly.
- * Created on August 27, 2015, 12:17 PM
- */
-
 #ifndef CONFIG_H
 #define	CONFIG_H
 
@@ -16,21 +8,21 @@
 #pragma config FSRSSEL = PRIORITY_7     // Shadow Register Set Priority Select (SRS Priority 7)
 #pragma config PMDL1WAY = ON            // Peripheral Module Disable Configuration (Allow only one reconfiguration)
 #pragma config IOL1WAY = ON             // Peripheral Pin Select Configuration (Allow only one reconfiguration)
-#pragma config FUSBIDIO = ON            // USB USID Selection (Controlled by the USB Module)
-#pragma config FVBUSONIO = ON           // USB VBUS ON Selection (Controlled by USB Module)
+#pragma config FUSBIDIO = OFF            // USB USID Selection (Controlled by the USB Module)
+#pragma config FVBUSONIO = OFF           // USB VBUS ON Selection (Controlled by USB Module)
 
 // DEVCFG2
 #pragma config FPLLIDIV = DIV_2         // PLL Input Divider (2x Divider)
-#pragma config FPLLMUL = MUL_24         // PLL Multiplier (20x Multiplier)
+#pragma config FPLLMUL = MUL_20         // PLL Multiplier (20x Multiplier)
 #pragma config UPLLIDIV = DIV_12        // USB PLL Input Divider (12x Divider)
 #pragma config UPLLEN = OFF             // USB PLL Enable (Disabled and Bypassed)
-#pragma config FPLLODIV = DIV_1        // System PLL Output Clock Divider (PLL Divide by 1)
+#pragma config FPLLODIV = DIV_16         // System PLL Output Clock Divider (PLL Divide by 1)
 
 // DEVCFG1
 #pragma config FNOSC = PRIPLL           // Oscillator Selection Bits (Primary Osc w/PLL (XT+,HS+,EC+PLL))
-#pragma config FSOSCEN = ON             // Secondary Oscillator Enable (Enabled)
+#pragma config FSOSCEN = OFF             // Secondary Oscillator Enable (Enabled)
 #pragma config IESO = ON                // Internal/External Switch Over (Enabled)
-#pragma config POSCMOD = EC             // Primary Oscillator Configuration (XT osc mode)
+#pragma config POSCMOD = XT             // Primary Oscillator Configuration (XT osc mode)
 #pragma config OSCIOFNC = OFF           // CLKO Output Signal Active on the OSCO Pin (Disabled)
 #pragma config FPBDIV = DIV_1           // Peripheral Clock Divisor (Pb_Clk is Sys_Clk)
 #pragma config FCKSM = CSDCMD           // Clock Switching and Monitor Selection (Clock Switch Disable, FSCM Disabled)
@@ -48,4 +40,3 @@
 #pragma config CP = OFF                 // Code Protect (Protection Disabled)
 
 #endif	/* CONFIG_H */
-

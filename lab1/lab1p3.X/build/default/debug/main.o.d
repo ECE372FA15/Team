@@ -1,7 +1,7 @@
 build/default/debug/main.o:  \
 main.c  \
-leds.h  \
+config.h  \
 interrupt.h  \
+leds.h  \
 switch.h  \
-timer.h  \
- config.h 
+ timer.h 

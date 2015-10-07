@@ -21,10 +21,8 @@ void initTimer2(){
 
     TMR2 = 0; //reset timer register
     T2CONbits.TCS = DISABLE; // Enable Internal peripheral clock
-    T2CONbits.TCKPS = 0b000; //Prescalar of 8
-    IFS0bits.T2IF = FLAG_DOWN;  //Interrupt Flag Down
-    long int prVal = (((FCY*SCALAR)/PRE_SCALAR) - 1.0); //Calculate the PR value using delay as the time, converted to ms.
-   
+    T2CONbits.TCKPS = 3; //Prescalar of 8
+    IFS0bits.T2IF = FLAG_DOWN;  //Interrupt Flag Down   
     // if the delay value is less than about 200 (or something) PR2 would be 
     //     assigned to 0 and thats not good 
     PR2 = 1;
@@ -35,11 +33,12 @@ void initT1(){
     
     T1CONbits.TCKPS = 0;
     T1CONbits.TCS = DISABLE;
-    IPC1bits.T1IP = 6;
+    IPC1bits.T1IP = 7;
     IEC0bits.T1IE = 1;
     TMR1 = 0;
     IFS0bits.T1IF = 0;
-    PR1 = 10000;
+    // expertly tuned by francis 
+    PR1 = 80;
     T1CONbits.ON = 1;
     
     return;
@@ -53,7 +52,7 @@ void delay50Us(){
 }
 void delay9Us(){
     
-    PR2 = 18;
+    PR2 = 90;
         
     //TODO: Create a delay using timer 2 for "delay" microseconds.
     TMR2 = 0;   //reset timer 2 register
