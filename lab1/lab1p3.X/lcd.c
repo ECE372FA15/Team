@@ -291,36 +291,42 @@ void printTimeLCD(int hundredthsOfSeconds){
     int tenthsMilliSeconds = 0;
     int onesSeconds = 0;
     int tensSeconds = 0;
-  //  int onesMinutes = 0;
-  //  int tensMinutes = 0;
+    int onesMinutes = 0;
+    int tensMinutes = 0;
     int temp = 0;
     
     char hundrethsMilliSecondsC = ' ';
     char tenthsMilliSecondsC = ' ';
     char onesSecondsC = ' ';
     char tensSecondsC = ' ';
+    char onesMinutesC = ' ';
+    char tensMinutesC = ' ';
     
-    //Hundreths Place
-    hundrethsMilliSeconds = hundredthsOfSeconds % 10;
-    temp = hundredthsOfSeconds / 10;
-    hundrethsMilliSecondsC = hundrethsMilliSeconds + '0';
-    //Tenths place
-    tenthsMilliSeconds = temp % 10;
-    temp = temp / 10;
-    tenthsMilliSecondsC = tenthsMilliSeconds + '0';
-    //Ones Place
-    onesSeconds = temp % 10;
-    temp = temp / 10;
-    onesSecondsC = onesSeconds + '0';
-    //Tens Place
-    tensSeconds = temp % 10;
-    temp = temp / 10;
+    tensMinutes = hundredthsOfSeconds / 600000;
+    temp = hundredthsOfSeconds % 600000;
+    tensMinutesC = tensMinutes + '0';
+    
+    onesMinutes = temp / 60000;
+    temp = temp % 60000;
+    onesMinutesC = onesMinutes + '0';
+    
+    tensSeconds = temp / 10000;
+    temp = temp % 10000;
     tensSecondsC = tensSeconds + '0';
     
+    onesSeconds = temp / 1000;
+    temp = temp % 1000;
+    onesSecondsC = onesSeconds + '0';
     
+    tenthsMilliSeconds = temp / 100;
+    temp = temp % 100;
+    tenthsMilliSecondsC = tenthsMilliSeconds + '0';
     
-    printCharLCD(hundredthsOfSeconds/600000 + '0');
-    printCharLCD( hundredthsOfSeconds/60000 + '0');
+    hundrethsMilliSeconds = temp / 10;
+    hundrethsMilliSecondsC = tenthsMilliSeconds + '0';
+    
+    printCharLCD(tensMinutesC);
+    printCharLCD(onesMinutesC);
     printCharLCD(':');
     printCharLCD(tensSecondsC);
     printCharLCD(onesSecondsC);
@@ -328,6 +334,35 @@ void printTimeLCD(int hundredthsOfSeconds){
     printCharLCD(tenthsMilliSecondsC);
     printCharLCD(hundrethsMilliSecondsC);
     //Convert to char* pass into printStringLCD
+    
+    
+    
+//    //Hundreths Place
+//    hundrethsMilliSeconds = hundredthsOfSeconds % 10;
+//    temp = hundredthsOfSeconds / 10;
+//    hundrethsMilliSecondsC = hundrethsMilliSeconds + '0';
+//    //Tenths place
+//    tenthsMilliSeconds = temp % 10;
+//    temp = temp / 10;
+//    tenthsMilliSecondsC = tenthsMilliSeconds + '0';
+//    //Ones Place
+//    onesSeconds = temp % 10;
+//    temp = temp / 10;
+//    onesSecondsC = onesSeconds + '0';
+//    //Tens Place
+//    tensSeconds = temp % 10;
+//    
+//    
+//    if(tensSeconds > 6){
+//        tensSeconds = tensSeconds - 6;
+//        onesMinutes = onesMinutes + 1;
+//    }
+//    temp = temp / 10;
+//    tensSecondsC = tensSeconds + '0';
+//    
+    
+    
+
 }
 
 void testPrintTimeLCD(){
