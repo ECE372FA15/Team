@@ -63,11 +63,7 @@ int main(void) {
             case stoppedWaitForPress:
                 turnOnLED(runLED);
                 turnOffLED(stopLED);
-                while (state == stoppedWaitForPress) {
-                    if (PORTDbits.RD6 == PRESSED) { //CN Flag is high should be the condition?
-                        timeCountInHundredthsOfASecond = 0; //should this be done in the ISR?
-                    }
-                }
+                while (state == stoppedWaitForPress);
                 break;
 
                 // wait for user input i.e. button press
@@ -88,11 +84,17 @@ int main(void) {
                 
             case dBPressIN:
                 
+                delayUs(DBdelayTime); // Delay for 5ms
+
+                while (state == dBPressEX);
+                
                 break;
 
                 // once the button has been released 
             case dBReleaseEX:
-
+                
+                timeCountInHundredthsOfASecond++;
+                
                 delayUs(DBdelayTime); //Delay for 5ms
 
                 while (state == dBReleaseEX);
@@ -101,7 +103,11 @@ int main(void) {
                 
             case dBReleaseIN:
                 
+                timeCountInHundredthsOfASecond = 0;
                 
+                delayUs(DBdelayTime); //Delay for 5ms
+
+                state = stoppedWaitForPress;
                 
                 break;
         }
@@ -110,30 +116,47 @@ int main(void) {
     return 0;
 }
 
-void __ISR(_CHANGE_NOTICE_VECTOR, IPL6SRS) _CNInterrupt(void) {
+void __ISR(_CHANGE_NOTICE_VECTOR, IPL7SRS) _CNInterrupt(void) {
 
     dummyVariable = PORTAbits.RA7 = 1; //Put the CN flag down
-    dummyVariable = PORTDbits.RD7 = 1;
+    dummyVariable = PORTDbits.RD6 = 1;
     
 
-    if (IFS1bits.CNDIF == 1 && state == stoppedWaitForPress) {
-
+    if (IFS1bits.CNDIF == 1) {
+        //set flag down
+        IFS1bits.CNDIF = 0;
+        
+        if(state == stoppedWaitForPress){
+            state = dBPressIN;
+        }
+        
+        else if(state == dBPressEX){
+            state = dBReleaseIN;
+        }
+        
     }
-    else {
+    else if (IFS1bits.CNAIF == 1){
+        //set flag down
         IFS1bits.CNAIF = 0;
-        if (state == dBReleaseEX) {
-            // if the run led is on 
-            if (TRISGbits.TRISG12 == 1) {
-                state = stoppedWaitForPress; // goto stopped 
-            } else {
-                state = runningWaitForPress; // advance to go 
-            }
-        } else if (state == dBPressEX) {
-            //Going from dbPress to dbRelease
-            state = dBReleaseEX;
-        } else {
+        
+        if (state == stoppedWaitForPress) {
             state = dBPressEX;
         }
+        else if(state == dBPressEX){
+            state = dBReleaseEX;
+        }
+//            // if the run led is on 
+//            if (TRISGbits.TRISG12 == 1) {
+//                state = stoppedWaitForPress; // goto stopped 
+//            } else {
+//                state = runningWaitForPress; // advance to go 
+//            }
+//        } else if (state == dBPressEX) {
+//            //Going from dbPress to dbRelease
+//            state = dBReleaseEX;
+//        } else {
+//            state = dBPressEX;
+//        }
     }
 }
 //time timer that should go off every 1/100 th of a second 
@@ -145,12 +168,18 @@ void __ISR(_TIMER_1_VECTOR, IPL7SRS) _T1Interrupt(void) {
     // dummyVariable = PORTAbits.RA7 = 1;//Put the CN flag down
 
     // if the run led is on 
-    if (state == runningWaitForPress) {
+    if(state == dBReleaseEX){
+        state = runningWaitForPress;
+    }
+ 
+    else if (state == runningWaitForPress) {
         // increment the timer 
         timeCountInHundredthsOfASecond++;
         // display running message and time 
         writeRunning(timeCountInHundredthsOfASecond);
-    } else {
+    } 
+    
+    else {
         // display stopped message and time 
         writeStopped(timeCountInHundredthsOfASecond);
     }

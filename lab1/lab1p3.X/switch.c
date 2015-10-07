@@ -22,7 +22,7 @@ void initSW(){
     CNENAbits.CNIEA7 = 1;       // Enable CN interrupt for pin
     CNPUAbits.CNPUA7 = 1;       // Enable Internal Pull-up resistor
     IFS1bits.CNAIF = 0;         // Put Interrupt flag down
-    IPC8bits.CNIP = 6;
+    IPC8bits.CNIP = 7;
     IEC1bits.CNAIE = 1;         // Enable overall CN Interrupt
     
     
@@ -32,7 +32,7 @@ void initSW(){
     CNENDbits.CNIED6 = 1;       // Enable CN interrupt for pin
     CNPUDbits.CNPUD6 = 1;       // Enable Internal Pull-up resistor
     IFS1bits.CNDIF = 0;         // Put Interrupt flag down
-    IPC8bits.CNIP = 6;
+    IPC8bits.CNIP = 7;
     IEC1bits.CNDIE = 1;         // Enable overall CN Interrupt
     
 }
