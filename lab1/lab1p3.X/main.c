@@ -42,7 +42,7 @@ int main(void)
 {
     ANSELE = 0;
     //Initialize new interrupt fix
-    SYSTEMConfigPerformance(40000000);
+    SYSTEMConfigPerformance(80000000);
 
    // initialize the project components 
    //initSW(); 
@@ -54,19 +54,16 @@ int main(void)
    initLED(1);
    initLED(0);
    enableInterrupts();
-   TRISGbits.TRISG12 = 0;     
+   TRISGbits.TRISG12 = 1;     
    TRISGbits.TRISG14 = 0;  
-   TRISAbits.TRISA7 = 0;
+   TRISDbits.TRISD5 = 0;
    // infinite loop 
-   LATAbits.LATA7 = 1;
     while(1){
         
         
         switch(state){
             // the state that toggles the LEDs 
             case stoppedWaitForPress:
-                //turnOnLED(0);
-                //turnOffLED(1);
                 LATGbits.LATG12 = 1;
                 LATGbits.LATG14 = 0;
                 t = 1;
@@ -82,8 +79,6 @@ int main(void)
                 
             // wait for user input i.e. button press
             case runningWaitForPress:
-              //  turnOnLED(1);
-              //  turnOffLED(0);
                 LATGbits.LATG12 = 0;
                 LATGbits.LATG14 = 1;
                 t = 0; 
@@ -136,12 +131,12 @@ void __ISR(_CHANGE_NOTICE_VECTOR, IPL7SRS) _CNInterrupt(void){
     }
 }
 //time timer that should go off every 1/100 th of a second 
-void __ISR(_TIMER_1_VECTOR, IPL6SRS) _T1Interrupt(void){
+void __ISR(_TIMER_1_VECTOR, IPL7SRS) _T1Interrupt(void){
     
     // set the flag down 
     IFS0bits.T1IF = 0;
    // dummyVariable = PORTAbits.RA7 = 1;//Put the CN flag down
-    
+    LATDbits.LATD5 = !LATDbits.LATD5;
       // if the run led is on 
        if(state == runningWaitForPress){
             // increment the timer 

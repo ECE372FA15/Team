@@ -35,7 +35,7 @@ void initT1(){
     
     T1CONbits.TCKPS = 0;
     T1CONbits.TCS = DISABLE;
-    IPC1bits.T1IP = 6;
+    IPC1bits.T1IP = 7;
     IEC0bits.T1IE = 1;
     TMR1 = 0;
     IFS0bits.T1IF = 0;

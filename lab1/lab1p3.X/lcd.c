@@ -303,7 +303,7 @@ void printTimeLCD(int hundredthsOfSeconds){
     printCharLCD(':');
     printCharLCD(ms10);//% 100)/10 + '0');
     printCharLCD(ms1);
-  
+   
 
 }
 
@@ -322,7 +322,7 @@ void writeRunning(int hundredthsOfSeconds){
            printStringLCD("RUNNING:");
            moveCursorLCD(1,1);
            printTimeLCD(hundredthsOfSeconds);
-           LATAbits.LATA7 = !LATAbits.LATA7;
+           
 }
 
 void writeStopped(int hundredthsOfSeconds){
