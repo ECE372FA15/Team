@@ -67,18 +67,8 @@
 #define UPPER 0
 
 
-/* This function should take in a two-byte word and writes either the lower or upper
- * byte to the last four bits of LATG. Additionally, according to the LCD data sheet
- * It should set LCD_RS and LCD_E with the appropriate values and delays.
- * After these commands are issued, there should be a delay.
- * The command type is a simplification. From the data sheet, the RS is '1'
- * when you are simply writing a character. Otherwise, RS is '0'.
- */
 void writeFourBits(unsigned char word, unsigned int commandType, unsigned int delayAfter, unsigned int lower){
     
-    //TODO: What to do we with the other 4 bits? Do they just get discarded? 
-    // SLN, Yes, this fucnt gets called twice in a row....
-
      E = 0; // set enable low to reduce future headaches 
      
      delayUs(delayAfter);
@@ -110,10 +100,6 @@ void writeFourBits(unsigned char word, unsigned int commandType, unsigned int de
     
 }
 
-
-/* Using writeFourBits, this function should write the two bytes of a character
- * to the LCD.
- */
 void writeLCD(unsigned char word, unsigned int commandType, unsigned int delayAfter){
     
     //commandType is data or command:LCD_WRITE_DATA and LCD_WRITE_CONTROL
@@ -121,8 +107,6 @@ void writeLCD(unsigned char word, unsigned int commandType, unsigned int delayAf
     writeFourBits(word, commandType, delayAfter, LOWER);
 }
 
-/* Given a character, write it to the LCD. RS should be set to the appropriate value.
- */
 void printCharLCD(char c) {
     //LCD_WRITE_DATA is the RS value
     writeLCD(c,LCD_WRITE_DATA, LCD_DELAY_standard);
@@ -165,33 +149,12 @@ void initLCD(void) {
     
     writeLCD(0b00000110,0,LCD_DELAY_standard);
     
-    
-    
-
-    // Function Set (specifies data width, lines, and font.
-
-    // 4-bit mode initialization is complete. We can now configure the various LCD
-    // options to control how the LCD will function.
-
-    // TODO: Display On/Off Control
-        // Turn Display (D) Off
-    // TODO: Clear Display (The delay is not specified in the data sheet at this point. You really need to have the clear display delay here.
-    // TODO: Entry Mode Set
-        // Set Increment Display, No Shift (i.e. cursor move)
-    // TODO: Display On/Off Control
-        // Turn Display (D) On, Cursor (C) Off, and Blink(B) Off
-
 
 }
 
-/*
- * You can use printCharLCD here. Note that every time you write a character
- * the cursor increments its position automatically.
- * Since a string is just a character array, try to be clever with your use of pointers.
- */
+
 void printStringLCD(const char* s) {
-    //TODO:call printCharLCD for each char of char* s
-    
+  
     char* i = NULL;
     
     for(i=s; *i; i++){
@@ -199,9 +162,6 @@ void printStringLCD(const char* s) {
     }
 }
 
-/*
- * Clear the display.
- */
 void clearLCD(){
     
     writeLCD(1,0,LCD_DELAY_clear);
@@ -213,9 +173,6 @@ void clearLCD(){
  */
 void moveCursorLCD(unsigned char x, unsigned char y){
     
-    //uint8_t is an unsigned integer of size 8 bits. This is included in the <stdint.h> library.
-    //You'll see this crap pop up all over embedded programming
-    //y corresponds to columns in the LCD
     unsigned char LSB_address = y - 1;
     
     //Need to have 1 in the most significant bit place to change cursor position by writing to DD RAM
@@ -236,11 +193,6 @@ void moveCursorLCD(unsigned char x, unsigned char y){
 
 }
 
-/*
- * This function is called in lab1p2.c for testing purposes.
- * If everything is working properly, you should get this to look like the video on D2L
- * However, it is suggested that you test more than just this one function.
- */
 void testLCD1(){
     //initLCD();
     int i = 0;
@@ -261,10 +213,7 @@ void testLCD2(){
     printStringLCD("Test");
     for(i = 0; i < 1000; i++) delayUs(1000);
     clearLCD();
-  //  moveCursorLCD(2,3);
-  //  printStringLCD("Test");
-   // for(i = 0; i < 1000; i++) delayUs(1000);
-   // clearLCD();
+
 }
 
 void testWriteLCD(){
@@ -275,8 +224,7 @@ void testWriteLCD(){
         delayUs(1000);
     }
 }
-// 1 for increment          0 for dectement
-// 1 for display shift      0 for cursor move 
+
 void entryModeSet(int increment_decrement,int cursor_move){
     int word = 4;
     word |= (increment_decrement<<2);
