@@ -72,6 +72,7 @@ void delay9Us(){
 
 void delayUs(int delay){
     int i = 0;
+    // this function only has percision to 9Us
     i+=1;i-=1;i+=1;i-=1;i+=1;i-=1;i+=1;i-=1;
     i+=1;i-=1;i+=1;i-=1;i+=1;
     
