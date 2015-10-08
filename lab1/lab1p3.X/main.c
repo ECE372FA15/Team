@@ -171,16 +171,26 @@ void __ISR(_TIMER_1_VECTOR, IPL7SRS) _T1Interrupt(void){
     //<><><><><><><><><><><><><> CHANGE STATE MACHINE LOGIC <><><><><><><><><><><><><
      //   if(latch == 1){// only allow state changes if prev state has finished task
     //        latch = 0; // reset latch 
-            if(state == dBRelease){
+             if(state == runningWaitForPress){
+                    
+                    if(PORTAbits.RA6 == 0){ state = dBPress; }  
+                    
+                // increment the timer 
+                timeCountInHundredthsOfASecond ++ ;
+                // display running message and time 
+                writeRunning(timeCountInHundredthsOfASecond);                  
+            }else if(state == dBRelease){
                 // determine the next state based on the led state
                 if(LATGbits.LATG12 == 0){
                     state = stoppedWaitForPress; // goto stopped 
-                LATGbits.LATG12 = 1;
-                LATAbits.LATA7 = 0;
-           // display stopped message and time 
-           writeStopped(timeCountInHundredthsOfASecond);
+                    LATGbits.LATG12 = 1;
+                    LATAbits.LATA7 = 0;
+                    // display stopped message and time 
+                    writeStopped(timeCountInHundredthsOfASecond);
                 }
                 else{
+                    LATGbits.LATG12 = 0;
+                    LATAbits.LATA7 = 1;
                     state = runningWaitForPress; // advance to go 
                 }
                 //latch = 1;
@@ -200,15 +210,6 @@ void __ISR(_TIMER_1_VECTOR, IPL7SRS) _T1Interrupt(void){
                         writeStopped(timeCountInHundredthsOfASecond);
                     }
                     
-            }else if(state == runningWaitForPress){
-                    
-                    if(PORTAbits.RA6 == 0){ state = dBPress; }  
-                        LATGbits.LATG12 = 0;
-                        LATAbits.LATA7 = 1;
-                    // increment the timer 
-                    timeCountInHundredthsOfASecond ++ ;
-                    // display running message and time 
-                    writeRunning(timeCountInHundredthsOfASecond);                  
             }
      //           latch = 1; 
             

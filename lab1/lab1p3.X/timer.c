@@ -39,9 +39,9 @@ void initT1(){
     IEC0bits.T1IE = 1;
     TMR1 = 0;
     IFS0bits.T1IF = 0;
-    PR1 = 1000;
+    PR1 = 10;
     T1CONbits.ON = 1;
-    TMR1 = 50;
+    TMR1 = 0;
     return;
 }
 
@@ -53,7 +53,7 @@ void delay50Us(){
 }
 void delay9Us(){
     
-    PR2 = 18;
+    PR2 = 18;//18
         
     //TODO: Create a delay using timer 2 for "delay" microseconds.
     TMR2 = 0;   //reset timer 2 register
