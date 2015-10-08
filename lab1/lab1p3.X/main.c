@@ -55,7 +55,7 @@ int main(void)
    initLED(0);
    latch = 1; 
    enableInterrupts(); 
-    
+
    //TRISDbits.TRISD5 = 1;
    
    // infinite loop 
