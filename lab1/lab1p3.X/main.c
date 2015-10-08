@@ -199,6 +199,7 @@ void __ISR(_TIMER_1_VECTOR, IPL7SRS) _T1Interrupt(void){
                 //Going from dbPress to dbRelease
                 // if the button has been released 
                 if(PORTAbits.RA6 == 1){//PORTAbits.RA6 == 1){
+                    clearLCD(); 
                     state = dBRelease; 
                 }
                 //latch = 1;
@@ -221,7 +222,7 @@ void __ISR(_TIMER_1_VECTOR, IPL7SRS) _T1Interrupt(void){
     //<><><><><><><><><><><><><> END CHANGE STATE MACHINE LOGIC <><><><><><><><><><><><><
     
     // reset the timer 
-    TMR1 = 0;
+    TMR1 = 50;
     //T1CONbits.ON = 1;
     
 }

@@ -39,9 +39,9 @@ void initT1(){
     IEC0bits.T1IE = 1;
     TMR1 = 0;
     IFS0bits.T1IF = 0;
-    PR1 = 10;
+    PR1 = 80;
     T1CONbits.ON = 1;
-    TMR1 = 0;
+    TMR1 = 50;
     return;
 }
 

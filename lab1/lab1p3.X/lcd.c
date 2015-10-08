@@ -319,7 +319,7 @@ void testPrintTimeLCD(){
 void writeRunning(int hundredthsOfSeconds){
 
 //TODO implement functionality that will write this to our LCD..
-            clearLCD();
+         //   clearLCD();
             writeLCD(0b00001111, 0, 50);
             
            moveCursorLCD(0,0);
@@ -332,7 +332,7 @@ void writeRunning(int hundredthsOfSeconds){
 void writeStopped(int hundredthsOfSeconds){
 
 //TODO implement functionality that will write this to our LCD..
-            clearLCD();
+         //   clearLCD();
             writeLCD(0b00001111, 0, 50);
             
            printStringLCD("STOPTED:");
