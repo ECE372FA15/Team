@@ -327,6 +327,12 @@ void writeRunning(int hundredthsOfSeconds){
            moveCursorLCD(1,1);
            printTimeLCD(hundredthsOfSeconds);
            moveCursorLCD(0,0);
+           
+           int i = 0;
+           
+           for(i = 0; i < 2800; i++){
+               i = i;
+           }
 }
 
 void writeStopped(int hundredthsOfSeconds){

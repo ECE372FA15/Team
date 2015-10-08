@@ -193,7 +193,7 @@ void __ISR(_TIMER_1_VECTOR, IPL7SRS) _T1Interrupt(void){
                     LATAbits.LATA7 = 1;
                     state = runningWaitForPress; // advance to go 
                 }
-                //latch = 1;
+            
             }
             else if(state == dBPress){               
                 //Going from dbPress to dbRelease
@@ -202,7 +202,7 @@ void __ISR(_TIMER_1_VECTOR, IPL7SRS) _T1Interrupt(void){
                     clearLCD(); 
                     state = dBRelease; 
                 }
-                //latch = 1;
+                
             }else if(state == stoppedWaitForPress ){
                     // if the button is pressed                     
                     if(PORTAbits.RA6 == 0){ state = dBPress; } 
@@ -212,7 +212,7 @@ void __ISR(_TIMER_1_VECTOR, IPL7SRS) _T1Interrupt(void){
                     }
                     
             }
-     //           latch = 1; 
+     //            
             
  //           else {
  //               state = dBPress;
