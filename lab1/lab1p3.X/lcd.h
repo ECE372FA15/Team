@@ -22,7 +22,8 @@ void testLCD2();
 void testWriteLCD();
 void testPrintTimeLCD();
 
-
+void writeRunning(int hundredthsOfSeconds);
+void writeStopped(int hundredthsOfSeconds);
 
 void entryModeSet(int increment_decrement,int cursor_move);
 
