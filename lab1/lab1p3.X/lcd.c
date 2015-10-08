@@ -261,10 +261,6 @@ void testLCD2(){
     printStringLCD("Test");
     for(i = 0; i < 1000; i++) delayUs(1000);
     clearLCD();
-  //  moveCursorLCD(2,3);
-  //  printStringLCD("Test");
-   // for(i = 0; i < 1000; i++) delayUs(1000);
-   // clearLCD();
 }
 
 void testWriteLCD(){
@@ -367,9 +363,15 @@ void printTimeLCD(int hundredthsOfSeconds){
 
 void testPrintTimeLCD(){
     int i = 0;
-    printTimeLCD(123457); //SHould print 12:34
+    printTimeLCD(123457); //SHould print 00:12:34
 
     for(i = 0; i < 1000; i++){
+        delayUs(1000);
+    }
+    clearLCD();
+    
+    printTimeLCD(6825);  //Should print 00:00:68
+     for(i = 0; i < 1000; i++){
         delayUs(1000);
     }
 }
