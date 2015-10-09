@@ -8,7 +8,7 @@
 #ifndef INITTIMER_H
 #define	INITTIMER_H
 #define DBDelayTime 100
-void delayUs(unsigned int delay);
-
+void delayUs(int delay);
+void delay1pt5Us();
 #endif	/* INITTIMER_H */
 

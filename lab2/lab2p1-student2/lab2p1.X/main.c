@@ -13,7 +13,7 @@
 #include "keypad.h"
 #include "config.h"
 #include "interrupt.h"
-
+#define test
 typedef enum stateTypeEnum{
    scanKey, printKey, dbPress, dbRelease, waitForPress, waitForRelease
 } stateType;
@@ -27,12 +27,24 @@ int main(void)
     
     ANSELE = 0;
     SYSTEMConfigPerformance(40000000);
-    enableInterrupts();
-    initLCD();
-    clearLCD();
-    writeLCD(0b00001111, 0, 50);
+   // enableInterrupts();
+    //initLCD();
+    //clearLCD();
+    initTimer1();
+    //writeLCD(0b00001111, 0, 50);
+#ifdef test
+    ANSELB = 0;
+    TRISBbits.TRISB14 = 0;
+    while (1){
+        LATBbits.LATB14 ^= 1;
+        delayUs(100);
+    }
+    //rb14
     
-    
+    return 0;
+}
+#endif
+#ifdef run  
     while(1){
         switch(state){
             case printKey:
@@ -85,7 +97,7 @@ int main(void)
     
     return 0;
 }
-
+#endif
 void __ISR(_CHANGE_NOTICE_VECTOR, IPL6SRS) _CNInterrupt(void){
     dummyVariable = PORTAbits.RA7 = 1;
     IFS1bits.CNAIF = 0; //Put the CN flag down
