@@ -3,20 +3,29 @@
 #include "timer.h"
 
 //I need to know what Pins to use
-#define ODC0 
-#define ODC1
-#define ODC2
-#define ODC3
-#define CNPU0
-#define CNPU1
-#define CNPU2
-#define CNENKey
+#define ODC0 LATEbits.LATE7 //Row 1/Pin 2 on keypad RE5/J10 7 on expansion board
+#define ODC1 LATCbits.LATC14 //Row 2/Pin 7 on keypad RC14/J10 17 on expansion board
+#define ODC2 LATDbits.LATD11 //Row 3/Pin 6 on keypad RD11/J10 15 on expansion board
+#define ODC3 LATEbits.LATE1 //Row 4/Pin 4 on keypad RE1/J10 11 on expansion board
+#define CNPU0 PORTEbits.RE3 //Column 1/Pin 3 on keypad RE3/J10 9 on expansion board
+#define CNPU1 PORTEbits.RE7 //Column 2/Pin 1 on keypad RE7/J10 5 on expansion board
+#define CNPU2 PORTDbits.RD5 //Column 3/Pin 5 on keypad RD5/J10 15 on expansion board
+#define CNENKey 
 
 /* Initialize the rows as ODC outputs and the columns as inputs with pull-up
  * resistors. Don't forget about other considerations...
  */
 void initKeypad(void){
-
+    //Set analog mode off
+    ANSELEbits = 0;
+    TRISEbits.TRISE7 = OUTPUT;
+    TRISCbits.TRISC14 = OUTPUT;
+    TRISDbits.TRISD11 = OUTPUT;
+    TRISEbits.TRISE1 = OUTPUT;
+    TRISEbits.TRISE3 = INPUT;
+    TRISEbits.TRISE7 = INPUT;
+    TRISDbits.TRISD5 = INPUT;
+    
 }
 
 /* This function will be called AFTER you have determined that someone pressed
