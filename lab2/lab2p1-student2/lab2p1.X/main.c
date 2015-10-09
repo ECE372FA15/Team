@@ -17,9 +17,16 @@
 #define RUN
 //#define TEST
 
+//Test to check pins are working
 #ifdef TEST
 
-
+ODC0
+ODC1 
+ODC2
+ODC3 
+CNPU0 = 
+CNPU1 
+CNPU2
 
 #endif
 
