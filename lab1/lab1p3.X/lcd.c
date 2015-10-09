@@ -19,25 +19,25 @@
 
 
 //data pin definitions 
-#define TRIS_D7 TRISGbits.TRISG1    //DB7 Input/output 
-#define DB7      LATGbits.LATG1      //DB7 Write data
+#define TRIS_D7 TRISGbits.TRISG1    //DB7 Input/output  
+#define DB7      LATGbits.LATG1      //DB7 Write data   // i/o board j11 pin 5
 #define TRIS_D6 TRISFbits.TRISF0    //DB6 Input/output 
-#define DB6      LATFbits.LATF0      //DB6 Write data
+#define DB6      LATFbits.LATF0      //DB6 Write data   // i/o board j11 pin 7
 #define TRIS_D5 TRISDbits.TRISD13   //DB5 Input/output 
-#define DB5      LATDbits.LATD13     //DB5 Write data
+#define DB5      LATDbits.LATD13     //DB5 Write data   // i/o board j11 pin 9
 #define TRIS_D4 TRISDbits.TRISD7    //DB4 Input/output 
-#define DB4      LATDbits.LATD7      //DB4 Write data
+#define DB4      LATDbits.LATD7      //DB4 Write data   // i/o board j11 pin 11
 
 #define TRIS_LCD_busy
 #define LCD_busy 
 
 //RS and enable pin definitions
 #define TRIS_RS  TRISGbits.TRISG14  //RS Input/output
-#define RS       LATGbits.LATG14    //RS Write data
+#define RS       LATGbits.LATG14    //RS Write data   // i/o board j10 pin 4
 #define TRIS_E   TRISEbits.TRISE4   //E Input/output
-#define E        LATEbits.LATE4     //E Write data
+#define E        LATEbits.LATE4     //E Write data   // i/o board j10 pin 8
 #define TRIS_RW   TRISEbits.TRISE6   //
-#define RW        LATEbits.LATE6     //
+#define RW        LATEbits.LATE6     //              // i/o board j10 pin 6    
 
 //Define command types
 #define LCD_WRITE_DATA    1
@@ -227,10 +227,6 @@ void testLCD2(){
     printStringLCD("Test");
     for(i = 0; i < 1000; i++) delayUs(1000);
     clearLCD();
-<<<<<<< HEAD
-=======
-
->>>>>>> da604b6627e25c5e2c98ebcbe1f69fe2e4a2c1ad
 }
 
 void testWriteLCD(){
