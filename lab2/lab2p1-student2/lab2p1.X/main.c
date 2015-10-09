@@ -14,6 +14,16 @@
 #include "config.h"
 #include "interrupt.h"
 
+#define RUN
+//#define TEST
+
+#ifdef TEST
+
+
+
+#endif
+
+
 typedef enum stateTypeEnum{
    scanKey, printKey, dbPress, dbRelease, waitForPress, waitForRelease
 } stateType;
@@ -21,6 +31,7 @@ typedef enum stateTypeEnum{
 volatile stateType state = waitForPress;
 volatile int dummyVariable = 0;
 
+#ifdef RUN
 int main(void)
 {
     int keyScanned = -1;
@@ -85,6 +96,7 @@ int main(void)
     
     return 0;
 }
+#endif
 
 void __ISR(_CHANGE_NOTICE_VECTOR, IPL6SRS) _CNInterrupt(void){
     dummyVariable = PORTAbits.RA7 = 1;
