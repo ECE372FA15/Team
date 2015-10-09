@@ -40,12 +40,7 @@ void turnOffLED(int i)
 }
 
 void toggleAllLEDs()
-{
-    // supposed to be this??
-    //    LATGbits.LATG12 = !LATGbits.LATG12;
-    //    LATGbits.LATG14 = !LATGbits.LATG14;
-    
+{    
         LATGbits.LATG12 = !LATGbits.LATG12;
         LATAbits.LATA7 = !LATAbits.LATA7;
-      
 }

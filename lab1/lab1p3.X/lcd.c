@@ -17,25 +17,7 @@
 // 1.7 mS microsecond
 #define LCD_DELAY_clear 1700
 
-#ifdef pins
-#define TRIS_D7 TRISGbits.TRISG1    //DB7 Input/output  
-#define DB7      LATGbits.LATG1      //DB7 Write data   // i/o board j11 pin 5
-#define TRIS_D6 TRISFbits.TRISF0    //DB6 Input/output 
-#define DB6      LATFbits.LATF0      //DB6 Write data   // i/o board j11 pin 7
-#define TRIS_D5 TRISDbits.TRISD13   //DB5 Input/output 
-#define DB5      LATDbits.LATD13     //DB5 Write data   // i/o board j11 pin 9
-#define TRIS_D4 TRISDbits.TRISD7    //DB4 Input/output 
-#define DB4      LATDbits.LATD7      //DB4 Write data   // i/o board j11 pin 11
 
-//RS and enable pin definitions
-#define TRIS_RS  TRISGbits.TRISG14  //RS Input/output
-#define RS       LATGbits.LATG14    //RS Write data   // i/o board j10 pin 4
-#define TRIS_E   TRISEbits.TRISE4   //E Input/output
-#define E        LATEbits.LATE4     //E Write data   // i/o board j10 pin 8
-#define TRIS_RW   TRISEbits.TRISE6   //
-#define RW        LATEbits.LATE6     //              // i/o board j10 pin 6     
-
-#endif
 //data pin definitions 
 #define TRIS_D7 TRISGbits.TRISG1    //DB7 Input/output 
 #define DB7      LATGbits.LATG1      //DB7 Write data
@@ -166,22 +148,6 @@ void initLCD(void) {
     writeLCD(0b00000110,0,LCD_DELAY_standard);
     writeLCD(0b00001111, 0, 50);
     
-    
-
-    // Function Set (specifies data width, lines, and font.
-
-    // 4-bit mode initialization is complete. We can now configure the various LCD
-    // options to control how the LCD will function.
-
-    // TODO: Display On/Off Control
-        // Turn Display (D) Off
-    // TODO: Clear Display (The delay is not specified in the data sheet at this point. You really need to have the clear display delay here.
-    // TODO: Entry Mode Set
-        // Set Increment Display, No Shift (i.e. cursor move)
-    // TODO: Display On/Off Control
-        // Turn Display (D) On, Cursor (C) Off, and Blink(B) Off
-
-
 }
 
 /*
@@ -256,15 +222,15 @@ void testLCD1(){
 
  //Testing writeLCD function
 void testLCD2(){
-  //  initLCD();
+
     int i = 0;
     printStringLCD("Test");
     for(i = 0; i < 1000; i++) delayUs(1000);
     clearLCD();
-  //  moveCursorLCD(2,3);
-  //  printStringLCD("Test");
-   // for(i = 0; i < 1000; i++) delayUs(1000);
-   // clearLCD();
+<<<<<<< HEAD
+=======
+
+>>>>>>> da604b6627e25c5e2c98ebcbe1f69fe2e4a2c1ad
 }
 
 void testWriteLCD(){
@@ -275,8 +241,7 @@ void testWriteLCD(){
         delayUs(1000);
     }
 }
-// 1 for increment          0 for dectement
-// 1 for display shift      0 for cursor move 
+
 void entryModeSet(int increment_decrement,int cursor_move){
     int word = 4;
     word |= (increment_decrement<<2);
@@ -285,9 +250,9 @@ void entryModeSet(int increment_decrement,int cursor_move){
 }
 
 
-
 void printTimeLCD(int hundredthsOfSeconds){
     
+    // temp registers used to save values to print characters faster... 
     int min10 = (hundredthsOfSeconds / 60000) % 10 +'0';
     int min1 = (hundredthsOfSeconds / 6000) % 10 +'0';
     int s10 = (hundredthsOfSeconds / 1000) % 6 + '0';
@@ -309,17 +274,22 @@ void printTimeLCD(int hundredthsOfSeconds){
 
 void testPrintTimeLCD(){
     int i = 0;
-    printTimeLCD(123457); //SHould print 12:34
+    printTimeLCD(123457); //SHould print 00:12:34
 
     for(i = 0; i < 1000; i++){
+        delayUs(1000);
+    }
+    clearLCD();
+    
+    printTimeLCD(6825);  //Should print 00:00:68
+     for(i = 0; i < 1000; i++){
         delayUs(1000);
     }
 }
 
 void writeRunning(int hundredthsOfSeconds){
 
-//TODO implement functionality that will write this to our LCD..
-            clearLCD();
+         //   clearLCD(); // removed to balance timing in isr 
             writeLCD(0b00001111, 0, 50);
             
            moveCursorLCD(0,0);
@@ -327,12 +297,17 @@ void writeRunning(int hundredthsOfSeconds){
            moveCursorLCD(1,1);
            printTimeLCD(hundredthsOfSeconds);
            moveCursorLCD(0,0);
+           
+           int i = 0;
+          
+           for(i = 0; i < 2800; i++){
+               i = i;
+           }
 }
 
 void writeStopped(int hundredthsOfSeconds){
 
-//TODO implement functionality that will write this to our LCD..
-            clearLCD();
+         //   clearLCD(); rmoved to balance timeing in isr
             writeLCD(0b00001111, 0, 50);
             
            printStringLCD("STOPTED:");

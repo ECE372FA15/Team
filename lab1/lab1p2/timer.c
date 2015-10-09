@@ -25,21 +25,7 @@ void initTimer2(){
     IFS0bits.T2IF = FLAG_DOWN;  //Interrupt Flag Down
     long int prVal = (((FCY*SCALAR)/PRE_SCALAR) - 1.0); //Calculate the PR value using delay as the time, converted to ms.
    
-    // if the delay value is less than about 200 (or something) PR2 would be 
-    //     assigned to 0 and thats not good 
     PR2 = 1;
-//    if (prVal <= 0)
-//    { 
-//        PR2 = 1; 
-//    }
-//    else if (prVal >= 0xFFFF)
-//    {
-//        PR2 = 0xFFFF;
-//    }
-//    else 
-//    {
-//        PR2 = prVal;
-//    }
 
     return;
 }
@@ -53,7 +39,6 @@ void delay9Us(){
     
     PR2 = 18;
         
-    //TODO: Create a delay using timer 2 for "delay" microseconds.
     TMR2 = 0;   //reset timer 2 register
     IFS0bits.T2IF = FLAG_DOWN; // Flag Down
     T2CONbits.TON = 1; //Timer on
@@ -62,10 +47,6 @@ void delay9Us(){
     // Flag would be raised in hardware here.
     T2CONbits.TON = 0; // Timer off
     IFS0bits.T2IF = FLAG_DOWN; //Flag Down
-
-
-    //TODO: Using timer 2, create a delay
-    // that is delay amount of us.
 }
 
 void delayUs(int delay){

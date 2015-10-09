@@ -3,6 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
+            <file>file:/C:/Users/Brandon/Documents/School/ECE372/Team/lab1/lab1p3.X/lcd.c</file>
+            <file>file:/C:/Users/Brandon/Documents/School/ECE372/Team/lab1/lab1p3.X/leds.c</file>
+            <file>file:/C:/Users/Brandon/Documents/School/ECE372/Team/lab1/lab1p3.X/lcd.h</file>
+            <file>file:/C:/Users/Brandon/Documents/School/ECE372/Team/lab1/lab1p3.X/timer.c</file>
+            <file>file:/C:/Users/Brandon/Documents/School/ECE372/Team/lab1/lab1p3.X/main.c</file>
+            <file>file:/C:/Users/Brandon/Documents/School/ECE372/Team/lab1/lab1p3.X/switch.c</file>
+            <file>file:/C:/Users/Brandon/Documents/School/ECE372/Team/lab1/lab1p3.X/interrupt.c</file>
+=======
             <file>file:/C:/Users/abigailfrancis/Documents/ECE372/Labs/Team/lab1/lab1p3.X/main.c</file>
             <file>file:/C:/Users/abigailfrancis/Documents/ECE372/Labs/Team/lab1/lab1p3.X/timer.c</file>
             <file>file:/C:/Users/abigailfrancis/Documents/ECE372/Labs/Team/lab1/lab1p3.X/lcd.h</file>
@@ -10,6 +19,7 @@
             <file>file:/C:/Users/abigailfrancis/Documents/ECE372/Labs/Team/lab1/lab1p3.X/lcd.c</file>
             <file>file:/C:/Users/abigailfrancis/Documents/ECE372/Labs/Team/lab1/lab1p3.X/leds.c</file>
             <file>file:/C:/Users/abigailfrancis/Documents/ECE372/Labs/Team/lab1/lab1p3.X/switch.c</file>
+>>>>>>> da604b6627e25c5e2c98ebcbe1f69fe2e4a2c1ad
         </group>
     </open-files>
 </project-private>
