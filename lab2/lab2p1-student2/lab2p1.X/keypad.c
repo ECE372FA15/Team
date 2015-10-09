@@ -25,8 +25,8 @@ void initKeypad(void){
  * no key is pressed at all. Otherwise, it should return the ASCII character of
  * the key that is pressed.
  */
-char scanKeypad(void){
-    char key = -1;
+int scanKeypad(void){
+    int key = -1;
     
           
     ODC0 = 1;
