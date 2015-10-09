@@ -25,7 +25,7 @@
 
 
 
-#define test
+#define run
 
 typedef enum stateTypeEnum{
    scanKey, printKey, dbPress, dbRelease, waitForPress, waitForRelease
@@ -46,18 +46,7 @@ int main(void)
     //clearLCD();
     initTimer1();
     //writeLCD(0b00001111, 0, 50);
-#ifdef test
-    ANSELB = 0;
-    TRISBbits.TRISB14 = 0;
-    while (1){
-        LATBbits.LATB14 ^= 1;
-        delayUs(100);
-    }
-    //rb14
-    
-    return 0;
-}
-#endif
+
 #ifdef run  
     while(1){
         switch(state){
