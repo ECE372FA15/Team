@@ -13,7 +13,20 @@
 #include "keypad.h"
 #include "config.h"
 #include "interrupt.h"
-#define test
+
+#define RUN
+//#define TEST
+
+#ifdef TEST
+
+
+
+#endif
+
+
+
+#define run
+
 typedef enum stateTypeEnum{
    scanKey, printKey, dbPress, dbRelease, waitForPress, waitForRelease
 } stateType;
@@ -21,6 +34,7 @@ typedef enum stateTypeEnum{
 volatile stateType state = waitForPress;
 volatile int dummyVariable = 0;
 
+#ifdef RUN
 int main(void)
 {
     int keyScanned = -1;
@@ -32,18 +46,7 @@ int main(void)
     //clearLCD();
     initTimer1();
     //writeLCD(0b00001111, 0, 50);
-#ifdef test
-    ANSELB = 0;
-    TRISBbits.TRISB14 = 0;
-    while (1){
-        LATBbits.LATB14 ^= 1;
-        delayUs(100);
-    }
-    //rb14
-    
-    return 0;
-}
-#endif
+
 #ifdef run  
     while(1){
         switch(state){
@@ -98,6 +101,7 @@ int main(void)
     return 0;
 }
 #endif
+
 void __ISR(_CHANGE_NOTICE_VECTOR, IPL6SRS) _CNInterrupt(void){
     dummyVariable = PORTAbits.RA7 = 1;
     IFS1bits.CNAIF = 0; //Put the CN flag down
