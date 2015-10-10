@@ -4,17 +4,19 @@
 #include "variableDefs.h"
 
 //I need to know what Pins to use
-#define ROW1 LATEbits.LATE7     //Row 1/Pin 2 on keypad RE5/J10 7 on expansion board
+#define ROW1 LATEbits.LATE5     //Row 1/Pin 2 on keypad RE5/J10 7 on expansion board
 #define ROW2 LATCbits.LATC14    //Row 2/Pin 7 on keypad RC14/J10 17 on expansion board
 #define ROW3 LATDbits.LATD11    //Row 3/Pin 6 on keypad RD11/J10 15 on expansion board
 #define ROW4 LATEbits.LATE1     //Row 4/Pin 4 on keypad RE1/J10 11 on expansion board
-#define ODC0 ODCEbits.ODCE7     //Row 1/Pin 2 on keypad ODC
+
+#define ODC0 ODCEbits.ODCE5     //Row 1/Pin 2 on keypad ODC
 #define ODC1 ODCCbits.ODCC14    //Row 2/Pin 7 on keypad ODC
 #define ODC2 ODCDbits.ODCD11    //Row 3/Pin 6 on keypad ODC
 #define ODC3 ODCEbits.ODCE1     //Row 4/Pin 4 on keypad ODC
+
 #define COL1 PORTEbits.RE3     //Column 1/Pin 3 on keypad RE3/J10 9 on expansion board
 #define COL2 PORTEbits.RE7     //Column 2/Pin 1 on keypad RE7/J10 5 on expansion board
-#define COL3 PORTDbits.RD5     //Column 3/Pin 5 on keypad RD5/J10 15 on expansion board
+#define COL3 PORTDbits.RD5     //Column 3/Pin 5 on keypad RD5/J10 13 on expansion board
 #define CNENKey 
 
 
@@ -27,7 +29,7 @@ int initKeypad(void){
     ANSELE = 0;
     
     // Set Input/output pins
-    TRISEbits.TRISE7 = OUTPUT;
+    TRISEbits.TRISE5 = OUTPUT;
     TRISCbits.TRISC14 = OUTPUT;
     TRISDbits.TRISD11 = OUTPUT;
     TRISEbits.TRISE1 = OUTPUT;
@@ -71,34 +73,34 @@ char scanKeypad(void){
     int key = -1;
     
           
-    ROW1 = 1;
-    ROW2 = 0;
-    ROW3 = 0;
-    ROW4 = 0;
+    ROW1 = 0;
+    ROW2 = 1;
+    ROW3 = 1;
+    ROW4 = 1;
     if(COL1 == 0) key = '1';
     if(COL2 == 0) key = '2';
     if(COL3 == 0) key = '3';
     
-    ROW1 = 0;
-    ROW2 = 1;
-    ROW3 = 0;
-    ROW4 = 0;
+    ROW1 = 1;
+    ROW2 = 0;
+    ROW3 = 1;
+    ROW4 = 1;
     if(COL1 == 0) key = '4';
     if(COL2 == 0) key = '5';
     if(COL3 == 0) key = '6';
     
-    ROW1 = 0;
-    ROW2 = 0;
-    ROW3 = 1;
-    ROW4 = 0;
+    ROW1 = 1;
+    ROW2 = 1;
+    ROW3 = 0;
+    ROW4 = 1;
     if(COL1 == 0) key = '7';
     if(COL2 == 0) key = '8';
     if(COL3 == 0) key = '9';
     
-    ROW1 = 0;
-    ROW2 = 0;
-    ROW3 = 0;
-    ROW4 = 1;
+    ROW1 = 1;
+    ROW2 = 1;
+    ROW3 = 1;
+    ROW4 = 0;
     if(COL1 == 0) key = '*';//42;   //ASCII value of *
     if(COL2 == 0) key = '0';
     if(COL3 == 0) key = '#';//35;   //ASCII value of #
@@ -109,14 +111,14 @@ char scanKeypad(void){
 
 void testKeypad(void){
     
-    ROW1 = HIGH;
-
-    ROW2 = HIGH;
-   
-    ROW3 = HIGH;
-    
-    ROW4 = HIGH;
-    delayUs(50000);
+//    ROW1 = HIGH;
+//
+//    ROW2 = HIGH;
+//   
+//    ROW3 = HIGH;
+//    
+//    ROW4 = HIGH;
+//    delayUs(50000);
     ROW1 = LOW;
     
     ROW2 = LOW;
