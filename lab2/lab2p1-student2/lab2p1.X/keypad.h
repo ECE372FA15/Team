@@ -8,10 +8,11 @@
 #ifndef KEYPAD_H
 #define	KEYPAD_H
 
-//#include "variableDefs.h"
+#include "variableDefs.h"
 
 int initKeypad(void);
 char scanKeypad(void);
+void testKeypad(void);
 
 #endif	/* KEYPAD_H */
 
