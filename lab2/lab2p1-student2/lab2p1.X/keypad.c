@@ -75,33 +75,33 @@ char scanKeypad(void){
     ROW2 = 0;
     ROW3 = 0;
     ROW4 = 0;
-    if(COL1 == 0) key = 1;
-    if(COL2 == 0) key = 2;
-    if(COL3 == 0) key = 3;
+    if(COL1 == 0) key = '1';
+    if(COL2 == 0) key = '2';
+    if(COL3 == 0) key = '3';
     
     ROW1 = 0;
     ROW2 = 1;
     ROW3 = 0;
     ROW4 = 0;
-    if(COL1 == 0) key = 4;
-    if(COL2 == 0) key = 5;
-    if(COL3 == 0) key = 6;
+    if(COL1 == 0) key = '4';
+    if(COL2 == 0) key = '5';
+    if(COL3 == 0) key = '6';
     
     ROW1 = 0;
     ROW2 = 0;
     ROW3 = 1;
     ROW4 = 0;
-    if(COL1 == 0) key = 7;
-    if(COL2 == 0) key = 8;
-    if(COL3 == 0) key = 9;
+    if(COL1 == 0) key = '7';
+    if(COL2 == 0) key = '8';
+    if(COL3 == 0) key = '9';
     
     ROW1 = 0;
     ROW2 = 0;
     ROW3 = 0;
     ROW4 = 1;
-    if(COL1 == 0) key = 42;   //ASCII value of *
-    if(COL2 == 0) key = 0;
-    if(COL3 == 0) key = 35;   //ASCII value of #
+    if(COL1 == 0) key = '*';//42;   //ASCII value of *
+    if(COL2 == 0) key = '0';
+    if(COL3 == 0) key = '#';//35;   //ASCII value of #
     
           
     return key;
