@@ -13,6 +13,7 @@
 int initKeypad(void);
 char scanKeypad(void);
 void testKeypad(void);
+void jTestKeypad(void);
 
 #endif	/* KEYPAD_H */
 

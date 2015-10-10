@@ -14,8 +14,8 @@
 #include "config.h"
 #include "interrupt.h"
 #include "variableDefs.h"
-#define run
-//#define TEST
+//#define run
+#define TEST
 
 typedef enum stateTypeEnum{
    scanKey, printKey, dbPress, dbRelease, waitForPress, waitForRelease
@@ -30,12 +30,14 @@ int main(void)
     
     ANSELE = 0;
     SYSTEMConfigPerformance(40000000);
-    enableInterrupts();
     initLCD();
     clearLCD();
+    writeLCD(0b00001111, 0, 50);
     initTimer1();
     initKeypad();
-    writeLCD(0b00001111, 0, 50);
+#ifndef TEST
+    enableInterrupts();
+#endif
 
 #ifdef run  
     while(1){
@@ -94,7 +96,7 @@ int main(void)
 
 #ifdef TEST
 
-while(1) testKeypad();
+while(1) jTestKeypad();
 return 0;
 }
 #endif
