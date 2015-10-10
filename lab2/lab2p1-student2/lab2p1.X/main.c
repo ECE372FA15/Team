@@ -15,6 +15,7 @@
 #include "interrupt.h"
 #include "variableDefs.h"
 #define run
+//#define TEST
 
 typedef enum stateTypeEnum{
    scanKey, printKey, dbPress, dbRelease, waitForPress, waitForRelease
@@ -88,6 +89,12 @@ int main(void)
     
     return 0;
 }
+#endif
+
+#ifdef TEST
+
+testKeypad();
+
 #endif
 
 void __ISR(_CHANGE_NOTICE_VECTOR, IPL6SRS) _CNInterrupt(void){
