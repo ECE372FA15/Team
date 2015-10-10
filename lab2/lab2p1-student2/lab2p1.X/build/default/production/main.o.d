@@ -4,4 +4,5 @@ lcd.h  \
 timer.h  \
 keypad.h  \
 config.h  \
- interrupt.h 
+ interrupt.h  \
+variableDefs.h 

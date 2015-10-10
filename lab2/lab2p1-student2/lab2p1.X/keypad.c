@@ -1,6 +1,7 @@
 #include <xc.h>
 #include "keypad.h"
 #include "timer.h"
+#include "variableDefs.h"
 
 //I need to know what Pins to use
 #define LAT0 LATEbits.LATE7     //Row 1/Pin 2 on keypad RE5/J10 7 on expansion board
@@ -15,8 +16,7 @@
 #define CNPU1 PORTEbits.RE7     //Column 2/Pin 1 on keypad RE7/J10 5 on expansion board
 #define CNPU2 PORTDbits.RD5     //Column 3/Pin 5 on keypad RD5/J10 15 on expansion board
 #define CNENKey 
-#define INPUT 1
-#define OUTPUT 0
+
 
 /* Initialize the rows as ODC outputs and the columns as inputs with pull-up
  * resistors. Don't forget about other considerations...

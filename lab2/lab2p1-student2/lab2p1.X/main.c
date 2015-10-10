@@ -13,7 +13,7 @@
 #include "keypad.h"
 #include "config.h"
 #include "interrupt.h"
-
+#include "variableDefs.h"
 #define run
 
 typedef enum stateTypeEnum{
