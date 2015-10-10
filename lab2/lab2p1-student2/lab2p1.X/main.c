@@ -97,10 +97,12 @@ testKeypad();
 
 #endif
 
-void __ISR(_CHANGE_NOTICE_VECTOR, IPL6SRS) _CNInterrupt(void){
-    dummyVariable = PORTAbits.RA7 = 1;
-    IFS1bits.CNAIF = 0; //Put the CN flag down
-    
+void __ISR(_CHANGE_NOTICE_VECTOR, IPL7SRS) _CNInterrupt(void){
+    dummyVariable = PORTEbits.RE3 = 1;
+    dummyVariable = PORTEbits.RE7 = 1;
+    dummyVariable = PORTDbits.RD5 = 1;
+    IFS1bits.CNEIF = 0; //Put the CN flag down
+    IFS1bits.CNDIF = 0;
     if(state == waitForPress){
         state = dbPress;
     }

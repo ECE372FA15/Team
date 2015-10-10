@@ -38,9 +38,8 @@
 #define INPUT 1
 #define PRESS 0
 #define RELEASE 1
+#define ENABLED 1
+#define DISABLED 0
 
-<<<<<<< HEAD
-#endif	/* XC_HEADER_TEMPLATE_H */
-=======
->>>>>>> 142552cf48219ab9280f67388aeab7ab252e5f64
 
+#endif

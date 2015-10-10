@@ -25,6 +25,8 @@
 int initKeypad(void){
     //Set analog mode off
     ANSELE = 0;
+    
+    // Set Input/output pins
     TRISEbits.TRISE7 = OUTPUT;
     TRISCbits.TRISC14 = OUTPUT;
     TRISDbits.TRISD11 = OUTPUT;
@@ -32,11 +34,30 @@ int initKeypad(void){
     TRISEbits.TRISE3 = INPUT;
     TRISEbits.TRISE7 = INPUT;
     TRISDbits.TRISD5 = INPUT;
+    
     //enable ODC for rows
     ODC0 = 1;
     ODC1 = 1;
     ODC2 = 1;
     ODC3 = 1;
+    
+    CNPUDbits.CNPUD5 = 1;
+    CNPUEbits.CNPUE3 = 1;
+    CNPUEbits.CNPUE7 = 1;
+    
+    //set up CN interrupts 
+    CNCONDbits.ON = 1;                  // Enable overall D interrupt
+    CNCONEbits.ON = 1;                  // Enable overall E interrupt
+    CNENEbits.CNIEE3 = ENABLED;         // Enable E3 pin CN
+    CNENEbits.CNIEE7 = ENABLED;         // Enable E7 pin CN
+    CNENDbits.CNIED5 = ENABLED;         // Enable D6 pin CN
+    
+    IPC8bits.CNIP = 7;                  // Set interrupt priority highest
+    
+    IEC1bits.CNEIE = ENABLED;           // Enable interrupt
+    IEC1bits.CNDIE = ENABLED;           // EnABLE interrupt
+    IFS1bits.CNEIF = 0;
+    IFS1bits.CNDIF = 0;
     
 }
 
