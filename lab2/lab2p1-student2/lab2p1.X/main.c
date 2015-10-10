@@ -14,8 +14,8 @@
 #include "config.h"
 #include "interrupt.h"
 #include "variableDefs.h"
-//#define run
-#define TEST
+#define run
+//#define TEST
 
 typedef enum stateTypeEnum{
    scanKey, printKey, dbPress, dbRelease, waitForPress, waitForRelease
@@ -104,6 +104,9 @@ void __ISR(_CHANGE_NOTICE_VECTOR, IPL7SRS) _CNInterrupt(void){
     dummyVariable = PORTEbits.RE3 = 1;
     dummyVariable = PORTEbits.RE7 = 1;
     dummyVariable = PORTDbits.RD5 = 1;
+    
+    printCharLCD(scanKeypad()); 
+    
     IFS1bits.CNEIF = 0; //Put the CN flag down
     IFS1bits.CNDIF = 0;
     if(state == waitForPress){
