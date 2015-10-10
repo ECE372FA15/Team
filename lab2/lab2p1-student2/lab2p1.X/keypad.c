@@ -61,6 +61,10 @@ int initKeypad(void){
     IFS1bits.CNEIF = 0;
     IFS1bits.CNDIF = 0;
     
+    // set up the pins! to insure a change when any button is pressed! 
+    keypadRefresh();
+    
+    
 }
 
 /* This function will be called AFTER you have determined that someone pressed
@@ -70,6 +74,13 @@ int initKeypad(void){
  * the key that is pressed.
  */
 
+void keypadRefresh(void){
+    ROW1 = 0;
+    ROW2 = 0;
+    ROW3 = 0;
+    ROW4 = 0;
+    
+}
 
 char scanKeypad(void){
     int key = -1;
@@ -80,37 +91,38 @@ char scanKeypad(void){
     ROW3 = 1;
     ROW4 = 1;
     delayUs(kpdDly);
-    if(COL1 == 0){ key = '1'; return key; }
-    if(COL2 == 0){ key = '2'; return key; }
-    if(COL3 == 0){ key = '3'; return key; }
+    if(COL1 == 0){ key = '1';  keypadRefresh(); return key; }
+    if(COL2 == 0){ key = '2';  keypadRefresh(); return key; }
+    if(COL3 == 0){ key = '3';  keypadRefresh(); return key; }
     
     ROW1 = 1;
     ROW2 = 0;
     ROW3 = 1;
     ROW4 = 1;
     delayUs(kpdDly);
-    if(COL1 == 0){ key = '4'; return key; }
-    if(COL2 == 0){ key = '5'; return key; }
-    if(COL3 == 0){ key = '6'; return key; }
+    if(COL1 == 0){ key = '4';  keypadRefresh(); return key; }
+    if(COL2 == 0){ key = '5';  keypadRefresh(); return key; }
+    if(COL3 == 0){ key = '6';  keypadRefresh(); return key; }
     
     ROW1 = 1;
     ROW2 = 1;
     ROW3 = 0;
     ROW4 = 1;
     delayUs(kpdDly);
-    if(COL1 == 0){ key = '7'; return key; }
-    if(COL2 == 0){ key = '8'; return key; }
-    if(COL3 == 0){ key = '9'; return key; }
+    if(COL1 == 0){ key = '7';  keypadRefresh(); return key; }
+    if(COL2 == 0){ key = '8';  keypadRefresh(); return key; }
+    if(COL3 == 0){ key = '9';  keypadRefresh(); return key; }
     
     ROW1 = 1;
     ROW2 = 1;
     ROW3 = 1;
     ROW4 = 0;
     delayUs(kpdDly);
-    if(COL1 == 0){ key = '*'; return key; }//42;   //ASCII value of *
-    if(COL2 == 0){ key = '0'; return key; }
-    if(COL3 == 0){ key = '#'; return key; }//35;   //ASCII value of #
-         
+    if(COL1 == 0){ key = '*';  keypadRefresh(); return key; }//42;   //ASCII value of *
+    if(COL2 == 0){ key = '0';  keypadRefresh(); return key; }
+    if(COL3 == 0){ key = '#';  keypadRefresh(); return key; }//35;   //ASCII value of #
+    
+    keypadRefresh();
     return key;
 }
 
@@ -137,6 +149,12 @@ void testKeypad(void){
 }
 
 void jTestKeypad(){
+//<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><
+//<><><><><><><><><><><><><><><><><  function tests keypad  ><><><<><><><><><><><><><><><><
+//<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><
+    
+// User can press keys see them on the display when the "code" is entered, the displat clears
+// hardware initialization handled outside of code...
     
     char c; int i = 12; 
     char code[4] = "1234";//{'1','2','3','4'}; 

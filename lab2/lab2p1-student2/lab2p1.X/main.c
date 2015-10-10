@@ -14,8 +14,8 @@
 #include "config.h"
 #include "interrupt.h"
 #include "variableDefs.h"
-//#define run
-#define TEST
+#define run
+//#define TEST
 
 typedef enum stateTypeEnum{
    scanKey, printKey, dbPress, dbRelease, waitForPress, waitForRelease
@@ -35,9 +35,7 @@ int main(void)
     writeLCD(0b00001111, 0, 50);
     initTimer1();
     initKeypad();
-#ifndef TEST
     enableInterrupts();
-#endif
 
 #ifdef run  
     while(1){
@@ -45,7 +43,7 @@ int main(void)
             case printKey:
                 
                 if((keyScanned > -1) && (keyScanned < 10)){
-                    printCharLCD(keyScanned + '0'); 
+                    printCharLCD(keyScanned); 
                 }
                 else if (keyScanned == 42){
                     printCharLCD('*');
@@ -107,7 +105,8 @@ void __ISR(_CHANGE_NOTICE_VECTOR, IPL7SRS) _CNInterrupt(void){
     dummyVariable = PORTEbits.RE7 = 1;
     dummyVariable = PORTDbits.RD5 = 1;
     
-    printCharLCD(scanKeypad()); 
+    //  for testing 
+    // printCharLCD(scanKeypad()); 
     
     IFS1bits.CNEIF = 0; //Put the CN flag down
     IFS1bits.CNDIF = 0;
@@ -117,5 +116,6 @@ void __ISR(_CHANGE_NOTICE_VECTOR, IPL7SRS) _CNInterrupt(void){
     else{
         state = dbRelease;
     }
+ 
 }
 #endif

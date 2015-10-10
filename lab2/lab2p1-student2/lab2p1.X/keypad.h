@@ -14,6 +14,7 @@ int initKeypad(void);
 char scanKeypad(void);
 void testKeypad(void);
 void jTestKeypad(void);
+void keypadRefresh(void);
 
 #endif	/* KEYPAD_H */
 
