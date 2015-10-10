@@ -41,9 +41,9 @@ int initKeypad(void){
     ODC2 = 1;
     ODC3 = 1;
     
-    CNPUDbits.CNPUD5 = 1;
-    CNPUEbits.CNPUE3 = 1;
-    CNPUEbits.CNPUE7 = 1;
+    //CNPUDbits.CNPUD5 = 1;
+    //CNPUEbits.CNPUE3 = 1;
+    //CNPUEbits.CNPUE7 = 1;
     
     //set up CN interrupts 
     CNCONDbits.ON = 1;                  // Enable overall D interrupt
@@ -109,17 +109,21 @@ char scanKeypad(void){
 
 void testKeypad(void){
     
-    COL1 = HIGH;
+    ROW1 = HIGH;
 
-    COL2 = HIGH;
+    ROW2 = HIGH;
    
-    COL3 = HIGH;
-    delayUs(10000);
-    COL1 = LOW;
+    ROW3 = HIGH;
     
-    COL2 = LOW;
+    ROW4 = HIGH;
+    delayUs(50000);
+    ROW1 = LOW;
+    
+    ROW2 = LOW;
  
-    COL3 = LOW;
+    ROW3 = LOW;
+    
+    ROW4 = LOW;
 
     
 }
