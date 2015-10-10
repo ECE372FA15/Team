@@ -11,13 +11,14 @@
 #define CNPU1 PORTEbits.RE7 //Column 2/Pin 1 on keypad RE7/J10 5 on expansion board
 #define CNPU2 PORTDbits.RD5 //Column 3/Pin 5 on keypad RD5/J10 15 on expansion board
 #define CNENKey 
-
+#define INPUT 1
+#define OUTPUT 0
 /* Initialize the rows as ODC outputs and the columns as inputs with pull-up
  * resistors. Don't forget about other considerations...
  */
-void initKeypad(void){
+int initKeypad(void){
     //Set analog mode off
-    ANSELEbits = 0;
+    ANSELE = 0;
     TRISEbits.TRISE7 = OUTPUT;
     TRISCbits.TRISC14 = OUTPUT;
     TRISDbits.TRISD11 = OUTPUT;
@@ -34,7 +35,7 @@ void initKeypad(void){
  * no key is pressed at all. Otherwise, it should return the ASCII character of
  * the key that is pressed.
  */
-int scanKeypad(void){
+char scanKeypad(void){
     int key = -1;
     
           

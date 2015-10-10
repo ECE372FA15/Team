@@ -41,7 +41,6 @@ typedef enum stateTypeEnum{
 volatile stateType state = waitForPress;
 volatile int dummyVariable = 0;
 
-#ifdef RUN
 int main(void)
 {
     int keyScanned = -1;
