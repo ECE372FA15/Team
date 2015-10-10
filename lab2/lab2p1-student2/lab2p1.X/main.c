@@ -29,11 +29,11 @@ int main(void)
     
     ANSELE = 0;
     SYSTEMConfigPerformance(40000000);
-   // enableInterrupts();
-    //initLCD();
-    //clearLCD();
+    enableInterrupts();
+    initLCD();
+    clearLCD();
     initTimer1();
-    //writeLCD(0b00001111, 0, 50);
+    writeLCD(0b00001111, 0, 50);
 
 #ifdef run  
     while(1){
