@@ -14,8 +14,8 @@
 #include "config.h"
 #include "interrupt.h"
 #include "variableDefs.h"
-#define run
-//#define TEST
+//#define run
+#define TEST
 
 typedef enum stateTypeEnum{
    scanKey, printKey, dbPress, dbRelease, waitForPress, waitForRelease
@@ -34,6 +34,7 @@ int main(void)
     initLCD();
     clearLCD();
     initTimer1();
+    initKeypad();
     writeLCD(0b00001111, 0, 50);
 
 #ifdef run  
@@ -94,9 +95,11 @@ int main(void)
 #ifdef TEST
 
 while(1) testKeypad();
-
+return 0;
+}
 #endif
 
+#ifdef run
 void __ISR(_CHANGE_NOTICE_VECTOR, IPL7SRS) _CNInterrupt(void){
     dummyVariable = PORTEbits.RE3 = 1;
     dummyVariable = PORTEbits.RE7 = 1;
@@ -110,3 +113,4 @@ void __ISR(_CHANGE_NOTICE_VECTOR, IPL7SRS) _CNInterrupt(void){
         state = dbRelease;
     }
 }
+#endif
