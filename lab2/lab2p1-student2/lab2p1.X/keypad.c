@@ -110,7 +110,16 @@ char scanKeypad(void){
 void testKeypad(void){
     
     COL1 = HIGH;
+
     COL2 = HIGH;
+   
     COL3 = HIGH;
+    delayUs(10000);
+    COL1 = LOW;
+    
+    COL2 = LOW;
+ 
+    COL3 = LOW;
+
     
 }
