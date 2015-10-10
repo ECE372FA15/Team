@@ -93,7 +93,7 @@ int main(void)
 
 #ifdef TEST
 
-testKeypad();
+while(1) testKeypad();
 
 #endif
 

@@ -109,8 +109,8 @@ char scanKeypad(void){
 
 void testKeypad(void){
     
-    COL1 = PRESS;
-    COL2 = PRESS;
-    COL3 = PRESS;
+    COL1 = HIGH;
+    COL2 = HIGH;
+    COL3 = HIGH;
     
 }

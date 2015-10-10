@@ -36,10 +36,17 @@
 
 #define OUTPUT 0
 #define INPUT 1
+<<<<<<< HEAD
 #define PRESS 0
 #define RELEASE 1
 #define ENABLED 1
 #define DISABLED 0
+=======
+#define LOW 0
+#define HIGH 1
+
+#endif
+>>>>>>> a5f3f8f7d3222ea32ffaab4cadd8042f79d0c085
 
 
 #endif
