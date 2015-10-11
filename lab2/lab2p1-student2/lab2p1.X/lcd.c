@@ -144,7 +144,7 @@ void clearLCD(){
 //X is down, Y is across.
 void moveCursorLCD(unsigned char x, unsigned char y){
     
-    unsigned char LSB_address = y - 1;
+    int LSB_address = y - 1 ;
     
     //Need to have 1 in the most significant bit place to change cursor position by writing to DD RAM
     LSB_address |= 0x80;
@@ -158,12 +158,13 @@ void moveCursorLCD(unsigned char x, unsigned char y){
              writeLCD(LSB_address,0,LCD_DELAY_standard);
         // x is row 2
         case 2:
-             writeLCD(LSB_address | 0x40,0,LCD_DELAY_standard);
-            
+             writeLCD(LSB_address | 0x40,0,LCD_DELAY_standard);       
     }
-
 }
 
+void cursorHome(){
+    writeLCD(2,0,50);// return home
+}
 //made so that the LCD can be easily tested.
 void testLCD(){
     int i = 0;

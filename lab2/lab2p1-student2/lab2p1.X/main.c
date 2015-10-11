@@ -23,11 +23,12 @@ typedef enum stateTypeEnum{
 
 volatile stateType state = waitForPress;
 volatile int dummyVariable = 0;
+volatile int keyScanned = -1;
 
 int main(void)
 {
-    int keyScanned = -1;
-    
+    int numCharsPrinted = 0; 
+    int t = 0;
     ANSELE = 0;
     SYSTEMConfigPerformance(40000000);
     initLCD();
@@ -39,50 +40,76 @@ int main(void)
 
 #ifdef run  
     while(1){
+       // jTestKeypad(); 
         switch(state){
             case printKey:
+                 //check need to move cursor
+                if(numCharsPrinted == 8){
+                    moveCursorLCD(2,1);
+                }
+                else if (numCharsPrinted == 16){
+                   // moveCursorLCD(1,1); Dosent work...
+                   cursorHome();// return home
+                    numCharsPrinted = 0; 
+                }
+//                
+//                // do the printing 
+//                if((keyScanned > -1) && (keyScanned < 10)){
+//                    printCharLCD(keyScanned + '0'); 
+//                    numCharsPrinted++;
+//                }
+//                else if (keyScanned == 42){
+//                    printCharLCD('*'); 
+//                    numCharsPrinted++;
+//                }
+//                else if (keyScanned == 35){
+//                    printCharLCD('#'); 
+//                    numCharsPrinted++;
+//                }
+//                else{
+//                    //Do not print to LCD, potentially clear LCD.
+//                }
+                if(keyScanned != -1){
+                    printCharLCD(keyScanned);
+                    numCharsPrinted++;
+                }
                 
-                if((keyScanned > -1) && (keyScanned < 10)){
-                    printCharLCD(keyScanned); 
-                }
-                else if (keyScanned == 42){
-                    printCharLCD('*');
-                }
-                else if (keyScanned == 35){
-                    printCharLCD('#');
-                }
-                else{
-                    //Do not print to LCD, potentially clear LCD.
-                }
-                
-                
+                state = waitForRelease; 
+               // enableInterrupts(); 
                 // Still need to set up moving the cursor after each print, I want 
                 // to test if it will print in the first spot on the LCD before
                 // trying to implement this however
             break;
             
             case scanKey:
-                //Disable CN interrupts
-                keyScanned = scanKeypad();
-                //Enable CN interrupts
+                //Disable CN interrupts in isr..
+                //disableInterrupts();
+                
+                keyScanned  = scanKeypad(); 
+            
+                state = printKey;
+                //Enable CN interrupts !! after key printed!! 
             break;
             
             case dbPress:   
                 delayUs(DBDelayTime);
-                state = waitForRelease;
+                state = scanKey;
             break;
             
             case dbRelease:
                 delayUs(DBDelayTime);
-                state = printKey;
+                state = waitForPress;
             break;
             
             case waitForPress:
-                while(state = waitForPress);        //This state will change in the ISR when the keypad is pressed.
+               // while(state = waitForPress);        //This state will change in the ISR when the keypad is pressed.
+                while(state == waitForPress);        //This state will change in the ISR when the keypad is pressed.
             break;
             
             case waitForRelease:
-                while(state = waitForRelease);      //This state will change in the ISR when the keypad is released.
+                enableInterrupts(); 
+                //while(state = waitForRelease);      //This state will change in the ISR when the keypad is released.
+                while(state == waitForRelease);      //This state will change in the ISR when the keypad is released.
             break;
             
         }
@@ -101,21 +128,23 @@ return 0;
 
 #ifdef run
 void __ISR(_CHANGE_NOTICE_VECTOR, IPL7SRS) _CNInterrupt(void){
+    
     dummyVariable = PORTEbits.RE3 = 1;
     dummyVariable = PORTEbits.RE7 = 1;
     dummyVariable = PORTDbits.RD5 = 1;
     
-    //  for testing 
-    // printCharLCD(scanKeypad()); 
-    
     IFS1bits.CNEIF = 0; //Put the CN flag down
     IFS1bits.CNDIF = 0;
+    
     if(state == waitForPress){
+        disableInterrupts();
         state = dbPress;
     }
-    else{
-        state = dbRelease;
+    if(state == waitForRelease){
+        state = dbRelease; 
     }
- 
+//    else{
+//        state = dbRelease;
+//    }
 }
 #endif
