@@ -82,7 +82,7 @@ void keypadRefresh(void){
     
 }
 
-char scanKeypad(void){
+int scanKeypad(void){
     int key = -1;
     int kpdDly = 500;
     
@@ -91,36 +91,36 @@ char scanKeypad(void){
     ROW3 = 1;
     ROW4 = 1;
     delayUs(kpdDly);
-    if(COL1 == 0){ key = '1';  keypadRefresh(); return key; }
-    if(COL2 == 0){ key = '2';  keypadRefresh(); return key; }
-    if(COL3 == 0){ key = '3';  keypadRefresh(); return key; }
+    if(COL1 == 0){ key = 1;  keypadRefresh(); return key; }
+    if(COL2 == 0){ key = 2;  keypadRefresh(); return key; }
+    if(COL3 == 0){ key = 3;  keypadRefresh(); return key; }
     
     ROW1 = 1;
     ROW2 = 0;
     ROW3 = 1;
     ROW4 = 1;
     delayUs(kpdDly);
-    if(COL1 == 0){ key = '4';  keypadRefresh(); return key; }
-    if(COL2 == 0){ key = '5';  keypadRefresh(); return key; }
-    if(COL3 == 0){ key = '6';  keypadRefresh(); return key; }
+    if(COL1 == 0){ key = 4;  keypadRefresh(); return key; }
+    if(COL2 == 0){ key = 5;  keypadRefresh(); return key; }
+    if(COL3 == 0){ key = 6;  keypadRefresh(); return key; }
     
     ROW1 = 1;
     ROW2 = 1;
     ROW3 = 0;
     ROW4 = 1;
     delayUs(kpdDly);
-    if(COL1 == 0){ key = '7';  keypadRefresh(); return key; }
-    if(COL2 == 0){ key = '8';  keypadRefresh(); return key; }
-    if(COL3 == 0){ key = '9';  keypadRefresh(); return key; }
+    if(COL1 == 0){ key = 7;  keypadRefresh(); return key; }
+    if(COL2 == 0){ key = 8;  keypadRefresh(); return key; }
+    if(COL3 == 0){ key = 9;  keypadRefresh(); return key; }
     
     ROW1 = 1;
     ROW2 = 1;
     ROW3 = 1;
     ROW4 = 0;
     delayUs(kpdDly);
-    if(COL1 == 0){ key = '*';  keypadRefresh(); return key; }//42;   //ASCII value of *
-    if(COL2 == 0){ key = '0';  keypadRefresh(); return key; }
-    if(COL3 == 0){ key = '#';  keypadRefresh(); return key; }//35;   //ASCII value of #
+    if(COL1 == 0){ key = 42;  keypadRefresh(); return key; }//42;   //ASCII value of *
+    if(COL2 == 0){ key = 0;  keypadRefresh(); return key; }
+    if(COL3 == 0){ key = 35;  keypadRefresh(); return key; }//35;   //ASCII value of #
     
     keypadRefresh();
     return key;
