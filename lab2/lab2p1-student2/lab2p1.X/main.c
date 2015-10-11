@@ -43,13 +43,14 @@ int main(void)
        // jTestKeypad(); 
         switch(state){
             case printKey:
+                
                  //check need to move cursor
                 if(numCharsPrinted == 8){
                     moveCursorLCD(2,1);
                 }
                 else if (numCharsPrinted == 16){
                    // moveCursorLCD(1,1); Dosent work...
-                   cursorHome();// return home
+                    cursorHome();// return home
                     numCharsPrinted = 0; 
                 }
 //                
@@ -129,6 +130,8 @@ return 0;
 #ifdef run
 void __ISR(_CHANGE_NOTICE_VECTOR, IPL7SRS) _CNInterrupt(void){
     
+    disableInterrupts(); 
+    
     dummyVariable = PORTEbits.RE3 = 1;
     dummyVariable = PORTEbits.RE7 = 1;
     dummyVariable = PORTDbits.RD5 = 1;
@@ -139,12 +142,15 @@ void __ISR(_CHANGE_NOTICE_VECTOR, IPL7SRS) _CNInterrupt(void){
     if(state == waitForPress){
         disableInterrupts();
         state = dbPress;
+        return; 
     }
+    
     if(state == waitForRelease){
         state = dbRelease; 
+        enableInterrupts(); 
+        return; 
     }
-//    else{
-//        state = dbRelease;
-//    }
+    
+    enableInterrupts(); 
 }
 #endif
