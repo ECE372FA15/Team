@@ -80,40 +80,15 @@ int main(void)
                clearLCD();
                state = dispValid; 
                break;
-
-                
-                
-
             case printKey:
-//                 //check need to move cursor
-//                if(numCharsPrinted == 8){
-//                    moveCursorLCD(2,1);
-//                }
-//                else if (numCharsPrinted == 16){
-//                   // moveCursorLCD(1,1); Dosent work...
-//                    cursorHome();// return home
-//                    numCharsPrinted = 0; 
-//                }
-//                if(keyScanned != -1){
-//                    
-//                    printCharLCD(keyScanned);
-//                    numCharsPrinted++;
-//                }
                 newKeyPressed = 1; 
                 temp[pwItt] = (char)keyScanned; 
                 pwItt++;
                 state = waitForRelease; 
             break;
-            
-            
             case scanKey:
-                //Disable CN interrupts in isr..
-                //disableInterrupts();
-                
                 keyScanned  = scanKeypad(); 
-            
                 state = printKey;
-                //Enable CN interrupts !! after key printed!! 
             break;
             
             case dbPress:   
@@ -135,14 +110,18 @@ int main(void)
                 enableInterrupts(); 
                 //while(state = waitForRelease);      //This state will change in the ISR when the keypad is released.
                 //while(state == waitForRelease);      //This state will change in the ISR when the keypad is released.
-            break;
-            
+            break;    
         }
-        // the newKeyPressed variable gets changed to 1 everytime a key press is detected         
-        if(newKeyPressed == 1){
+//<><><><> END button de bounce stuff  <><><><><><><><><><><><><><><><><><><><><><>  
+        
+        
+//<><><><>  Mode setting state machine <><><><><><><><><><><><><><><><><><><><><><>       
+    if(newKeyPressed == 1){
             newKeyPressed = 0; 
+        // the newKeyPressed variable gets changed to 1 everytime a key press is detected    
         switch(modeState){
            case firstStar:
+               
                
                 break; 
            case dispGood:
@@ -154,7 +133,8 @@ int main(void)
            case dispEnter:
                clearLCD();
                printStringLCD("Enter");
-               modeState = waitForPress;
+               
+               modeState = 1;
                 break;
            case dispValid://-
                printOutput("Valid   "); 
@@ -173,6 +153,7 @@ int main(void)
                 break;   
         }   
         }
+//<><><><> END Mode setting state machine <><><><><><><><><><><><><><><><><><><><><><>   
         
     }
     
