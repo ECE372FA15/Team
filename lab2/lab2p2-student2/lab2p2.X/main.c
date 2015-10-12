@@ -15,6 +15,7 @@
 #include "config.h"
 #include "interrupt.h"
 #include "variableDefs.h"
+#include "passcode.h"
 #define run
 #define nump = 10;
 #define lenp = 4; 
@@ -43,7 +44,8 @@ int main(void)
     
     int numCharsPrinted = 0;    // counter to keep things tidy on the display 
     int modeStateEnable = 1;    // enables the second state machine 
-
+    int i = 0, j = 0;
+    
     ANSELE = 0;
     SYSTEMConfigPerformance(40000000);
     initLCD();
@@ -52,6 +54,15 @@ int main(void)
     initTimer1();
     initKeypad();
     //enableInterrupts();
+    
+    //initialize passcode array to NULL
+    for(i = 0; i < passwords; i++){
+    
+        for(j = 0; j <5; j++){
+            passWord[i][j] = NULL;
+        }
+        
+    }
     
     
 #ifdef run  
