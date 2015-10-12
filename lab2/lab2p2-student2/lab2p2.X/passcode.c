@@ -5,7 +5,7 @@ int checkValid(char str[], char passWord[][]){
     int i = 0;
     int match = 0;
     int temp = 0;
-    for (i = 0; i < 10; i++){
+    for (i = 0; i < passwords; i++){
         temp = strcmp(str, passWord[i]);    //returns 0 for match 
         if (temp == 0){
             match = 1;                      //match becomes 1 for any match
@@ -16,8 +16,16 @@ int checkValid(char str[], char passWord[][]){
 }
 
 // checks a string to make sure it is a valid pw entry 
-int checkNewPwValid(char * str){
-
-    return 0;
+int addNewPw(char str[], char passWord[][]){
+    int i = 0;
+    int match = 0;
+    int temp = 0;
+    for (i = 0; i < passwords; i++){
+        temp = strcmp(str, passWord[i]);    //returns 0 for match 
+        if (temp == 0){
+            match = 0;                      //match becomes 1 for any match
+        }
+    }
+    return match;
 }
 

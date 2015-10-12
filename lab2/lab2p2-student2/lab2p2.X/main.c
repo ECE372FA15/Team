@@ -16,7 +16,6 @@
 #include "interrupt.h"
 #include "variableDefs.h"
 #define run
-
 #define nump = 10;
 #define lenp = 4; 
 
@@ -35,7 +34,7 @@ volatile int keyScanned = -1;
 
 int main(void)
 {
-    char passWord[10][5] ; //[nump][lenp]; 
+    char passWord[passwords][5] ; //[nump][lenp]; 
     char temp[6];
     int pwItt = 0; 
     int pwStoreIndex = 0; 
