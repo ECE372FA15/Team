@@ -135,19 +135,19 @@ int main(void)
                }else{
                    modeState = dispBad;
                }  
-               modeStateEnable == 0;//wait for new key to be pressed 
+               modeStateEnable = 0;//wait for new key to be pressed 
                 break;                
            case dispGood:
                printOutput("Good");
                modeState = dispEnter;
-               modeStateEnable == 0;//wait for new key to be pressed 
+               modeStateEnable = 0;//wait for new key to be pressed 
                clearBuff(6,temp);   // clear the temp string 
                pwItt = 0;           // reset the pw itterator 
                 break;
             case dispBad:
                printOutput("Bad");
                modeState = dispEnter;
-               modeStateEnable == 0;//wait for new key to be pressed 
+               modeStateEnable = 0;//wait for new key to be pressed 
                clearBuff(6,temp); // clear the temp string 
                pwItt = 0;           // reset the pw itterator 
                 break;
@@ -185,14 +185,14 @@ int main(void)
                printOutput("Valid   "); 
                addNewPw(temp, passWord);
                modeState = dispEnter;
-               modeStateEnable == 0;//wait for new key to be pressed 
+               modeStateEnable = 0;//wait for new key to be pressed 
                clearBuff(6,temp); // clear the temp string 
                pwItt = 0;           // reset the pw itterator 
                 break;
            case dispInvalid://-
                printOutput("Invalid "); 
                modeState = dispEnter;
-               modeStateEnable == 0;//wait for new key to be pressed 
+               modeStateEnable = 0;//wait for new key to be pressed 
                clearBuff(6,temp); // clear the temp string 
                pwItt = 0;           // reset the pw itterator 
                 break;
@@ -212,7 +212,7 @@ int main(void)
                     
                    modeState = dispValid;
                }
-               modeStateEnable == 1; //next state needs to be executed
+               modeStateEnable = 1; //next state needs to be executed
                 break;   
         }   
         }
