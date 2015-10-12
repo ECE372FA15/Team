@@ -162,7 +162,7 @@ int main(void)
                }else if(temp[0] == '#'){
                    modeState = dispBad;
                }else if(pwItt == 3){ // pw == xxxx...
-                   if(checkValid(temp, passWord) == 0){ 
+                   if( (checkValid(temp, passWord) == 0)){ 
                        modeState = dispBad;// 0 means invalid pw
                    }else{
                        modeState = dispGood; //1 means valid pw
@@ -199,7 +199,7 @@ int main(void)
                
                if(pwItt = 5){ // pw == "**xxxx"...
                    temp[0] = temp[2]; temp[1] = temp[3];    // remove leading "**" 
-                   temp[2] = temp[4]; temp[3] = temp[5]; temp[4] = '/0'; 
+                   temp[2] = temp[4]; temp[3] = temp[5]; temp[4] = '\0'; 
                     
                    modeState = dispValid;
                }

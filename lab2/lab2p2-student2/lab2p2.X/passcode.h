@@ -28,13 +28,13 @@
 
 // This is a guard condition so that contents of this file are not included
 // more than once.  
-#ifndef PASSWORD_H
-#define	PASSWORD_H
+#ifndef PASSCODE_H
+#define	PASSCODE_H
 #define passwords 10
 #include <xc.h> // include processor files - each processor file is guarded.  
 
-int checkValid(char str[], char passWord[][]);
-int checkNewPwValid(char str[], char passWord[][]);
+int checkValid(char *str, char* passWord[5]);
+int addNewPw(char *str, char *passWord[5]);
 void clearBuff(int len, char *str);
 
 #endif	/* XC_HEADER_TEMPLATE_H */
