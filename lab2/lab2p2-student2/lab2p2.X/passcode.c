@@ -1,5 +1,6 @@
 #include "passcode.h"
 #include <string.h>
+
 //Compares entered password with stored passwords
 int checkValid(char str[], char **passWord){
     int i = 0;
@@ -16,6 +17,7 @@ int checkValid(char str[], char **passWord){
 }
 
 // checks a string to make sure it is a valid pw entry 
+
 int addNewPw(char str[], char* passWord[5]){
     int i = 0;
     int match = 0;
@@ -34,7 +36,7 @@ void clearBuff(int len, char *str){
     int i = 0;
     
     for(i = 0; i < len; i++){
-        str[i] = NULL;
+        str[i] = -1;
     }
 }
 
