@@ -10,6 +10,7 @@
       <itemPath>lcd.h</itemPath>
       <itemPath>timer.h</itemPath>
       <itemPath>variableDefs.h</itemPath>
+      <itemPath>passcode.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -23,14 +24,13 @@
       <itemPath>main.c</itemPath>
       <itemPath>lcd.c</itemPath>
       <itemPath>timer.c</itemPath>
+      <itemPath>passcode.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
                    projectFiles="false">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
-    <itemPath>password.h</itemPath>
-    <itemPath>password.c</itemPath>
   </logicalFolder>
   <sourceRootList>
     <Elem>.</Elem>

@@ -5,4 +5,5 @@ timer.h  \
 keypad.h  \
  variableDefs.h  \
 config.h  \
-interrupt.h 
+interrupt.h  \
+passcode.h 

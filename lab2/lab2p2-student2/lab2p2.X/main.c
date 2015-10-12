@@ -53,8 +53,8 @@ int main(void)
     writeLCD(0b00001111, 0, 50);
     initTimer1();
     initKeypad();
-    //enableInterrupts();
-    
+    enableInterrupts();
+    clearBuff(temp,5); 
     //initialize passcode array to NULL
     for(i = 0; i < passwords; i++){
     
@@ -68,7 +68,7 @@ int main(void)
 #ifdef run  
     while(1){
         
-   //<><><><>  button de bounce stuff  <><><><><><><><><><><><><><><><><><><><><><>        
+  //<><><><>  button de bounce stuff  <><><><><><><><><><><><><><><><><><><><><><>        
         switch(state){
 
             
@@ -135,59 +135,84 @@ int main(void)
                }else{
                    modeState = dispBad;
                }  
-               
+               modeStateEnable == 0;//wait for new key to be pressed 
                 break;                
            case dispGood:
                printOutput("Good");
+               modeState = dispEnter;
+               modeStateEnable == 0;//wait for new key to be pressed 
+               clearBuff(6,temp);   // clear the temp string 
+               pwItt = 0;           // reset the pw itterator 
                 break;
-           case dispBad:
+            case dispBad:
                printOutput("Bad");
+               modeState = dispEnter;
+               modeStateEnable == 0;//wait for new key to be pressed 
+               clearBuff(6,temp); // clear the temp string 
+               pwItt = 0;           // reset the pw itterator 
                 break;
            case dispEnter:
                clearLCD();
                printStringLCD("Enter");
                moveCursorLCD(2,1);
-               printCharLCD(temp); 
-               
+               printStringLCD(temp); 
+//               if (keyScanned != -1){
+//                   printCharLCD(keyScanned);
+//               }
                if(temp[0] == '*'){
                    modeState = firstStar;
-               }else if(temp[0] == '#'){
+                   modeStateEnable = 0;//wait for new key to be pressed 
+               }
+               else if(temp[0] == '#'){
                    modeState = dispBad;
-               }else if(pwItt == 3){ // 0-3...
-                   if(checkValid(temp, passWord) == 0){ 
+                   modeStateEnable = 1;//continue
+               }
+               else if(pwItt == 3){ // pw == xxxx...
+                   if( (checkValid(temp, passWord) == 0)){ 
                        modeState = dispBad;// 0 means invalid pw
+                       modeStateEnable = 1;//wait for new key to be pressed 
                    }else{
                        modeState = dispGood; //1 means valid pw
+                       modeStateEnable = 1;//wait for new key to be pressed 
                    }
-               }else{
+               }
+               else{
                    modeState = dispEnter;
+                   modeStateEnable = 0;//wait for new key to be pressed 
                }
                 break;
            case dispValid://-
                printOutput("Valid   "); 
-               strcpy(passWord[pwStoreIndex],temp); // move in the new pw
-               
+               addNewPw(temp, passWord);
+               modeState = dispEnter;
+               modeStateEnable == 0;//wait for new key to be pressed 
+               clearBuff(6,temp); // clear the temp string 
+               pwItt = 0;           // reset the pw itterator 
                 break;
            case dispInvalid://-
                printOutput("Invalid "); 
+               modeState = dispEnter;
+               modeStateEnable == 0;//wait for new key to be pressed 
+               clearBuff(6,temp); // clear the temp string 
+               pwItt = 0;           // reset the pw itterator 
                 break;
            case set://-
-               clearLCD()
+               clearLCD();
                printStringLCD("Set Mode"); 
                moveCursorLCD(2,1);  
-               if(temp[pwItt] == '*' || temp[pwItt] == '#'){ // if an invalid key was entered 
+               if(keyScanned == '*' || keyScanned == '#'){ // if an invalid key was entered 
                     modeState = dispInvalid; // if new pw is not valid 
                }
                
-               printCharLCD(temp[pwItt]); // might work better to press key pressed 
+               printCharLCD(keyScanned); // might work better to press key pressed 
                
-               if(pwItt = 5){ // "**xxxx"...
+               if(pwItt = 5){ // pw == "**xxxx"...
                    temp[0] = temp[2]; temp[1] = temp[3];    // remove leading "**" 
-                   temp[2] = temp[4]; temp[3] = temp[5]; temp[4] = '/0'; 
-                   
-                   addNewPw(temp, passWord); 
+                   temp[2] = temp[4]; temp[3] = temp[5]; temp[4] = '\0'; 
+                    
                    modeState = dispValid;
                }
+               modeStateEnable == 1; //next state needs to be executed
                 break;   
         }   
         }
@@ -233,4 +258,3 @@ void __ISR(_CHANGE_NOTICE_VECTOR, IPL7SRS) _CNInterrupt(void){
     enableInterrupts(); 
 }
 #endif
-
