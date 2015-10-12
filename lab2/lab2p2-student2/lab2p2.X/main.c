@@ -55,14 +55,14 @@ int main(void)
         switch(state){
             
            case dispGood:
-               printOutput("Good");
+               printOutput("Good    ");
                 break;
            case dispBad:
-               printOutput("Bad");
+               printOutput("Bad     ");
                 break;
            case dispEnter:
                clearLCD();
-               printStringLCD("Enter");
+               printStringLCD("Enter   ");
                state = waitForPress;
                 break;
            case dispValid://-
@@ -75,7 +75,7 @@ int main(void)
                printOutput("Set Mode"); 
                clearLCD();
                state = dispValid; 
-                break;
+               break;
 
                 
                 
