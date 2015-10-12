@@ -8,6 +8,7 @@
 
 #include <xc.h>
 #include <sys/attribs.h>
+#include <string.h>
 #include "lcd.h"
 #include "timer.h"
 #include "keypad.h"
@@ -23,7 +24,7 @@
 
 typedef enum stateTypeEnum{
    scanKey, printKey, dbPress, dbRelease, waitForPress, waitForRelease,
-           dispGood, dispBad, dispEnter, dispValid, dispInvalid
+           dispGood, dispBad, dispEnter, dispValid, dispInvalid, dispMode
 } stateType;
 
 volatile stateType state = waitForPress;
@@ -32,7 +33,10 @@ volatile int keyScanned = -1;
 
 int main(void)
 {
-    char passWord[10][4] ; //[nump][lenp]; 
+    char passWord[10][5] ; //[nump][lenp]; 
+    char temp[5];
+    int pwItt = 0; 
+    int pwStoreIndex = 0; 
     int numCharsPrinted = 0; 
     ANSELE = 0;
     SYSTEMConfigPerformance(40000000);
@@ -42,7 +46,9 @@ int main(void)
     initTimer1();
     initKeypad();
     //enableInterrupts();
-
+    
+    strcmp(passWord[1], temp);
+    
 #ifdef run  
     while(1){
         jTestKeypad(); 
@@ -59,11 +65,20 @@ int main(void)
                printStringLCD("Enter");
                state = waitForPress;
                 break;
-           case dispValid:
+           case dispValid://-
+               printOutput("Valid   "); 
                 break;
-           case dispInvalid:
+           case dispInvalid://-
+               printOutput("Invalid "); 
+                break;
+           case dispMode://-
+               printOutput("Set Mode"); 
+               clearLCD();
+               state = dispValid; 
                 break;
 
+                
+                
             case printKey:
                 
                  //check need to move cursor
@@ -155,3 +170,4 @@ void __ISR(_CHANGE_NOTICE_VECTOR, IPL7SRS) _CNInterrupt(void){
     enableInterrupts(); 
 }
 #endif
+
