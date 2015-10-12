@@ -21,8 +21,8 @@
 #define lenp = 4; 
 
 //#define TEST
-int checkValid();
-int checkNewPwValid();
+int checkValid(char * str);
+int checkNewPwValid(char * str);
 
 typedef enum stateTypeEnum{
    scanKey, printKey, dbPress, dbRelease, waitForPress, waitForRelease, firstStar,
@@ -211,12 +211,15 @@ void __ISR(_CHANGE_NOTICE_VECTOR, IPL7SRS) _CNInterrupt(void){
 }
 #endif
 
-
-int checkValid(){
+// checks a string to see if it is in the saved passwords  
+// saved password array is char passWord[10][5]; 
+int checkValid(char * str){
 
     return 0;
 }
-int checkNewPwValid(){
+
+// checks a string to make sure it is a valid pw entry 
+int checkNewPwValid(char * str){
 
     return 0;
 }
