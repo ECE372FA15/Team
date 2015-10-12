@@ -22,10 +22,11 @@
 
 //#define TEST
 int checkValid();
+int checkNewPwValid();
 
 typedef enum stateTypeEnum{
    scanKey, printKey, dbPress, dbRelease, waitForPress, waitForRelease, firstStar,
-           dispGood, dispBad, dispEnter, dispValid, dispInvalid, dispMode
+           dispGood, dispBad, dispEnter, dispValid, dispInvalid, set
 } stateType;
 
 volatile stateType modeState = dispEnter; 
@@ -40,7 +41,7 @@ int main(void)
     int pwItt = 0; 
     int pwStoreIndex = 0; 
     int numCharsPrinted = 0; 
-    int newKeyPressed = 1;
+    int modeStateEnable = 1;
     ANSELE = 0;
     SYSTEMConfigPerformance(40000000);
     initLCD();
@@ -76,13 +77,8 @@ int main(void)
            case dispInvalid://-
                printOutput("Invalid "); 
                 break;
-           case dispMode://-
-               printOutput("Set Mode"); 
-               clearLCD();
-               state = dispValid; 
-               break;
             case printKey:
-                newKeyPressed = 1; 
+                modeStateEnable = 1; 
                 temp[pwItt] = (char)keyScanned; 
                 pwItt++;
                 state = waitForRelease; 
@@ -117,18 +113,18 @@ int main(void)
         
         
 //<><><><>  Mode setting state machine <><><><><><><><><><><><><><><><><><><><><><>       
-    if(newKeyPressed == 1){ // need to ensure this is correct...
-            newKeyPressed = 0; 
+    if(modeStateEnable == 1){ // need to ensure this is correct...
+            modeStateEnable = 0; 
         // the newKeyPressed variable gets changed to 1 everytime a key press is detected    
         switch(modeState){
            case firstStar:
                if(temp[1] == '*'){
-                   modeState = dispMode; // the state that allows you to add pws 
+                   modeState = set; // the state that allows you to add pws 
                }else{
                    modeState = dispBad;
-               }               
-                break; 
-                
+               }  
+               
+                break;                
            case dispGood:
                printOutput("Good");
                 break;
@@ -139,7 +135,7 @@ int main(void)
                clearLCD();
                printStringLCD("Enter");
                moveCursorLCD(2,1);
-               printStringLCD(temp); 
+               printCharLCD(temp); 
                
                if(temp[0] == '*'){
                    modeState = firstStar;
@@ -161,7 +157,7 @@ int main(void)
            case dispInvalid://-
                printOutput("Invalid "); 
                 break;
-           case dispMode://-
+           case set://-
                clearLCD()
                printStringLCD("Set Mode"); 
                
@@ -218,7 +214,9 @@ void __ISR(_CHANGE_NOTICE_VECTOR, IPL7SRS) _CNInterrupt(void){
 
 int checkValid(){
 
-
+    return 0;
+}
+int checkNewPwValid(){
 
     return 0;
 }
