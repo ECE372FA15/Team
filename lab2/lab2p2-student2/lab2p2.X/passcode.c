@@ -36,7 +36,7 @@ void clearBuff(int len, char *str){
     int i = 0;
     
     for(i = 0; i < len; i++){
-        str[i] = -1;
+        str[i] = NULL;
     }
 }
 

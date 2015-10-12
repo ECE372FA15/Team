@@ -53,7 +53,7 @@ int main(void)
     writeLCD(0b00001111, 0, 50);
     initTimer1();
     initKeypad();
-    //enableInterrupts();
+    enableInterrupts();
     clearBuff(temp,5); 
     //initialize passcode array to NULL
     for(i = 0; i < passwords; i++){
@@ -155,25 +155,31 @@ int main(void)
                clearLCD();
                printStringLCD("Enter");
                moveCursorLCD(2,1);
-               //printStringLCD(temp); 
-               
+               printStringLCD(temp); 
+//               if (keyScanned != -1){
+//                   printCharLCD(keyScanned);
+//               }
                if(temp[0] == '*'){
                    modeState = firstStar;
+                   modeStateEnable = 0;//wait for new key to be pressed 
                }
                else if(temp[0] == '#'){
                    modeState = dispBad;
+                   modeStateEnable = 1;//continue
                }
                else if(pwItt == 3){ // pw == xxxx...
                    if( (checkValid(temp, passWord) == 0)){ 
                        modeState = dispBad;// 0 means invalid pw
+                       modeStateEnable = 1;//wait for new key to be pressed 
                    }else{
                        modeState = dispGood; //1 means valid pw
+                       modeStateEnable = 1;//wait for new key to be pressed 
                    }
                }
                else{
                    modeState = dispEnter;
+                   modeStateEnable = 0;//wait for new key to be pressed 
                }
-               modeStateEnable == 0;//wait for new key to be pressed 
                 break;
            case dispValid://-
                printOutput("Valid   "); 
