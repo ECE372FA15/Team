@@ -35,6 +35,7 @@
 
 int checkValid(char str[], char passWord[][]);
 int checkNewPwValid(char str[], char passWord[][]);
+void clearBuff(int len, char *str);
 
 #endif	/* XC_HEADER_TEMPLATE_H */
 

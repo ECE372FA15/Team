@@ -29,3 +29,12 @@ int addNewPw(char str[], char passWord[][]){
     return match;
 }
 
+//Clears the temp str buffer
+void clearBuff(int len, char *str){
+    int i = 0;
+    
+    for(i = 0; i < len; i++){
+        str[i] = NULL;
+    }
+}
+
