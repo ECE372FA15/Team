@@ -36,11 +36,11 @@ int main(void)
     writeLCD(0b00001111, 0, 50);
     initTimer1();
     initKeypad();
-    enableInterrupts();
+    //enableInterrupts();
 
 #ifdef run  
     while(1){
-       // jTestKeypad(); 
+        jTestKeypad(); 
         switch(state){
             case printKey:
                 
