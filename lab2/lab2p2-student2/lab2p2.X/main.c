@@ -15,10 +15,15 @@
 #include "interrupt.h"
 #include "variableDefs.h"
 #define run
+
+#define nump = 10;
+#define lenp = 4; 
+
 //#define TEST
 
 typedef enum stateTypeEnum{
-   scanKey, printKey, dbPress, dbRelease, waitForPress, waitForRelease
+   scanKey, printKey, dbPress, dbRelease, waitForPress, waitForRelease,
+           dispGood, dispBad, dispEnter, dispValid, dispInvalid
 } stateType;
 
 volatile stateType state = waitForPress;
@@ -27,8 +32,8 @@ volatile int keyScanned = -1;
 
 int main(void)
 {
+    char passWord[10][4] ; //[nump][lenp]; 
     int numCharsPrinted = 0; 
-    int t = 0;
     ANSELE = 0;
     SYSTEMConfigPerformance(40000000);
     initLCD();
@@ -42,6 +47,18 @@ int main(void)
     while(1){
         jTestKeypad(); 
         switch(state){
+            
+           case dispGood:
+                break;
+           case dispBad:
+                break;
+           case dispEnter:
+                break;
+           case dispValid:
+                break;
+           case dispInvalid:
+                break;
+
             case printKey:
                 
                  //check need to move cursor
@@ -53,33 +70,12 @@ int main(void)
                     cursorHome();// return home
                     numCharsPrinted = 0; 
                 }
-//                
-//                // do the printing 
-//                if((keyScanned > -1) && (keyScanned < 10)){
-//                    printCharLCD(keyScanned + '0'); 
-//                    numCharsPrinted++;
-//                }
-//                else if (keyScanned == 42){
-//                    printCharLCD('*'); 
-//                    numCharsPrinted++;
-//                }
-//                else if (keyScanned == 35){
-//                    printCharLCD('#'); 
-//                    numCharsPrinted++;
-//                }
-//                else{
-//                    //Do not print to LCD, potentially clear LCD.
-//                }
                 if(keyScanned != -1){
                     printCharLCD(keyScanned);
                     numCharsPrinted++;
                 }
                 
                 state = waitForRelease; 
-               // enableInterrupts(); 
-                // Still need to set up moving the cursor after each print, I want 
-                // to test if it will print in the first spot on the LCD before
-                // trying to implement this however
             break;
             
             case scanKey:
