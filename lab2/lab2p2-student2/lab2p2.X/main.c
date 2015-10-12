@@ -21,6 +21,7 @@
 #define lenp = 4; 
 
 //#define TEST
+int checkValid();
 
 typedef enum stateTypeEnum{
    scanKey, printKey, dbPress, dbRelease, waitForPress, waitForRelease, firstStar,
@@ -116,14 +117,18 @@ int main(void)
         
         
 //<><><><>  Mode setting state machine <><><><><><><><><><><><><><><><><><><><><><>       
-    if(newKeyPressed == 1){
+    if(newKeyPressed == 1){ // need to ensure this is correct...
             newKeyPressed = 0; 
         // the newKeyPressed variable gets changed to 1 everytime a key press is detected    
         switch(modeState){
            case firstStar:
-               
-               
+               if(temp[1] == '*'){
+                   modeState = dispMode; // the state that allows you to add pws 
+               }else{
+                   modeState = dispBad;
+               }               
                 break; 
+                
            case dispGood:
                printOutput("Good");
                 break;
@@ -133,8 +138,22 @@ int main(void)
            case dispEnter:
                clearLCD();
                printStringLCD("Enter");
+               moveCursorLCD(2,1);
+               printStringLCD(temp); 
                
-               modeState = 1;
+               if(temp[0] == '*'){
+                   modeState = firstStar;
+               }else if(temp[0] == '#'){
+                   modeState = dispBad;
+               }else if(pwItt == 3){ // 0-3...
+                   if(checkValid() == 0){ 
+                       modeState = dispBad;// 0 means invalid pw
+                   }else{
+                       modeState = dispGood; //1 means valid pw
+                   }
+               }else{
+                   modeState = dispEnter;
+               }
                 break;
            case dispValid://-
                printOutput("Valid   "); 
@@ -196,3 +215,10 @@ void __ISR(_CHANGE_NOTICE_VECTOR, IPL7SRS) _CNInterrupt(void){
 }
 #endif
 
+
+int checkValid(){
+
+
+
+    return 0;
+}
