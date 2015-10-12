@@ -126,6 +126,15 @@ int scanKeypad(void){
     return key;
 }
 
+void printOutput(const char* output){
+    
+    clearLCD();
+    printStringLCD(output);
+    delayUs(2000000);
+    
+}
+
+
 void testKeypad(void){
     
 //    ROW1 = HIGH;

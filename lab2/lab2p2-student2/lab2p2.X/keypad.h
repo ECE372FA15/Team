@@ -12,6 +12,7 @@
 
 int initKeypad(void);
 int scanKeypad(void);
+void printOutput(const char* output);
 void testKeypad(void);
 void jTestKeypad(void);
 void keypadRefresh(void);

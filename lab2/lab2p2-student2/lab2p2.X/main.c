@@ -49,10 +49,15 @@ int main(void)
         switch(state){
             
            case dispGood:
+               printOutput("Good");
                 break;
            case dispBad:
+               printOutput("Bad");
                 break;
            case dispEnter:
+               clearLCD();
+               printStringLCD("Enter");
+               state = waitForPress;
                 break;
            case dispValid:
                 break;
