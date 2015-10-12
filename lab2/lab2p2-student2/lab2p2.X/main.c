@@ -39,6 +39,7 @@ int main(void)
     int pwItt = 0; 
     int pwStoreIndex = 0; 
     int numCharsPrinted = 0; 
+    int newKeyPressed = 1;
     ANSELE = 0;
     SYSTEMConfigPerformance(40000000);
     initLCD();
@@ -98,6 +99,7 @@ int main(void)
 //                    printCharLCD(keyScanned);
 //                    numCharsPrinted++;
 //                }
+                newKeyPressed = 1; 
                 temp[pwItt] = (char)keyScanned; 
                 pwItt++;
                 state = waitForRelease; 
@@ -136,7 +138,9 @@ int main(void)
             break;
             
         }
-                
+        // the newKeyPressed variable gets changed to 1 everytime a key press is detected         
+        if(newKeyPressed == 1){
+            newKeyPressed = 0; 
         switch(modeState){
            case firstStar:
                
@@ -167,7 +171,7 @@ int main(void)
                modeState = dispValid; 
                modeState = dispInvalid; 
                 break;   
-            
+        }   
         }
         
     }
