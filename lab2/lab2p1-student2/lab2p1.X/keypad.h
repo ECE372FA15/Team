@@ -11,8 +11,10 @@
 #include "variableDefs.h"
 
 int initKeypad(void);
-char scanKeypad(void);
+int scanKeypad(void);
 void testKeypad(void);
+void jTestKeypad(void);
+void keypadRefresh(void);
 
 #endif	/* KEYPAD_H */
 

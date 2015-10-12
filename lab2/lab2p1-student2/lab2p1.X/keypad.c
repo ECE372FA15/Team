@@ -61,6 +61,10 @@ int initKeypad(void){
     IFS1bits.CNEIF = 0;
     IFS1bits.CNDIF = 0;
     
+    // set up the pins! to insure a change when any button is pressed! 
+    keypadRefresh();
+    
+    
 }
 
 /* This function will be called AFTER you have determined that someone pressed
@@ -69,43 +73,56 @@ int initKeypad(void){
  * no key is pressed at all. Otherwise, it should return the ASCII character of
  * the key that is pressed.
  */
-char scanKeypad(void){
-    int key = -1;
+
+void keypadRefresh(void){
+    ROW1 = 0;
+    ROW2 = 0;
+    ROW3 = 0;
+    ROW4 = 0;
     
-          
+}
+
+int scanKeypad(void){
+    int key = -1;
+    int kpdDly = 700;
+    
     ROW1 = 0;
     ROW2 = 1;
     ROW3 = 1;
     ROW4 = 1;
-    if(COL1 == 0) key = '1';
-    if(COL2 == 0) key = '2';
-    if(COL3 == 0) key = '3';
+    delayUs(kpdDly);
+    if(COL1 == 0){ key = '1';  keypadRefresh(); return key; }
+    if(COL2 == 0){ key = '2';  keypadRefresh(); return key; }
+    if(COL3 == 0){ key = '3';  keypadRefresh(); return key; }
     
     ROW1 = 1;
     ROW2 = 0;
     ROW3 = 1;
     ROW4 = 1;
-    if(COL1 == 0) key = '4';
-    if(COL2 == 0) key = '5';
-    if(COL3 == 0) key = '6';
+    delayUs(kpdDly);
+    if(COL1 == 0){ key = '4';  keypadRefresh(); return key; }
+    if(COL2 == 0){ key = '5';  keypadRefresh(); return key; }
+    if(COL3 == 0){ key = '6';  keypadRefresh(); return key; }
     
     ROW1 = 1;
     ROW2 = 1;
     ROW3 = 0;
     ROW4 = 1;
-    if(COL1 == 0) key = '7';
-    if(COL2 == 0) key = '8';
-    if(COL3 == 0) key = '9';
+    delayUs(kpdDly);
+    if(COL1 == 0){ key = '7';  keypadRefresh(); return key; }
+    if(COL2 == 0){ key = '8';  keypadRefresh(); return key; }
+    if(COL3 == 0){ key = '9';  keypadRefresh(); return key; }
     
     ROW1 = 1;
     ROW2 = 1;
     ROW3 = 1;
     ROW4 = 0;
-    if(COL1 == 0) key = '*';//42;   //ASCII value of *
-    if(COL2 == 0) key = '0';
-    if(COL3 == 0) key = '#';//35;   //ASCII value of #
+    delayUs(kpdDly);
+    if(COL1 == 0){ key = '*';  keypadRefresh(); return key; }//42;   //ASCII value of *
+    if(COL2 == 0){ key = '0';  keypadRefresh(); return key; }
+    if(COL3 == 0){ key = '#';  keypadRefresh(); return key; }//35;   //ASCII value of #
     
-          
+    keypadRefresh();
     return key;
 }
 
@@ -119,6 +136,7 @@ void testKeypad(void){
 //    
 //    ROW4 = HIGH;
 //    delayUs(50000);
+    
     ROW1 = LOW;
     
     ROW2 = LOW;
@@ -129,3 +147,62 @@ void testKeypad(void){
 
     
 }
+
+void jTestKeypad(){
+//<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><
+//<><><><><><><><><><><><><><><><><  function tests keypad  ><><><<><><><><><><><><><><><><
+//<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><
+    
+// User can press keys see them on the display when the "code" is entered, the displat clears
+// hardware initialization handled outside of code...
+    
+    char c; int i = 12; 
+    char code[4] = "1234";//{'1','2','3','4'}; 
+    char last1;
+    char last2;
+    char last3;
+    char last4; 
+    clearLCD();
+    printCharLCD('B'); printCharLCD('e'); printCharLCD('g'); printCharLCD('i'); printCharLCD('n');
+    moveCursorLCD(1,1);
+    printCharLCD('T'); printCharLCD('e'); printCharLCD('s'); printCharLCD('t');
+    delayUs(2000000);
+    clearLCD();
+    i = 0; 
+    while(1){
+
+        // scan and print 
+        c = scanKeypad();
+        if(c != -1){
+          if( c == '0'  || c == '1'  || c == '2'  || c == '3'  || c == '4'  || c == '5'  ||
+                   c == '6'  || c == '7'  || c == '8'  || c == '9'  || c == '*'  || c == '#')  
+          printCharLCD((char)c);
+          i ++; 
+          last4 = last3;
+          last3 = last2;
+          last2 = last1;
+          last1 = c; 
+        }
+        // check move conditions 
+        if( i == 8){
+           moveCursorLCD(1,1);
+        }else if ( i == 16){
+           moveCursorLCD(1,0);
+           i = 0; 
+        }
+        if(last1 == code[3] && last2 == code[2] && last3 == code[1] && last4 == code[0])
+        {
+            clearLCD(); 
+            i = 0;
+            moveCursorLCD(0,1);
+        }
+            
+            delayUs(100000); 
+    }
+};
+//         //   clearLCD(); rmoved to balance timeing in isr
+//            writeLCD(0b00001111, 0, 50);
+//            
+//           printStringLCD("STOPTED:");
+//           moveCursorLCD(1,1);
+//           printTimeLCD(hundredthsOfSeconds);
