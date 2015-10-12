@@ -139,6 +139,8 @@ int main(void)
                 break;                
            case dispGood:
                printOutput("Good");
+               clearLCD();
+               printStringLCD("Enter");
                modeState = dispEnter;
                modeStateEnable = 0;//wait for new key to be pressed 
                clearBuff(6,temp);   // clear the temp string 
@@ -146,6 +148,8 @@ int main(void)
                 break;
             case dispBad:
                printOutput("Bad");
+               clearLCD();
+               printStringLCD("Enter");
                modeState = dispEnter;
                modeStateEnable = 0;//wait for new key to be pressed 
                clearBuff(6,temp); // clear the temp string 
@@ -183,7 +187,10 @@ int main(void)
                 break;
            case dispValid://-
                printOutput("Valid   "); 
+               clearLCD();
+               printStringLCD("Enter");
                addNewPw(temp, passWord);
+               
                modeState = dispEnter;
                modeStateEnable = 0;//wait for new key to be pressed 
                clearBuff(6,temp); // clear the temp string 
@@ -191,6 +198,8 @@ int main(void)
                 break;
            case dispInvalid://-
                printOutput("Invalid "); 
+               clearLCD();
+               printStringLCD("Enter");
                modeState = dispEnter;
                modeStateEnable = 0;//wait for new key to be pressed 
                clearBuff(6,temp); // clear the temp string 

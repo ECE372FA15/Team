@@ -127,10 +127,12 @@ int scanKeypad(void){
 }
 
 void printOutput(const char* output){
-    
+    int i = 0; 
     clearLCD();
     printStringLCD(output);
-    delayUs(2000000);
+    for (i = 0; i < 1000; i++){
+     delayUs(2000);
+    }
     
 }
 
