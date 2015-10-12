@@ -23,7 +23,7 @@
 //#define TEST
 
 typedef enum stateTypeEnum{
-   scanKey, printKey, dbPress, dbRelease, waitForPress, waitForRelease,
+   scanKey, printKey, dbPress, dbRelease, waitForPress, waitForRelease, firstStar,
            dispGood, dispBad, dispEnter, dispValid, dispInvalid, dispMode
 } stateType;
 
@@ -35,7 +35,7 @@ volatile int keyScanned = -1;
 int main(void)
 {
     char passWord[10][5] ; //[nump][lenp]; 
-    char temp[5];
+    char temp[6];
     int pwItt = 0; 
     int pwStoreIndex = 0; 
     int numCharsPrinted = 0; 
@@ -70,9 +70,11 @@ int main(void)
 //                    printCharLCD(keyScanned);
 //                    numCharsPrinted++;
 //                }
-                passWord[pwItt] = keyScanned; 
+                temp[pwItt] = (char)keyScanned; 
+                pwItt++;
                 state = waitForRelease; 
             break;
+            
             
             case scanKey:
                 //Disable CN interrupts in isr..
@@ -106,9 +108,11 @@ int main(void)
             break;
             
         }
-        
+                
         switch(modeState){
-                     
+           case firstStar:
+               
+                break; 
            case dispGood:
                printOutput("Good");
                 break;
@@ -118,7 +122,7 @@ int main(void)
            case dispEnter:
                clearLCD();
                printStringLCD("Enter");
-               state = waitForPress;
+               modeState = waitForPress;
                 break;
            case dispValid://-
                printOutput("Valid   "); 
@@ -132,8 +136,8 @@ int main(void)
                
                
                
-               state = dispValid; 
-               state = dispInvalid; 
+               modeState = dispValid; 
+               modeState = dispInvalid; 
                 break;   
             
         }
