@@ -15,6 +15,7 @@
 #include "config.h"
 #include "interrupt.h"
 #include "variableDefs.h"
+#include "passcode.h"
 #define run
 #define nump = 10;
 #define lenp = 4; 
