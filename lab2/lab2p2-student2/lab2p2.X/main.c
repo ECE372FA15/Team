@@ -34,12 +34,16 @@ volatile int keyScanned = -1;
 
 int main(void)
 {
+
     char passWord[passwords][5] ; //[nump][lenp]; 
-    char temp[6];
-    int pwItt = 0; 
-    int pwStoreIndex = 0; 
-    int numCharsPrinted = 0; 
-    int modeStateEnable = 1;
+    char temp[6];               //string to hold characters as they are typed in
+    int pwItt = 0;              //index of the password being typed in by user 
+    int pwStoreIndex = 0;       //index for string# in passWord[][] array
+                                //index is used to add pws to passWord[][]
+    
+    int numCharsPrinted = 0;    // counter to keep things tidy on the display 
+    int modeStateEnable = 1;    // enables the second state machine 
+
     ANSELE = 0;
     SYSTEMConfigPerformance(40000000);
     initLCD();
@@ -49,7 +53,6 @@ int main(void)
     initKeypad();
     //enableInterrupts();
     
-    strcmp(passWord[1], temp);
     
 #ifdef run  
     while(1){
@@ -140,7 +143,7 @@ int main(void)
                }else if(temp[0] == '#'){
                    modeState = dispBad;
                }else if(pwItt == 3){ // 0-3...
-                   if(checkValid() == 0){ 
+                   if(checkValid(temp, passWord) == 0){ 
                        modeState = dispBad;// 0 means invalid pw
                    }else{
                        modeState = dispGood; //1 means valid pw
@@ -151,6 +154,8 @@ int main(void)
                 break;
            case dispValid://-
                printOutput("Valid   "); 
+               strcpy(passWord[pwStoreIndex],temp); // move in the new pw
+               
                 break;
            case dispInvalid://-
                printOutput("Invalid "); 
@@ -158,11 +163,20 @@ int main(void)
            case set://-
                clearLCD()
                printStringLCD("Set Mode"); 
+               moveCursorLCD(2,1);  
+               if(temp[pwItt] == '*' || temp[pwItt] == '#'){ // if an invalid key was entered 
+                    modeState = dispInvalid; // if new pw is not valid 
+               }
                
+               printCharLCD(temp[pwItt]); // might work better to press key pressed 
                
-               
-               modeState = dispValid; 
-               modeState = dispInvalid; 
+               if(pwItt = 5){ // "**xxxx"...
+                   temp[0] = temp[2]; temp[1] = temp[3];    // remove leading "**" 
+                   temp[2] = temp[4]; temp[3] = temp[5]; temp[4] = '/0'; 
+                   
+                   addNewPw(temp, passWord); 
+                   modeState = dispValid;
+               }
                 break;   
         }   
         }
