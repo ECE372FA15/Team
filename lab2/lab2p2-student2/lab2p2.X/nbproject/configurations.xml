@@ -29,8 +29,6 @@
                    projectFiles="false">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
-    <itemPath>password.h</itemPath>
-    <itemPath>password.c</itemPath>
   </logicalFolder>
   <sourceRootList>
     <Elem>.</Elem>
