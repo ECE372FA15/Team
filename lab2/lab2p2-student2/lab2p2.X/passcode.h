@@ -33,7 +33,7 @@
 
 #include <xc.h> // include processor files - each processor file is guarded.  
 
-int checkValid(char * str, char * passWord[][]);
+int checkValid(char str[], char passWord[][]);
 int checkNewPwValid(char * str);
 
 #endif	/* XC_HEADER_TEMPLATE_H */
