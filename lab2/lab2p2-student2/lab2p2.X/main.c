@@ -120,7 +120,10 @@ int main(void)
            case firstStar:                  //interrupts are ENABLED DELETEME
                if(temp[1] == '*'){
                    modeState = set;         // the state that allows you to add pws 
-                   modeStateEnable = 0;     //wait for new key to be pressed 
+                   modeStateEnable = 0;     //wait for new key to be pressed
+                   clearLCD();
+                   printStringLCD("Set Mode");
+                   moveCursorLCD(2,1);
                    enableInterrupts(); 
                }
                else{
@@ -164,6 +167,8 @@ int main(void)
                    //I had issues passing passWord[][] into a function checkValid
                    //the following is the contents of the function
                    ///////////////////////////////////////////////
+                count = 0;
+                match = 0;
                 for (i = 0; i < passwords; i ++){
                     for (j = 0; j < wordLen; j++){
                         if (temp[j] == passWord[i][j]){
@@ -212,7 +217,49 @@ int main(void)
                printOutput("Valid   "); 
                clearLCD();
                printStringLCD("Enter");
-               if(addNewPw(temp, passWord) == 0){           // if password is not in list 
+               ////////////////////////////////////////////////////////////////////////
+               //i suck at pointers this neeeds to go in addNewPw
+               ////////////////////////////////////////////////////////////////////////
+               count = 0;
+               match = 0;
+               for (i = 0; i < passwords; i ++){
+                    for (j = 0; j < wordLen; j++){
+                        if (temp[j] == passWord[i][j]){
+                            count = count + 1;
+                        }
+                    }
+                    if (count == wordLen){
+                            match = 1;
+                            count = 0;
+                    } 
+                    else {
+                        count = 0;
+                    }   
+                }
+               
+               
+//               //
+//               //
+//               while (i < passwords){
+//                   while (j < wordLen){
+//                       if (temp[j] == passWord[i][j]){
+//                           j ++;
+//                           match = 1;
+//                       }
+//                       else {
+//                           j = wordLen;
+//                           match = 0;
+//                       }
+//                   }
+//                   if (match == 1){
+//                       i = passwords;
+//                   }
+//                   else{
+//                       i++;
+//                   }
+//               }
+               ///////////////////////////////////////////////////////////////////////
+               if(match == 0){           // if password is not in list 
                    strcpy(passWord[pwStoreIndex], temp);    // add it
                    pwStoreIndex++;                          // increment itterator 
                }
@@ -235,24 +282,29 @@ int main(void)
                 break;
                 
            case set:
-               clearLCD();
-               printStringLCD("Set Mode"); 
-               moveCursorLCD(2,1);  
+//               clearLCD();
+//               printStringLCD("Set Mode"); 
+//               moveCursorLCD(2,1); 
+//               printStringLCD(temp);
+               printCharLCD(keyScanned); // might work better to press key pressed 
                if(keyScanned == '*' || keyScanned == '#'){ // if an invalid key was entered 
                     modeState = dispInvalid; // if new pw is not valid 
+                    modeStateEnable = 1; //next state needs to be executed
+                   disableInterrupts();
                }
-               
-               printCharLCD(keyScanned); // might work better to press key pressed 
-               
-               if(pwItt == 5){ // pw == "**xxxx"...
+               else if(pwItt == 6){ // pw == "**xxxx"...
                    temp[0] = temp[2]; temp[1] = temp[3];    // remove leading "**" 
                    temp[2] = temp[4]; temp[3] = temp[5]; temp[4] = '\0'; 
-                    
+                 
                    modeState = dispValid;
+                   modeStateEnable = 1; //next state needs to be executed
+                   disableInterrupts();
                }
-               
-               modeStateEnable = 1; //next state needs to be executed
-               enableInterrupts(); 
+               else {
+               modeStateEnable = 0; //next state needs to be executed
+               enableInterrupts();
+               }
+                
                 break;   
         }   
         }

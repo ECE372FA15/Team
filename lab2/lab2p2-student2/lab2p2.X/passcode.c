@@ -2,7 +2,7 @@
 #include <string.h>
 
 //Compares entered password with stored passwords
-int checkValid(char *str, char * passWord[]){
+int checkValid(char *str, char * passWord[wordLen]){
     int i = 0;
     int j = 0;
     int match = 0;
