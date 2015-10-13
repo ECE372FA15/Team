@@ -77,6 +77,7 @@ int main(void)
                 pwItt++;
                 state = waitForRelease; 
             break;
+            
             case scanKey:
                 keyScanned  = scanKeypad(); 
                 state = printKey;
@@ -94,6 +95,7 @@ int main(void)
             
             case waitForPress:
                // no while loop
+                enableInterrupts();
             break;
             
             case waitForRelease:
@@ -180,7 +182,8 @@ int main(void)
                }
                else{
                    modeState = dispEnter;
-                   modeStateEnable = 0;//wait for new key to be pressed  
+                   modeStateEnable = 0;//wait for new key to be pressed 
+                   printCharLCD(pwItt + 64);
                    disableInterrupts();
                }
                
@@ -189,7 +192,7 @@ int main(void)
                printOutput("Valid   "); 
                clearLCD();
                printStringLCD("Enter");
-               if(addNewPw(temp, passWord) == 0){ // if password is not in list 
+               if(addNewPw(temp, passWord) == 0){           // if password is not in list 
                    strcpy(passWord[pwStoreIndex], temp);    // add it
                    pwStoreIndex++;                          // increment itterator 
                }
