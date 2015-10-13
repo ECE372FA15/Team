@@ -34,8 +34,8 @@
 #define wordLen 7
 #include <xc.h> // include processor files - each processor file is guarded.  
 
-int checkValid(char *str, char* passWord[]);
-int addNewPw(char *str, char *passWord[wordLen]);
+int checkValid(char *str, char passWord[passwords][wordLen]);
+int addNewPw(char *str, char passWord[passwords][wordLen]);
 void clearBuff(int len, char *str);
 
 #endif	/* XC_HEADER_TEMPLATE_H */

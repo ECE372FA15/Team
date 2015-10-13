@@ -145,15 +145,13 @@ int main(void)
                 break;
                 
             case dispBad:               //interrupts are DISABLED DELETEME
-               disableInterrupts();
-               printCharLCD('+');       //for debugging DELETEME
                printOutput("Bad");  
                clearLCD();              
-               printStringLCD("Enter"); //prompt enter state
-               modeState = dispEnter;   //switch state
+               printStringLCD("Enter"); // prompt enter state
+               modeState = dispEnter;   // switch state
                clearBuff(wordLen,temp); // clear the temp string 
                pwItt = 0;               // reset the pw itterator 
-               modeStateEnable = 0;     //wait for new key to be pressed
+               modeStateEnable = 0;     // wait for new key to be pressed
                enableInterrupts();  
                 break;
                 
@@ -163,28 +161,30 @@ int main(void)
                moveCursorLCD(2,1);
                printStringLCD(temp);    // print the characters as they are entered 
                if(pwItt == 4){ 
+                   
                    ////////////////////////////////////////////////
                    //I had issues passing passWord[][] into a function checkValid
                    //the following is the contents of the function
                    ///////////////////////////////////////////////
-                count = 0;
-                match = 0;
-                for (i = 0; i < passwords; i ++){
-                    for (j = 0; j < wordLen; j++){
-                        if (temp[j] == passWord[i][j]){
-                            count = count + 1;
-                        }
-                    }
-                    if (count == wordLen){
-                            match = 1;
-                            count = 0;
-                    } 
-                    else {
-                        count = 0;
-                    }   
-                }
+//////                count = 0;
+//////                match = 0;
+//////                for (i = 0; i < passwords; i ++){
+//////                    for (j = 0; j < wordLen; j++){
+//////                        if (temp[j] == passWord[i][j]){
+//////                            count = count + 1;
+//////                        }
+//////                    }
+//////                    if (count == wordLen){
+//////                            match = 1;
+//////                            count = 0;
+//////                    } 
+//////                    else {
+//////                        count = 0;
+//////                    }   
+//////                }
                    ///////////////////////////////////////////////
-                   if( match == 0){ 
+                   if( checkValid(temp,passWord) == 0){ 
+                   //if( match == 0){ 
                        modeState = dispBad;     // 0 means invalid pw
                        modeStateEnable = 1;     //goto state
                        disableInterrupts();     
@@ -220,22 +220,22 @@ int main(void)
                ////////////////////////////////////////////////////////////////////////
                //i suck at pointers this neeeds to go in addNewPw
                ////////////////////////////////////////////////////////////////////////
-               count = 0;
-               match = 0;
-               for (i = 0; i < passwords; i ++){
-                    for (j = 0; j < wordLen; j++){
-                        if (temp[j] == passWord[i][j]){
-                            count = count + 1;
-                        }
-                    }
-                    if (count == wordLen){
-                            match = 1;
-                            count = 0;
-                    } 
-                    else {
-                        count = 0;
-                    }   
-                }
+//////               count = 0;
+//////               match = 0;
+//////               for (i = 0; i < passwords; i ++){
+//////                    for (j = 0; j < wordLen; j++){
+//////                        if (temp[j] == passWord[i][j]){
+//////                            count = count + 1;
+//////                        }
+//////                    }
+//////                    if (count == wordLen){
+//////                            match = 1;
+//////                            count = 0;
+//////                    } 
+//////                    else {
+//////                        count = 0;
+//////                    }   
+//////                }
                
                
 //               //
@@ -259,7 +259,8 @@ int main(void)
 //                   }
 //               }
                ///////////////////////////////////////////////////////////////////////
-               if(match == 0){           // if password is not in list 
+               if(addNewPw(temp,passWord) == 0){           // if password is not in list 
+               //if(match == 0){           // if password is not in list 
                    strcpy(passWord[pwStoreIndex], temp);    // add it
                    pwStoreIndex++;                          // increment itterator 
                }
@@ -294,7 +295,7 @@ int main(void)
                }
                else if(pwItt == 6){ // pw == "**xxxx"...
                    temp[0] = temp[2]; temp[1] = temp[3];    // remove leading "**" 
-                   temp[2] = temp[4]; temp[3] = temp[5]; temp[4] = '\0'; 
+                   temp[2] = temp[4]; temp[3] = temp[5]; temp[4] = NULL; temp[5] = NULL; 
                  
                    modeState = dispValid;
                    modeStateEnable = 1; //next state needs to be executed
