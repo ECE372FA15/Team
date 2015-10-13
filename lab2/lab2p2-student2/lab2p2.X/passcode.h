@@ -31,10 +31,11 @@
 #ifndef PASSCODE_H
 #define	PASSCODE_H
 #define passwords 10
+#define wordLen 7
 #include <xc.h> // include processor files - each processor file is guarded.  
 
-int checkValid(char *str, char* passWord[5]);
-int addNewPw(char *str, char *passWord[5]);
+int checkValid(char *str, char* passWord[wordLen]);
+int addNewPw(char *str, char *passWord[wordLen]);
 void clearBuff(int len, char *str);
 
 #endif	/* XC_HEADER_TEMPLATE_H */

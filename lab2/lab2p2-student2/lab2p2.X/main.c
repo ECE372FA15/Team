@@ -17,8 +17,6 @@
 #include "variableDefs.h"
 #include "passcode.h"
 #define run
-#define nump = 10;
-#define lenp = 4; 
 
 //#define TEST
 
@@ -36,14 +34,14 @@ volatile int keyScanned = -1;
 int main(void)
 {
 
-    char passWord[passwords][5] ; //[nump][lenp]; 
+    char passWord[passwords][wordLen] ; //[nump][lenp]; 
     char temp[6];               //string to hold characters as they are typed in
     int pwItt = 0;              //index of the password being typed in by user 
     int pwStoreIndex = 0;       //index for string# in passWord[][] array
                                 //index is used to add pws to passWord[][]
     
     int numCharsPrinted = 0;    // counter to keep things tidy on the display 
-    int modeStateEnable = 1;    // enables the second state machine 
+    int modeStateEnable = 0;    // enables the second state machine 
     int i = 0, j = 0;
     
     ANSELE = 0;
@@ -55,14 +53,15 @@ int main(void)
     initKeypad();
     enableInterrupts();
     clearBuff(temp,5); 
+    
     //initialize passcode array to NULL
     for(i = 0; i < passwords; i++){
-    
-        for(j = 0; j <5; j++){
+        for(j = 0; j < wordLen; j++){
             passWord[i][j] = NULL;
         }
-        
     }
+    // initialize the state machine output 
+    printStringLCD("Enter");
     
     
 #ifdef run  
@@ -123,87 +122,110 @@ int main(void)
         }
 //<><><><> END button de bounce stuff  <><><><><><><><><><><><><><><><><><><><><><>  
         
+//!!! TODO !!! every exit branch of the state machine WILL:
+//        enable/disable interrupts
+//        set the next state (even if it does not change)
+//        set modeStateEnable to 1 or 0
+        
+//    THIS will help with debugging  
         
 //<><><><>  Mode setting state machine <><><><><><><><><><><><><><><><><><><><><><>       
     if(modeStateEnable == 1){ // need to ensure this is correct...
+            disableInterrupts();    //messing with printing?
             modeStateEnable = 0; 
         // the newKeyPressed variable gets changed to 1 everytime a key press is detected    
         switch(modeState){
            case firstStar:
                if(temp[1] == '*'){
-                   modeState = set; // the state that allows you to add pws 
+                   modeState = set;         // the state that allows you to add pws 
+                   modeStateEnable = 0;     //wait for new key to be pressed 
+                   enableInterrupts(); 
                }else{
                    modeState = dispBad;
+                   modeStateEnable = 1;     //goto state
                }  
-               modeStateEnable = 0;//wait for new key to be pressed 
                 break;                
            case dispGood:
                printOutput("Good");
-               clearLCD();
-               printStringLCD("Enter");
-               modeState = dispEnter;
-               modeStateEnable = 0;//wait for new key to be pressed 
-               clearBuff(6,temp);   // clear the temp string 
-               pwItt = 0;           // reset the pw itterator 
+               
+               // things todo before returning to dispEnter 
+               clearLCD();              
+               printStringLCD("Enter"); //prompt enter state
+               clearBuff(wordLen,temp); // clear the temp string 
+               pwItt = 0;               // reset the pw itterator 
+               modeState = dispEnter;   //switch state
+               modeStateEnable = 0;     //wait for new key to be pressed
+               enableInterrupts();  
                 break;
             case dispBad:
                printOutput("Bad");
-               clearLCD();
-               printStringLCD("Enter");
-               modeState = dispEnter;
-               modeStateEnable = 0;//wait for new key to be pressed 
-               clearBuff(6,temp); // clear the temp string 
-               pwItt = 0;           // reset the pw itterator 
+               
+               // things todo before returning to dispEnter 
+               clearLCD();              
+               printStringLCD("Enter"); //prompt enter state
+               modeState = dispEnter;   //switch state
+               clearBuff(wordLen,temp); // clear the temp string 
+               pwItt = 0;               // reset the pw itterator 
+               modeStateEnable = 0;     //wait for new key to be pressed
+               enableInterrupts();  
                 break;
            case dispEnter:
                clearLCD();
                printStringLCD("Enter");
                moveCursorLCD(2,1);
-               printStringLCD(temp); 
-//               if (keyScanned != -1){
-//                   printCharLCD(keyScanned);
-//               }
+               printStringLCD(temp);    // print the characters as they are entered 
+
+               
                if(temp[0] == '*'){
                    modeState = firstStar;
-                   modeStateEnable = 0;//wait for new key to be pressed 
+                   modeStateEnable = 0; //wait for new key to be pressed 
+                   enableInterrupts(); 
                }
                else if(temp[0] == '#'){
                    modeState = dispBad;
-                   modeStateEnable = 1;//continue
+                   modeStateEnable = 1; //continue
                }
                else if(pwItt == 3){ // pw == xxxx...
                    if( (checkValid(temp, passWord) == 0)){ 
-                       modeState = dispBad;// 0 means invalid pw
-                       modeStateEnable = 1;//wait for new key to be pressed 
+                       modeState = dispBad;     // 0 means invalid pw
+                       modeStateEnable = 1;     //goto state
                    }else{
-                       modeState = dispGood; //1 means valid pw
-                       modeStateEnable = 1;//wait for new key to be pressed 
+                       modeState = dispGood;     //1 means valid pw
+                       modeStateEnable = 1;     //goto state
                    }
                }
                else{
                    modeState = dispEnter;
-                   modeStateEnable = 0;//wait for new key to be pressed 
+                   modeStateEnable = 0;//wait for new key to be pressed  
+                   enableInterrupts();  
                }
                 break;
            case dispValid://-
                printOutput("Valid   "); 
                clearLCD();
+               
+               
                printStringLCD("Enter");
-               addNewPw(temp, passWord);
+               if(addNewPw(temp, passWord) == 0){ // if password is not in list 
+                   strcpy(passWord[pwStoreIndex], temp);    // add it
+                   pwStoreIndex++;                          // increment itterator 
+               }
                
                modeState = dispEnter;
-               modeStateEnable = 0;//wait for new key to be pressed 
-               clearBuff(6,temp); // clear the temp string 
-               pwItt = 0;           // reset the pw itterator 
+               clearBuff(wordLen,temp); // clear the temp string 
+               pwItt = 0;               // reset the pw itterator
+               modeStateEnable = 0;     //wait for new key to be pressed 
+               enableInterrupts();  
                 break;
            case dispInvalid://-
                printOutput("Invalid "); 
                clearLCD();
                printStringLCD("Enter");
                modeState = dispEnter;
-               modeStateEnable = 0;//wait for new key to be pressed 
-               clearBuff(6,temp); // clear the temp string 
-               pwItt = 0;           // reset the pw itterator 
+               clearBuff(wordLen,temp); // clear the temp string 
+               pwItt = 0;               // reset the pw itterator 
+               modeStateEnable = 0;     //wait for new key to be pressed 
+               enableInterrupts(); 
                 break;
            case set://-
                clearLCD();
@@ -222,6 +244,7 @@ int main(void)
                    modeState = dispValid;
                }
                modeStateEnable = 1; //next state needs to be executed
+               enableInterrupts(); 
                 break;   
         }   
         }
