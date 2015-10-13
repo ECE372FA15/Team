@@ -35,7 +35,7 @@ int main(void)
 {
 
     char passWord[passwords][wordLen] ; //[nump][lenp]; 
-    char temp[6];               //string to hold characters as they are typed in
+    char temp[wordLen];               //string to hold characters as they are typed in
     int pwItt = 0;              //index of the password being typed in by user 
     int pwStoreIndex = 0;       //index for string# in passWord[][] array
                                 //index is used to add pws to passWord[][]
@@ -43,7 +43,8 @@ int main(void)
     int numCharsPrinted = 0;    // counter to keep things tidy on the display 
     int modeStateEnable = 0;    // enables the second state machine 
     int i = 0, j = 0;
-    
+    int match = 0;
+    int count = 0;
     ANSELE = 0;
     SYSTEMConfigPerformance(40000000);
     initLCD();
@@ -52,9 +53,9 @@ int main(void)
     initTimer1();
     initKeypad();
     enableInterrupts();
-    clearBuff(temp,5); 
+    clearBuff(temp,wordLen); 
     //initialize temp to NULL
-    for (i = 0; i < 6; i++){
+    for (i = 0; i < wordLen; i++){
         temp [i] = NULL;
     }
     //initialize passcode array to NULL
@@ -94,12 +95,11 @@ int main(void)
             break;
             
             case waitForPress:
-               // no while loop
-                enableInterrupts();
+                //enableInterrupts();
             break;
             
             case waitForRelease:
-                enableInterrupts(); 
+               // enableInterrupts(); 
             break;    
         }
 //<><><><> END button de bounce stuff  <><><><><><><><><><><><><><><><><><><><><><>  
@@ -128,7 +128,8 @@ int main(void)
                    modeStateEnable = 1;     //goto state
                    disableInterrupts();
                }  
-                break;                
+                break;   
+                
            case dispGood:               //interrupts are DISABLED DELETEME
                printOutput("Good");
                clearLCD();         
@@ -139,10 +140,11 @@ int main(void)
                modeStateEnable = 0;     //wait for new key to be pressed
                enableInterrupts();  
                 break;
+                
             case dispBad:               //interrupts are DISABLED DELETEME
                disableInterrupts();
                printCharLCD('+');       //for debugging DELETEME
-               printOutput("Bad");   
+               printOutput("Bad");  
                clearLCD();              
                printStringLCD("Enter"); //prompt enter state
                modeState = dispEnter;   //switch state
@@ -157,18 +159,27 @@ int main(void)
                printStringLCD("Enter");
                moveCursorLCD(2,1);
                printStringLCD(temp);    // print the characters as they are entered 
-               if(temp[0] == '*'){
-                   modeState = firstStar;
-                   modeStateEnable = 0; //wait for new key to be pressed 
-                   enableInterrupts(); 
-               }
-               else if(temp[0] == '#'){
-                   modeState = dispBad;
-                   modeStateEnable = 1; //continue
-                   disableInterrupts();
-               }
-               else if(pwItt == 4){  
-                   if( (checkValid(temp, passWord) == 0)){ 
+               if(pwItt == 4){ 
+                   ////////////////////////////////////////////////
+                   //I had issues passing passWord[][] into a function checkValid
+                   //the following is the contents of the function
+                   ///////////////////////////////////////////////
+                for (i = 0; i < passwords; i ++){
+                    for (j = 0; j < wordLen; j++){
+                        if (temp[j] == passWord[i][j]){
+                            count = count + 1;
+                        }
+                    }
+                    if (count == wordLen){
+                            match = 1;
+                            count = 0;
+                    } 
+                    else {
+                        count = 0;
+                    }   
+                }
+                   ///////////////////////////////////////////////
+                   if( match == 0){ 
                        modeState = dispBad;     // 0 means invalid pw
                        modeStateEnable = 1;     //goto state
                        disableInterrupts();     
@@ -180,11 +191,20 @@ int main(void)
                        printCharLCD('&');
                    }
                }
+               else if(temp[0] == '*'){
+                   modeState = firstStar;
+                   modeStateEnable = 0; //wait for new key to be pressed 
+                   enableInterrupts(); 
+               }
+               else if(temp[0] == '#'){
+                   modeState = dispBad;
+                   modeStateEnable = 1; //continue
+                   disableInterrupts();
+               }
                else{
                    modeState = dispEnter;
                    modeStateEnable = 0;//wait for new key to be pressed 
-                   printCharLCD(pwItt + 64);
-                   disableInterrupts();
+                   enableInterrupts();
                }
                
                 break;
@@ -224,7 +244,7 @@ int main(void)
                
                printCharLCD(keyScanned); // might work better to press key pressed 
                
-               if(pwItt = 5){ // pw == "**xxxx"...
+               if(pwItt == 5){ // pw == "**xxxx"...
                    temp[0] = temp[2]; temp[1] = temp[3];    // remove leading "**" 
                    temp[2] = temp[4]; temp[3] = temp[5]; temp[4] = '\0'; 
                     

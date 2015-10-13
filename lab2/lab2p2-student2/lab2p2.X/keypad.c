@@ -130,7 +130,7 @@ void printOutput(const char* output){
     int i = 0; 
     clearLCD();
     printStringLCD(output);
-    for (i = 0; i < 10000; i++){
+    for (i = 0; i < 1000; i++){
      delayUs(2000);
     }
     
