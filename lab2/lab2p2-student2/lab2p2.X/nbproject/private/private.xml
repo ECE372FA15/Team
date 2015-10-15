@@ -3,14 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/abigailfrancis/Documents/ECE372/Labs/Team/lab2/lab2p2-student2/lab2p2.X/lcd.c</file>
-            <file>file:/C:/Program%20Files%20(x86)/Microchip/xc32/v1.40/pic32mx/include/string.h</file>
-            <file>file:/C:/Users/abigailfrancis/Documents/ECE372/Labs/Team/lab2/lab2p2-student2/lab2p2.X/timer.c</file>
-            <file>file:/C:/Users/abigailfrancis/Documents/ECE372/Labs/Team/lab2/lab2p2-student2/lab2p2.X/lcd.h</file>
-            <file>file:/C:/Users/abigailfrancis/Documents/ECE372/Labs/Team/lab2/lab2p2-student2/lab2p2.X/keypad.c</file>
-            <file>file:/C:/Users/abigailfrancis/Documents/ECE372/Labs/Team/lab2/lab2p2-student2/lab2p2.X/passcode.c</file>
-            <file>file:/C:/Users/abigailfrancis/Documents/ECE372/Labs/Team/lab2/lab2p2-student2/lab2p2.X/passcode.h</file>
-            <file>file:/C:/Users/abigailfrancis/Documents/ECE372/Labs/Team/lab2/lab2p2-student2/lab2p2.X/main.c</file>
+            <file>file:/C:/Users/Pierce/MPLABXProjects/ECE372/Team/lab2/lab2p2-student2/lab2p2.X/timer.c</file>
+            <file>file:/C:/Users/Pierce/MPLABXProjects/ECE372/Team/lab2/lab2p2-student2/lab2p2.X/passcode.h</file>
+            <file>file:/C:/Users/Pierce/MPLABXProjects/ECE372/Team/lab2/lab2p2-student2/lab2p2.X/passcode.c</file>
+            <file>file:/C:/Users/Pierce/MPLABXProjects/ECE372/Team/lab2/lab2p2-student2/lab2p2.X/keypad.c</file>
+            <file>file:/C:/Users/Pierce/MPLABXProjects/ECE372/Team/lab2/lab2p2-student2/lab2p2.X/main.c</file>
+            <file>file:/C:/Users/Pierce/MPLABXProjects/ECE372/Team/lab2/lab2p2-student2/lab2p2.X/lcd.h</file>
+            <file>file:/C:/Users/Pierce/MPLABXProjects/ECE372/Team/lab2/lab2p2-student2/lab2p2.X/lcd.c</file>
         </group>
     </open-files>
 </project-private>

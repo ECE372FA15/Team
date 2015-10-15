@@ -19,6 +19,7 @@
 #define run
 
 //#define TEST
+//#define TEST2
 
 typedef enum stateTypeEnum {
     scanKey, printKey, dbPress, dbRelease, waitForPress, waitForRelease, firstStar,
@@ -51,7 +52,7 @@ int main(void) {
     initTimer1();
     initKeypad();
     enableInterrupts();
-    clearBuff(temp, wordLen);
+    clearBuff(wordLen, temp);
     //initialize temp to NULL
     for (i = 0; i < wordLen; i++) {
         temp [i] = NULL;
@@ -63,20 +64,21 @@ int main(void) {
         }
     }
 
-#ifdef TEST
+#ifdef TEST2
     int flag = 0;
 
     //Precode 2 passwords into password array and test if working
 
     for (i = 0; i < 2; i++) {
-        for (j = 0; j < wordLen; j++) {
+        for (j = 0; j < wordLen-3; j++) {
             if (flag == 0) {
-                passWord[i][j] = j;
+                passWord[i][j] = '0'+j;
             } else {
-                passWord[i][j] = j + 1;
+                passWord[i][j] = '0'+j + 1;
             }
         }
         flag++;
+        passWord[i][j] = '\0';
     }
 
 #endif
