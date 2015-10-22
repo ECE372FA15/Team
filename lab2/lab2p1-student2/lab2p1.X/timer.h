@@ -1,8 +1,7 @@
 /* 
  * File:   timer.h
- * Author: gvanhoy
- *
- * Created on December 30, 2014, 8:07 PM
+ * Authors: Brandon Lipjanic, Jonny Hawkins, Abigail Francis, Pierce Simpson
+ * Team 203
  */
 
 #ifndef INITTIMER_H

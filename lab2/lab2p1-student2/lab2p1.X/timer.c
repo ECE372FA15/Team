@@ -1,8 +1,7 @@
 /*
  * File:   timer.c
- * Author: gvanhoy
- *
- * Created on December 30, 2014, 8:07 PM
+ * Authors: Brandon Lipjanic, Jonny Hawkins, Abigail Francis, Pierce Simpson
+ * Team 203
  */
 
 #include <xc.h>
@@ -16,7 +15,7 @@ void initTimer1(){
     IFS0bits.T1IF = 0;         //flag down
     T1CONbits.ON = 0;          //t1 on 
 }
-//Uses timer 2
+//Uses timer 1
 void delayUs(int delay){
     int stop = delay - 1;
     int i = 0;
