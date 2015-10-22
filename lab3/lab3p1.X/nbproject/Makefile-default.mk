@@ -45,17 +45,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=../../../GarretsCode/ucontrol32-master/lecture13-PWM/adc.c ../../../GarretsCode/ucontrol32-master/lecture13-PWM/interrupt.c ../../../GarretsCode/ucontrol32-master/lecture13-PWM/main.c ../../../GarretsCode/ucontrol32-master/lecture13-PWM/pwm.c
+SOURCEFILES_QUOTED_IF_SPACED=../../../GarretsCode/ucontrol32-master/lecture13-PWM/adc.c ../../../GarretsCode/ucontrol32-master/lecture13-PWM/interrupt.c ../../../GarretsCode/ucontrol32-master/lecture13-PWM/main.c ../../../GarretsCode/ucontrol32-master/lecture13-PWM/pwm.c ../../lab2/lab2p1-student2/lab2p1.X/timer.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/137657067/adc.o ${OBJECTDIR}/_ext/137657067/interrupt.o ${OBJECTDIR}/_ext/137657067/main.o ${OBJECTDIR}/_ext/137657067/pwm.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/137657067/adc.o.d ${OBJECTDIR}/_ext/137657067/interrupt.o.d ${OBJECTDIR}/_ext/137657067/main.o.d ${OBJECTDIR}/_ext/137657067/pwm.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/137657067/adc.o ${OBJECTDIR}/_ext/137657067/interrupt.o ${OBJECTDIR}/_ext/137657067/main.o ${OBJECTDIR}/_ext/137657067/pwm.o ${OBJECTDIR}/_ext/459841909/timer.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/137657067/adc.o.d ${OBJECTDIR}/_ext/137657067/interrupt.o.d ${OBJECTDIR}/_ext/137657067/main.o.d ${OBJECTDIR}/_ext/137657067/pwm.o.d ${OBJECTDIR}/_ext/459841909/timer.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/_ext/137657067/adc.o ${OBJECTDIR}/_ext/137657067/interrupt.o ${OBJECTDIR}/_ext/137657067/main.o ${OBJECTDIR}/_ext/137657067/pwm.o
+OBJECTFILES=${OBJECTDIR}/_ext/137657067/adc.o ${OBJECTDIR}/_ext/137657067/interrupt.o ${OBJECTDIR}/_ext/137657067/main.o ${OBJECTDIR}/_ext/137657067/pwm.o ${OBJECTDIR}/_ext/459841909/timer.o
 
 # Source Files
-SOURCEFILES=../../../GarretsCode/ucontrol32-master/lecture13-PWM/adc.c ../../../GarretsCode/ucontrol32-master/lecture13-PWM/interrupt.c ../../../GarretsCode/ucontrol32-master/lecture13-PWM/main.c ../../../GarretsCode/ucontrol32-master/lecture13-PWM/pwm.c
+SOURCEFILES=../../../GarretsCode/ucontrol32-master/lecture13-PWM/adc.c ../../../GarretsCode/ucontrol32-master/lecture13-PWM/interrupt.c ../../../GarretsCode/ucontrol32-master/lecture13-PWM/main.c ../../../GarretsCode/ucontrol32-master/lecture13-PWM/pwm.c ../../lab2/lab2p1-student2/lab2p1.X/timer.c
 
 
 CFLAGS=
@@ -118,6 +118,12 @@ ${OBJECTDIR}/_ext/137657067/pwm.o: ../../../GarretsCode/ucontrol32-master/lectur
 	@${RM} ${OBJECTDIR}/_ext/137657067/pwm.o 
 	@${FIXDEPS} "${OBJECTDIR}/_ext/137657067/pwm.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/137657067/pwm.o.d" -o ${OBJECTDIR}/_ext/137657067/pwm.o ../../../GarretsCode/ucontrol32-master/lecture13-PWM/pwm.c   
 	
+${OBJECTDIR}/_ext/459841909/timer.o: ../../lab2/lab2p1-student2/lab2p1.X/timer.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/_ext/459841909" 
+	@${RM} ${OBJECTDIR}/_ext/459841909/timer.o.d 
+	@${RM} ${OBJECTDIR}/_ext/459841909/timer.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/459841909/timer.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/459841909/timer.o.d" -o ${OBJECTDIR}/_ext/459841909/timer.o ../../lab2/lab2p1-student2/lab2p1.X/timer.c   
+	
 else
 ${OBJECTDIR}/_ext/137657067/adc.o: ../../../GarretsCode/ucontrol32-master/lecture13-PWM/adc.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/_ext/137657067" 
@@ -142,6 +148,12 @@ ${OBJECTDIR}/_ext/137657067/pwm.o: ../../../GarretsCode/ucontrol32-master/lectur
 	@${RM} ${OBJECTDIR}/_ext/137657067/pwm.o.d 
 	@${RM} ${OBJECTDIR}/_ext/137657067/pwm.o 
 	@${FIXDEPS} "${OBJECTDIR}/_ext/137657067/pwm.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/137657067/pwm.o.d" -o ${OBJECTDIR}/_ext/137657067/pwm.o ../../../GarretsCode/ucontrol32-master/lecture13-PWM/pwm.c   
+	
+${OBJECTDIR}/_ext/459841909/timer.o: ../../lab2/lab2p1-student2/lab2p1.X/timer.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/_ext/459841909" 
+	@${RM} ${OBJECTDIR}/_ext/459841909/timer.o.d 
+	@${RM} ${OBJECTDIR}/_ext/459841909/timer.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/459841909/timer.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/459841909/timer.o.d" -o ${OBJECTDIR}/_ext/459841909/timer.o ../../lab2/lab2p1-student2/lab2p1.X/timer.c   
 	
 endif
 

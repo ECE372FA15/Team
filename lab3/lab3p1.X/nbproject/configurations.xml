@@ -21,6 +21,7 @@
       <itemPath>../../../GarretsCode/ucontrol32-master/lecture13-PWM/interrupt.c</itemPath>
       <itemPath>../../../GarretsCode/ucontrol32-master/lecture13-PWM/main.c</itemPath>
       <itemPath>../../../GarretsCode/ucontrol32-master/lecture13-PWM/pwm.c</itemPath>
+      <itemPath>../../lab2/lab2p1-student2/lab2p1.X/timer.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
