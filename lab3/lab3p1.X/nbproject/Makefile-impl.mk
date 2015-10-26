@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=lecture13-PWM
+PROJECTNAME=lab3p1.X
 
 # Active Configuration
 DEFAULTCONF=default
