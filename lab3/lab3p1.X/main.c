@@ -17,8 +17,8 @@ int main(void){
     long int ADCValue = 0;
     TRISBbits.TRISB5 = 1;
  
-    
-    AD1PCFG = 0xFFDF;
+   
+         AD1PCFG = 0xFFDF;
          AD1CON1 = 0x0004; // ASAM bit = 1 implies acquisition ..
                              // starts immediately after last
                              // conversion is done
