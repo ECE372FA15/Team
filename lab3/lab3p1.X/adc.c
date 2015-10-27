@@ -7,7 +7,7 @@
 
 #include <xc.h>
 
-#define VHIGH 5
+#define VHIGH 3.3
 #define VLOW 0
 #define ADCBITDEPTH
 void initADC(){
@@ -23,8 +23,10 @@ void initADC(){
     AD1CON3bits.ADRC = 0; // Use PBCLK
     AD1CON3bits.SAMC = 2; // 2 Tad per sample
     AD1CON3bits.ADCS = 0xFF; // 512 times the PBCLK
+    AD1CON2bits.VCFG = 0b000;
+    AD1CHSbits.CH0SB = 0b00101;
     AD1CHSbits.CH0NA = 0; // Use Vref- as negative reference
-    AD1CHSbits.CH0SA = 0; // Scan AN0 at least
+ //   AD1CHSbits.CH0SA = 0; // Scan AN0 at least
     IFS0bits.AD1IF = 0;
     IEC0bits.AD1IE = 1;
     IPC5bits.AD1IP = 7;
@@ -36,7 +38,7 @@ void printVoltage(long int ADCBufferValue){
     
     float tempVoltage = 0;
  
-    tempVoltage = ADCBufferValue*(VHIGH-VLOW)/(2^ADCBITDEPTH)+VHIGH;
+    tempVoltage = (ADCBufferValue*((3.3-0)/(2*2*2*2*2*2*2*2*2*2))+VHIGH);
     char *s = (char * )&ADCBufferValue;
    
     printStringLCD(s);

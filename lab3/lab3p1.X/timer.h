@@ -8,8 +8,8 @@
 #ifndef INITTIMER_H
 #define	INITTIMER_H
 
-void initTimer2();
-void delayUs(unsigned int delay);
+void initTimer1();
+void delayUs(int delay);
 
 #endif	/* INITTIMER_H */
 
