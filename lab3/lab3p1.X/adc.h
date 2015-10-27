@@ -9,6 +9,7 @@
 #define	ADC_H
 
 void initADC();
+void printVoltage(int ADCBufferValue);
 
 #endif	/* ADC_H */
 

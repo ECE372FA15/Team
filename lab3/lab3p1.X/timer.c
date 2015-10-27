@@ -7,25 +7,38 @@
 
 #include <xc.h>
 #include "timer.h"
-#include "interrupt.h"
 
-void initTimer2(){
-    TMR2 = 0;
-    PR2 = 1023;
-    T2CONbits.TCKPS = 0;
-    T2CONbits.TCS = 0;
-    T2CONbits.ON = 1;
+void initTimer1(){
+    TMR1 = 0;                  //t1 reg reset
+    PR1 = 1;                   //set Period value
+    T1CONbits.TCKPS = 0b00;    //prescaler value1:8
+    T1CONbits.TCS = 0;         //internal peripheral clock
+    IFS0bits.T1IF = 0;         //flag down
+    T1CONbits.ON = 0;          //t1 on 
 }
-
 //Uses timer 2
-void delayUs(unsigned int delay){
+void delayUs(int delay){
+    int stop = delay - 1;
+    int i = 0;
+     PR1 = 21; 
+    T1CONbits.ON = 1;           //start timer
+    for ( i = 0; i < stop; i++){
+    while (IFS0bits.T1IF == 0); //wait for timer to terminate
+    IFS0bits.T1IF = 0;          //put flag down
     TMR1 = 0;
-    PR1 = 5*delay;
-    IFS0bits.T2IF = 0;
-    T1CONbits.TCKPS = 1;
-    disableInterrupts();
-    T1CONbits.TON = 1;
-    while(IFS0bits.T1IF == 0);
-    T1CONbits.TON = 0;
-    enableInterrupts();
+    }
+    T1CONbits.ON = 0;           //turn off timer    
+    IFS0bits.T1IF = 0;          //
+    TMR1 = 0;
+    
 }
+
+void delay1pt5Us(){
+    PR1 = 1; 
+    T1CONbits.ON = 1;           //start timer
+    while (IFS0bits.T1IF == 0); //wait for timer to terminate
+    T1CONbits.ON = 0;           //turn off timer    
+    IFS0bits.T1IF = 0;          //
+    TMR1 = 0;
+}
+

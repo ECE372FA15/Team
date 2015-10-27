@@ -7,6 +7,9 @@
 
 #include <xc.h>
 
+#define VHIGH 5
+#define VLOW 0
+#define ADCBITDEPTH
 void initADC(){
     
     ANSELBbits.ANSB0 = 0; 
@@ -26,4 +29,15 @@ void initADC(){
     IEC0bits.AD1IE = 1;
     IPC5bits.AD1IP = 7;
     AD1CON1bits.ADON = 1; // turn on the ADC
+
+}
+
+void printVoltage(long int ADCBufferValue){
+    
+    float tempVoltage = 0;
+ 
+    tempVoltage = ADCBufferValue*(VHIGH-VLOW)/(2^ADCBITDEPTH)+VHIGH;
+    char *s = (char * )&ADCBufferValue;
+   
+    printStringLCD(s);
 }
