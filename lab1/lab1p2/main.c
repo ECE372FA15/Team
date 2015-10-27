@@ -50,7 +50,7 @@ int main(void)
     while(1){
          testLCD1();
         clearLCD();
-        delayUs(500000);
+        delayUs(50000);
     }
     return 0;
 }
