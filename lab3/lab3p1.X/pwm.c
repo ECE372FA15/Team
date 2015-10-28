@@ -9,13 +9,6 @@
 
 
 void initPWM(){
-    RPD1Rbits.RPD1R = 0b1011; // map OC2 to RD1
-    OC2CON = 0x0000; // Turn off OC1 while doing setup.
-    OC2R = 0x0000; // Initialize primary Compare Register
-    OC2RS = 0x0000; // Initialize secondary Compare Register
-    OC2CON = 0x0006; // Configure for PWM mode
-    OC2CONbits.OCTSEL = 1;
-    OC2CONSET = 0x8000; // Enable OC2
 
    //!!!!!!!!!!!! is the next line right? idk... 
     RPD0Rbits.RPD0R= 0b1100; // map OC1 to RD0
@@ -25,6 +18,14 @@ void initPWM(){
     OC1CON = 0x0006; // Configure for PWM mode
     OC1CONbits.OCTSEL = 1;
     OC1CONSET = 0x8000; // Enable OC1
+    
+    RPD1Rbits.RPD1R = 0b1011; // map OC2 to RD1
+    OC2CON = 0x0000; // Turn off OC1 while doing setup.
+    OC2R = 0x0000; // Initialize primary Compare Register
+    OC2RS = 0x0000; // Initialize secondary Compare Register
+    OC2CON = 0x0006; // Configure for PWM mode
+    OC2CONbits.OCTSEL = 1;
+    OC2CONSET = 0x8000; // Enable OC2
 
     RPD2Rbits.RPD2R= 0b1011; // map OC3 to RD2
     OC3CON = 0x0000; // Turn off OC1 while doing setup.

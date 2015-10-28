@@ -7,6 +7,8 @@
 #include "pwm.h"
 #include "adc.h"
 #include "lcd.h"
+#include "motor.h"
+
 volatile int ADCBufferValue;
 
 
@@ -31,6 +33,11 @@ int main(void){
        
          ADCBufferValue = ADC1BUF0;      // get buffer value 
          printVoltage(ADCBufferValue);
+         delayUs(100000);               // wait one second 
+         leftMotorForward(50);
+         delayUs(100000);               // wait one second 
+         delayUs(100000);               // wait one second 
+         rightMotorForward(50);
          delayUs(100000);               // wait one second 
          
          
