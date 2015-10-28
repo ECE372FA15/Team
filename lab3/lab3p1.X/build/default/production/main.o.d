@@ -5,4 +5,5 @@ interrupt.h  \
 timer.h  \
  pwm.h  \
 adc.h  \
-lcd.h 
+lcd.h  \
+motor.h 

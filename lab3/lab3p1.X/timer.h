@@ -11,6 +11,6 @@
 void initTimer1();
 void initTimer3();
 void delayUs(long int delay);
-void delay1pt5Us()
+void delay1pt5Us();
 #endif	/* INITTIMER_H */
 
