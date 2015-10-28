@@ -44,7 +44,19 @@ void initPWM(){
 }
 
 
-void setPwm1(int duty){}
-void setPwm2(int duty){}
-void setPwm3(int duty){}
-void setPwm4(int duty){}
+void setPwm1(int duty){
+    OC1R = duty;
+    OC1RS = 100;
+}
+void setPwm2(int duty){
+    OC2R = duty;
+    OC2RS = 100;
+}
+void setPwm3(int duty){
+    OC3R = duty;
+    OC3RS = 100;
+}
+void setPwm4(int duty){
+    OC4R = duty;
+    OC4RS = duty;
+}
