@@ -14,6 +14,7 @@ int main(void){
     SYSTEMConfigPerformance(40000000);
 
     initTimer1();
+    initTimer3();
     initPWM();
     initADC();
     initLCD();

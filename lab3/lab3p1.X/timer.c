@@ -16,6 +16,15 @@ void initTimer1(){
     IFS0bits.T1IF = 0;         //flag down
     T1CONbits.ON = 0;          //t1 on 
 }
+
+void initTimer3(){
+    TMR3 = 0;
+    T3CONbits.TCKPS = 0b00;
+    T3CONbits.TCS = 0;
+    IFS0bits.T3IF = 0;
+    T3CONbits.ON = 0;
+    PR3 = 100;
+}
 //Uses timer 2
 void delayUs(long int delay){
     int stop = delay - 1;
