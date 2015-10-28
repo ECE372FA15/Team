@@ -30,7 +30,9 @@ int main(void){
        
          ADCBufferValue = ADC1BUF0;      // get buffer value 
          printVoltage(ADCBufferValue);
-        delayUs(100000);               // wait one second 
+         delayUs(100000);               // wait one second 
+         
+         
         
     }
     
