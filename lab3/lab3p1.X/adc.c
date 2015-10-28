@@ -42,10 +42,11 @@ void initADC(){
 
 void printVoltage(long int ADCBufferValue){
     
-    float tempVoltage = 0;
+    float tempVoltage = ADCBufferValue;
     char s [8];
-    //tempVoltage = (ADCBufferValue*((3.3-0)/(2*2*2*2*2*2*2*2*2*2))+VHIGH);
-    sprintf(s, "%6d", ADCBufferValue);
+    tempVoltage = tempVoltage / 1024;
+    tempVoltage = tempVoltage * VHIGH;
+    sprintf(s, "%.2f", tempVoltage);
    
     printStringLCD(s);
 }

@@ -9,7 +9,7 @@
 #define	INITTIMER_H
 
 void initTimer1();
-void delayUs(int delay);
+void delayUs(long int delay);
 
 #endif	/* INITTIMER_H */
 

@@ -8,40 +8,38 @@
 #include "adc.h"
 #include "lcd.h"
 volatile int ADCBufferValue;
+
+
 int main(void){
     SYSTEMConfigPerformance(40000000);
 
-   
     initTimer1();
     initPWM();
     initADC();
     initLCD();
     clearLCD();
     writeLCD(0b00001111, 0, 50);
-    enableInterrupts();
-
+  //  enableInterrupts();
+    disableInterrupts(); 
+    
     while(1){
-        enableInterrupts();
-         if(IFS0bits.AD1IF == 1){  // Poll for a change in the ADC value
-             
-             IFS0bits.AD1IF = 0;
-            
-            printVoltage(ADCBufferValue);
-            printCharLCD('_');
-            delayUs(65000);
-            delayUs(65000);
-            delayUs(65000);
-            delayUs(65000);
-            delayUs(65000);
-            delayUs(65000);
-    }
+        clearLCD(); 
+        
+        IFS0bits.AD1IF = 0;            // reset adc thing 
+         while(AD1CON1bits.SSRC == 0 );
+       
+         ADCBufferValue = ADC1BUF0;      // get buffer value 
+         printVoltage(ADCBufferValue);
+        delayUs(100000);               // wait one second 
+        
     }
     
     return 0;
 }
 
-void __ISR(_ADC_VECTOR, IPL7SRS) _ADCInterrupt(void){
-    disableInterrupts();
-    IFS0bits.AD1IF = 0;
-    ADCBufferValue = ADC1BUF0;
-}
+//void __ISR(_ADC_VECTOR, IPL7SRS) _ADCInterrupt(void){
+//    disableInterrupts();
+//    IFS0bits.AD1IF = 0;
+//    ADCBufferValue = ADC1BUF0;
+//}
+

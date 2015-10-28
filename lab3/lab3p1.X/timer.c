@@ -17,7 +17,7 @@ void initTimer1(){
     T1CONbits.ON = 0;          //t1 on 
 }
 //Uses timer 2
-void delayUs(int delay){
+void delayUs(long int delay){
     int stop = delay - 1;
     int i = 0;
      PR1 = 21; 
