@@ -14,6 +14,10 @@ extern "C" {
 
 void initPWM();
 
+void setPwm1(int duty);//{}
+void setPwm2(int duty);//{}
+void setPwm3(int duty);//{}
+void setPwm4(int duty);//{}
 
 #ifdef	__cplusplus
 }

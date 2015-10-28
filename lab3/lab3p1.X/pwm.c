@@ -42,3 +42,9 @@ void initPWM(){
     OC4CONbits.OCTSEL = 1;
     OC4CONSET = 0x8000; // Enable OC4
 }
+
+
+void setPwm1(int duty){}
+void setPwm2(int duty){}
+void setPwm3(int duty){}
+void setPwm4(int duty){}
