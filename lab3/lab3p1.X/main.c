@@ -8,7 +8,7 @@
 #include "adc.h"
 #include "lcd.h"
 #include "motor.h"
-
+#define PWM
 volatile int ADCBufferValue;
 
 
@@ -18,6 +18,13 @@ int main(void){
     initTimer1();
     initTimer3();
     initPWM();
+#ifdef PWM
+setPwm3(100);
+    setPwm1(0);
+    setPwm4(100);
+    setPwm2(0);
+#endif
+#ifdef run
     initADC();
     initLCD();
     clearLCD();
@@ -43,7 +50,7 @@ int main(void){
          
         
     }
-    
+    #endif
     return 0;
 }
 
