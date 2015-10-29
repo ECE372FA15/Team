@@ -10,6 +10,7 @@
       <itemPath>timer.h</itemPath>
       <itemPath>pwm.h</itemPath>
       <itemPath>../../../Team/lab3/lab3p1.X/lcd.h</itemPath>
+      <itemPath>../../../Lab0.X/switch.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -24,6 +25,7 @@
       <itemPath>timer.c</itemPath>
       <itemPath>pwm.c</itemPath>
       <itemPath>../../../Team/lab3/lab3p1.X/lcd.c</itemPath>
+      <itemPath>../../../Lab0.X/switch.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -33,6 +35,7 @@
   </logicalFolder>
   <sourceRootList>
     <Elem>../../../Team/lab3/lab3p1.X</Elem>
+    <Elem>../../../Lab0.X</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>

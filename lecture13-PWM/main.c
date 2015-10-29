@@ -11,11 +11,30 @@
 #include "pwm.h"
 #include "adc.h"
 
+#define switchVal   PORTEbits.RE1
+#define ADCDone     AD1CON1bits.SSRC
+#define ADCFlag     IFS0bits.AD1IF
+#define timerFlag   IFS0bits.T1IF
+#define timerOn     T1CONbits.TON
+#define fwd         0
+#define bck         1
+
+typedef enum stateTypeEnum{
+    forward, backward, debouncePress, debounceRelease
+} stateType;
+
+    volatile  stateType state = forward;
+    volatile int direction = 0;
+
+
 int main(void){
-    SYSTEMConfigPerformance(40000000);
     
+    SYSTEMConfigPerformance(40000000);
+  //  int latch = 0; 
+    int direction = 0; // 0 = forward 1 =backwards 
     initTimer3();
     initTimer1();
+    initSwitch1();
     initLCD();
     clearLCD();
     writeLCD(0b00001111, 0, 50);
@@ -24,45 +43,68 @@ int main(void){
   //  enableInterrupts();
     disableInterrupts();
    // TRISBbits.TRISB13 = 0;
+    
+    
+    // initialize robot 
+    direction = 0;
+    ADCFlag = 0;            // reset adc thing 
+    while(ADCDone == 0 );
+    setMotorsSweepForward(ADC1BUF0);
+    
     while(1){   
   
-       
-         IFS0bits.AD1IF = 0;            // reset adc thing 
-         while(AD1CON1bits.SSRC == 0 );
-       
-         if(ADC1BUF0 < 256){            //Backwards
-            OC2RS = 0; // left forward
-            OC4RS = ADC1BUF0*4; // left backwards
-
-            OC1RS = 0; //Right Forwards
-            OC3RS = ADC1BUF0*4; // Right Backwards
+         switch(state){
+             
+             case forward:
+                 
+                 direction = fwd;
+              //   printCharLCD(PORTDbits.RD1 + '0');
+                 while(switchVal == 1){
+                     ADCFlag = 0;            // reset adc thing 
+                     while(ADCDone == 0 );
+                     setMotorsSweepForward(ADC1BUF0);
+                 } // wait for press
+                 state = debouncePress;
+                 TMR1 = 0;
+                 timerFlag = 0;
+                 timerOn = 1;
+                 break;
+             
+             case backward:
+                 
+                 direction = bck;
+                 while(switchVal == 1){
+                     ADCFlag = 0;            // reset adc thing 
+                     while(ADCDone == 0 );
+                     setMotorsSweepBackward(ADC1BUF0);
+                 } //wait for press
+                 state = debouncePress;
+                 TMR1 = 0;
+                 timerFlag = 0;
+                 timerOn = 1;
+                 break;
+                 
+             case debouncePress:
+                 
+                 delayUs(100);
+                 while(switchVal == 0); //wait for release
+                 state = debounceRelease;
+                 break;
+                 
+             case debounceRelease:
+                 //delayUs(100);
+                 if(direction == fwd){
+                     state = backward;
+                 }
+                 else{
+                     state = forward;
+                 }
+                 
+             
+             
          }
-         else if (ADC1BUF0 < 512){      //CounterClockwise
-            OC2RS = 0; // left forward
-            OC4RS = ADC1BUF0*2; // left backwards
 
-            OC1RS = ADC1BUF0*2; //Right Forwards
-            OC3RS = 0; // Right Backwards
-         }
-         else if (ADC1BUF0 >= 768 && ADC1BUF0 < 1024){      //Right
-            OC2RS = (ADC1BUF0*3)/2; // left forward
-            OC4RS = 0; // left backwards
-
-            OC1RS = 0; //Right Forwards
-            OC3RS = (ADC1BUF0*3)/2; // Right Backwards    
-         }
-         else {                  //Forwards
-            OC2RS = ADC1BUF0; // left forward
-            OC4RS = 0; // left backwards
-
-            OC1RS = ADC1BUF0; //Right Forwards
-            OC3RS = 0; // Right Backwards 
-         }
-         printVoltage(ADC1BUF0);
-         
- 
     }
-    
     return 0;
 }
 
