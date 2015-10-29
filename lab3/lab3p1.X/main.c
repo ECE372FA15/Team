@@ -19,8 +19,9 @@ int main(void){
     initTimer3();
     initPWM();
 #ifdef PWM
-setPwm3(100);
+    setPwm3(100);
     setPwm1(0);
+    delayUs(100000);
     setPwm4(100);
     setPwm2(0);
 #endif

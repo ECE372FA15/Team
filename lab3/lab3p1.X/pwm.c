@@ -17,7 +17,8 @@ void initPWM(){
     OC1RS = 0x0000; // Initialize secondary Compare Register
     OC1CON = 0x0006; // Configure for PWM mode
     OC1CONbits.OCTSEL = 1;
-    OC1CONSET = 0x8000; // Enable OC1
+    //OC1CONSET = 0x8000; // Enable OC1
+    OC1CONbits.ON = 1;
     
     RPD1Rbits.RPD1R = 0b1011; // map OC2 to RD1
     OC2CON = 0x0000; // Turn off OC1 while doing setup.
@@ -25,15 +26,17 @@ void initPWM(){
     OC2RS = 0x0000; // Initialize secondary Compare Register
     OC2CON = 0x0006; // Configure for PWM mode
     OC2CONbits.OCTSEL = 1;
-    OC2CONSET = 0x8000; // Enable OC2
-
+    //OC2CONSET = 0x8000; // Enable OC2
+    OC2CONbits.ON = 1;
+    
     RPD2Rbits.RPD2R= 0b1011; // map OC3 to RD2
     OC3CON = 0x0000; // Turn off OC1 while doing setup.
     OC3R = 0x0000; // Initialize primary Compare Register
     OC3RS = 0x0000; // Initialize secondary Compare Register
     OC3CON = 0x0006; // Configure for PWM mode
     OC3CONbits.OCTSEL = 1;
-    OC3CONSET = 0x8000; // Enable OC1
+    //OC3CONSET = 0x8000; // Enable OC1
+    OC3CONbits.ON = 1;
 
     RPD3Rbits.RPD3R= 0b1011; // map OC4 to RD3
     OC4CON = 0x0000; // Turn off OC1 while doing setup.
@@ -41,7 +44,8 @@ void initPWM(){
     OC4RS = 0x0000; // Initialize secondary Compare Register
     OC4CON = 0x0006; // Configure for PWM mode
     OC4CONbits.OCTSEL = 1;
-    OC4CONSET = 0x8000; // Enable OC4
+    //OC4CONSET = 0x8000; // Enable OC4
+    OC4CONbits.ON = 1;
 }
 
 
