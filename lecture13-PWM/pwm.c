@@ -127,7 +127,7 @@ void setMotorsSweepForward(int ADCBufferValue){
     }
     else{
         OCPin1 = 0b1011; // map OC2 to RD1
-        OC2RS = (1023-ADCBufferValue)/2; // left forward
+        OC2RS = (1023-ADCBufferValue)*2; // left forward
         OCPin3= 0; // unmap OC4 to RD3
         OCLatPin3 = 0;
         OCPin0= 0b1100; // map OC1 to RD0
@@ -156,7 +156,7 @@ void setMotorsSweepBackward(int ADCBufferValue){
         OCPin1 = 0; // unmap OC2 to RD1
         OCLatPin1 = 0;
         OCPin3= 0b1011; // map OC4 to RD3
-        OC4RS = (1023-ADCBufferValue)/2; // left backwards
+        OC4RS = (1023-ADCBufferValue)*2; // left backwards
         OCPin0= 0; // unmap OC1 to RD0
         OCLatPin0 = 0;
         OCPin2= 0b1011; // map OC3 to RD2

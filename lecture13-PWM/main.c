@@ -21,8 +21,8 @@
 #define bck         1
 #define IDLEBACK    2
 #define IDLEFWD     3
-#define TEST
-//#define RUN
+//#define TEST
+#define RUN
 
 typedef enum stateTypeEnum{
     forward, backward, debouncePress, debounceRelease, idleFwd, idleBack

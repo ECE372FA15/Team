@@ -4,4 +4,5 @@ config.h  \
 interrupt.h  \
 timer.h  \
  pwm.h  \
-adc.h 
+adc.h  \
+test.h 
