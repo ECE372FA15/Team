@@ -18,12 +18,14 @@
 #define timerOn     T1CONbits.TON
 #define fwd         0
 #define bck         1
+#define IDLEBACK    2
+#define IDLEFWD     3
 
 typedef enum stateTypeEnum{
-    forward, backward, debouncePress, debounceRelease
+    forward, backward, debouncePress, debounceRelease, idleFwd, idleBack
 } stateType;
 
-    volatile  stateType state = forward;
+    volatile  stateType state = idleBack;
     volatile int direction = 0;
 
 
@@ -83,7 +85,35 @@ int main(void){
                  timerFlag = 0;
                  timerOn = 1;
                  break;
+             case idleBack:
                  
+                 direction = IDLEBACK;
+                 while(switchVal == 1){
+                     ADCFlag = 0;            // reset adc thing 
+                     while(ADCDone == 0 );
+                     setMotorsIdle();
+                 } //wait for press
+                 state = debouncePress;
+                 TMR1 = 0;
+                 timerFlag = 0;
+                 timerOn = 1;
+                 break;
+                 
+            case idleFwd:
+                 
+                 direction = IDLEFWD;
+                 while(switchVal == 1){
+                     ADCFlag = 0;            // reset adc thing 
+                     while(ADCDone == 0 );
+                     setMotorsIdle();
+                 } //wait for press
+                 state = debouncePress;
+                 TMR1 = 0;
+                 timerFlag = 0;
+                 timerOn = 1;
+                 break;
+                 
+               
              case debouncePress:
                  
                  delayUs(100);
@@ -92,12 +122,18 @@ int main(void){
                  break;
                  
              case debounceRelease:
-                 //delayUs(100);
+                 delayUs(100);
                  if(direction == fwd){
-                     state = backward;
+                     state = idleFwd;
+                 }
+                 else if(direction == bck){
+                     state = idleBack;
+                 }
+                 else if(direction == IDLEBACK){
+                     state = forward;
                  }
                  else{
-                     state = forward;
+                     state = backward;
                  }
                  
              

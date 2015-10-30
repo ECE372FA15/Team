@@ -15,7 +15,7 @@ void initPWM();
 void setMotorsRotate(int ADCBufferValue);
 void setMotorsSweepForward(int ADCBufferValue);
 void setMotorsSweepBackward(int ADCBufferValue);
-
+void setMotorsIdle();
 
 #ifdef	__cplusplus
 }
