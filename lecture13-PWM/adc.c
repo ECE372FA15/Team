@@ -6,6 +6,7 @@
 
 #include <xc.h>
 
+// Init the ADC to read voltages from the pot.
 void initADC(){
    
     ANSELE = 0;
@@ -35,7 +36,7 @@ void initADC(){
     IFS0bits.AD1IF = 0;         // Clear A/D conversion interrupt.
     AD1CON1bits.ADON = 1;       // Turn on A/D
 }
-
+//Converts the digital value to an analog value (voltage) and prints it to the LCD.
 void printVoltage(int ADCBufferValue){
     
     float tempVoltage = ADCBufferValue;

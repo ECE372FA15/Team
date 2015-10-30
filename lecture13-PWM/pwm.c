@@ -6,6 +6,7 @@
 
 #include <xc.h>
 
+//Make define statements for the pints that are used for OC.
 #define OCPin0 RPD0Rbits.RPD0R
 #define OCPin1 RPD1Rbits.RPD1R
 #define OCPin2 RPD2Rbits.RPD2R
@@ -21,6 +22,7 @@
 #define OCLatPin2 LATDbits.LATD2
 #define OCLatPin3 LATDbits.LATD3
 
+//Init the PWM to be used to control the motors
 void initPWM(){
     
     OCTriPin0 = 0;
@@ -60,7 +62,7 @@ void initPWM(){
     OC1CONbits.OCTSEL = 1;
     OC1CONSET = 0x8000; // Enable OC1
 }
-
+// This function is not used for lab 3, it is written in advance for the final project.
 void setMotorsRotate(int ADCBufferValue){
          if(ADCBufferValue < 256){            //Backwards
             OCPin2= 0; // unmap OC3 to RD2
@@ -110,7 +112,7 @@ void setMotorsRotate(int ADCBufferValue){
          
  
 }
-
+// Change the values of OC2RS and OC1RS which control the forward motion of the motors and unmap OC3RS and OC3RS
 void setMotorsSweepForward(int ADCBufferValue){
     
     if(ADCBufferValue < 512){   //Left is higher
@@ -137,6 +139,7 @@ void setMotorsSweepForward(int ADCBufferValue){
     printVoltage(ADCBufferValue);
 }
 
+// Change the values of OC4RS and OC3RS which control the backwards motor function and unmap OC2RS and OC1RS
 void setMotorsSweepBackward(int ADCBufferValue){
     
     if(ADCBufferValue < 512){   //Left is higher 
@@ -163,6 +166,7 @@ void setMotorsSweepBackward(int ADCBufferValue){
     printVoltage(ADCBufferValue);
 }
 
+// Set the motors to stop moving by unmapping two of the OC modules and setting the other two to zero.
 void setMotorsIdle(){
         OCPin1 = 0; // unmap OC2 to RD1
         OCLatPin1 = 0;
