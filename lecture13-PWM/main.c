@@ -28,14 +28,14 @@ typedef enum stateTypeEnum{
     forward, backward, debouncePress, debounceRelease, idleFwd, idleBack
 } stateType;
 
-    volatile  stateType state = idleBack;
-    volatile int direction = 0;
+    volatile  stateType state = idleBack;       // State the state machine in idleBack so that when the switch is pressed it goes into Forward
+    volatile int direction = 0;         //Used to determine which state to go to next inside the debounce release state
 
 
 int main(void){
     
     SYSTEMConfigPerformance(40000000);
-  //  int latch = 0; 
+  
     int direction = 0; // 0 = forward 1 =backwards 
     initTimer3();
     initTimer1();
@@ -45,15 +45,15 @@ int main(void){
     writeLCD(0b00001111, 0, 50);
     initPWM();
     initADC();
-  //  enableInterrupts();
+
     disableInterrupts();
-   // TRISBbits.TRISB13 = 0;
+   
     
     
-    // initialize robot 
+    
     direction = 0;
     ADCFlag = 0;            // reset adc thing 
-    while(ADCDone == 0 );
+    while(ADCDone == 0 ); //Wait for ADC Value 
     setMotorsSweepForward(ADC1BUF0);
     
 #ifdef TEST
@@ -68,12 +68,12 @@ int main(void){
              case forward:
                  
                  direction = fwd;
-              //   printCharLCD(PORTDbits.RD1 + '0');
-                 while(switchVal == 1){
+              
+                 while(switchVal == 1){ //Wait for Press
                      ADCFlag = 0;            // reset adc thing 
                      while(ADCDone == 0 );
                      setMotorsSweepForward(ADC1BUF0);
-                 } // wait for press
+                 } 
                  state = debouncePress;
                  TMR1 = 0;
                  timerFlag = 0;
@@ -83,11 +83,11 @@ int main(void){
              case backward:
                  
                  direction = bck;
-                 while(switchVal == 1){
+                 while(switchVal == 1){ //Wait for Press
                      ADCFlag = 0;            // reset adc thing 
                      while(ADCDone == 0 );
                      setMotorsSweepBackward(ADC1BUF0);
-                 } //wait for press
+                 } 
                  state = debouncePress;
                  TMR1 = 0;
                  timerFlag = 0;
@@ -96,7 +96,7 @@ int main(void){
              case idleBack:
                  
                  direction = IDLEBACK;
-                 while(switchVal == 1){
+                 while(switchVal == 1){ //Wait for Press
                      ADCFlag = 0;            // reset adc thing 
                      while(ADCDone == 0 );
                      setMotorsIdle();
@@ -110,7 +110,7 @@ int main(void){
             case idleFwd:
                  
                  direction = IDLEFWD;
-                 while(switchVal == 1){
+                 while(switchVal == 1){ //Wait for Press
                      ADCFlag = 0;            // reset adc thing 
                      while(ADCDone == 0 );
                      setMotorsIdle();
@@ -131,7 +131,9 @@ int main(void){
                  
              case debounceRelease:
                  delayUs(100);
-                 if(direction == fwd){
+                 
+                 // Determine the next state based on the value of direction.
+                 if(direction == fwd){          
                      state = idleFwd;
                  }
                  else if(direction == bck){
@@ -153,7 +155,3 @@ int main(void){
     return 0;
 }
 
-/*void __ISR(_ADC_VECTOR, IPL7SRS) _ADCInterrupt(void){
-    IFS0bits.AD1IF = 0;
-    OC2RS = ADC1BUF0;
-}*/
