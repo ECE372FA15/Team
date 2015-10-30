@@ -10,6 +10,7 @@
 #include "timer.h"
 #include "pwm.h"
 #include "adc.h"
+#include "test.h"
 
 #define switchVal   PORTEbits.RE1
 #define ADCDone     AD1CON1bits.SSRC
@@ -20,6 +21,8 @@
 #define bck         1
 #define IDLEBACK    2
 #define IDLEFWD     3
+#define TEST
+//#define RUN
 
 typedef enum stateTypeEnum{
     forward, backward, debouncePress, debounceRelease, idleFwd, idleBack
@@ -53,6 +56,11 @@ int main(void){
     while(ADCDone == 0 );
     setMotorsSweepForward(ADC1BUF0);
     
+#ifdef TEST
+    test();
+#endif    
+    
+#ifdef RUN    
     while(1){   
   
          switch(state){
@@ -141,6 +149,7 @@ int main(void){
          }
 
     }
+#endif
     return 0;
 }
 
