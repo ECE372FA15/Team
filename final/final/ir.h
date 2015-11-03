@@ -4,10 +4,10 @@
 
 #include "lcd.h"
 
-#define IR1tri TRISBbits.RB0 //J11 pin 34
-#define IR2tri TRISBbits.RB1 //J11 pin 33
-#define IR3tri TRISBbits.RB2 //J11 pin 32
-#define IR4tri TRISBbits.RB3 //J11 pin 31
+#define IR1tri TRISBbits.TRISB0 //J11 pin 34
+#define IR2tri TRISBbits.TRISB1 //J11 pin 33
+#define IR3tri TRISBbits.TRISB2 //J11 pin 32
+#define IR4tri TRISBbits.TRISB3 //J11 pin 31
 #define IR1port PORTBbits.RB0
 #define IR2port PORTBbits.RB1
 #define IR3port PORTBbits.RB2
