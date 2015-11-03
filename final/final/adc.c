@@ -10,8 +10,12 @@ void initADC(){
    
     ANSELE = 0;
   
-    
+    //Just in case digital thresholds don't work like we want, uncomment the next
+    //four lines
     //ANSELBbits.ANSB0 = 0; 
+    //ANSELBbits.ANSB1 = 0;
+    //ANSELBbits.ANSB2 = 0;
+    //ANSELBbits.ANSB3 = 0;
     ANSELBbits.ANSB5 = 0;
     AD1CON1bits.FORM = 0; // 16 unsigned integer
     AD1CON1bits.SSRC = 7; // Auto-convert mode
