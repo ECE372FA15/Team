@@ -4,6 +4,7 @@
 
 #include "lcd.h"
 
+//define IR pins
 #define IR1tri TRISBbits.TRISB0 //J11 pin 34
 #define IR2tri TRISBbits.TRISB1 //J11 pin 33
 #define IR3tri TRISBbits.TRISB2 //J11 pin 32
