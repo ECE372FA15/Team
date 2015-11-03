@@ -12,6 +12,7 @@
 #include "adc.h"
 
 int main(void){
+    
     SYSTEMConfigPerformance(40000000);
     // initialize 
     initTimer3();
@@ -24,10 +25,9 @@ int main(void){
     disableInterrupts();
     
     while(1){   
-  
-       
-         
- 
+        
+        
+        
     }
     
     return 0;
