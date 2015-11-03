@@ -5,8 +5,6 @@
 #include "timer.h"
 #include "pwm.h"
 
-#ifndef IR_C
-#define IR_C
 
 
 //><><><><><><><><> for refrence only <><><><><><><><><><><><
@@ -19,9 +17,12 @@
 //#define IR3port PORTBbits.RB2
 //#define IR4port PORTBbits.RB3
 
-void initIr(){
+void initIR(){
     // init read and write ports 
     // these may need to be changed to analog reads... 
+    trackLineState      = maintainSetting;
+    lastTrackLineState  = maintainSetting; 
+    
     IR1tri = 1; //TRISBbits.TRISB0 //J11 pin 34
     IR2tri = 1; //TRISBbits.TRISB1 //J11 pin 33
     IR3tri = 1; //TRISBbits.TRISB2 //J11 pin 32
@@ -182,4 +183,3 @@ irStateType parseIRData(int data){
     // default is to findLine
     return findLine; 
 };
-#endif 

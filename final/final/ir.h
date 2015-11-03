@@ -1,22 +1,11 @@
+/* 
+ * File:   ir.h
+ * Authors: Brandon Lipjanic, Jonny Hawkins, Abigail Francis, Pierce Simpson
+ * Team 203
+ */
+
 #ifndef IR_H
 #define IR_H
-
-// allow global access to the ir state variables 
-#ifndef IRSTATETYPE_
-#define IRSTATETYPE_
-typedef enum stateTypeEnum{
-    findLine,  // turn in circles until line is found 
-    turnLeft,  // turn left
-    turnRight, // turn right 
-    goFwd,     // go forward 
-    goBck,     // fo backward 
-    maintainSetting, // keep previous states speed setting 
-    stop       // stop! 
-} irStateType;
-#endif // IRSTATETYPE_
-
-volatile irStateType trackLineState = findLine;
-volatile irStateType lastTrackLineState = findLine; 
 
 #include <xc.h>
 #include "lcd.h"
@@ -31,20 +20,38 @@ volatile irStateType lastTrackLineState = findLine;
 #define IR3port PORTBbits.RB2
 #define IR4port PORTBbits.RB3
 
-// IR1port                    IR2port 
-// IR1tri                     IR2tri
 
+#ifndef irstateTypeEnum
+#define irStateTypeEnum
+typedef enum irstateTypeEnum{
+    findLine,  // turn in circles until line is found 
+    turnLeft,  // turn left
+    turnRight, // turn right 
+    goFwd,     // go forward 
+    goBck,     // fo backward 
+    maintainSetting, // keep previous states speed setting 
+    stop       // stop! 
+} irStateType;
+#endif
+
+#ifndef trackLineState_
+#define trackLineState_
+volatile irStateType trackLineState;
+#endif // trackLineState_
+
+#ifndef lastTrackLineState_
+#define lastTrackLineState_
+volatile irStateType lastTrackLineState; 
+#endif // lastTrackLineStte_
+
+
+// IR1port                    IR2port 
 
 //               IR3port 
-//               IR3tri
     
 //               IR4port 
-//               IR4tri
 
-
-
-
-void initIr();
+void initIR();
 
 void printIR();
 

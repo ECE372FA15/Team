@@ -108,7 +108,7 @@ void setMotorsRotate(int ADCBufferValue){
             OCPin2= 0; // map OC3 to RD2
             OCLatPin2 = 0;
          }
-         printVoltage(ADCBufferValue);
+      //   printVoltage(ADCBufferValue);
          
  
 }
@@ -137,7 +137,7 @@ void setMotorsSweepForward(int ADCBufferValue){
         OCLatPin2 = 0; 
         
     }
-    printVoltage(ADCBufferValue);
+   // printVoltage(ADCBufferValue);
 }
 
 // Change the values of OC4RS and OC3RS which control the backwards motor function and unmap OC2RS and OC1RS
@@ -164,7 +164,7 @@ void setMotorsSweepBackward(int ADCBufferValue){
         OC3RS = 1023; // Right Backwards 
         
     }
-    printVoltage(ADCBufferValue);
+ //   printVoltage(ADCBufferValue);
 }
 
 

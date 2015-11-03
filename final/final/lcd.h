@@ -1,4 +1,8 @@
-
+/* 
+ * File:   lcd.h
+ * Authors: Brandon Lipjanic, Jonny Hawkins, Abigail Francis, Pierce Simpson
+ * Team 203
+ */
 #ifndef LCD_H
 #define LCD_H
 

@@ -11,17 +11,23 @@
 #include "pwm.h"
 #include "adc.h"
 
+#include "ir.h"
+
 #ifndef STATETYPE_
 #define STATETYPE_
+
 typedef enum stateTypeEnum{
-    runToggle, dbPress, dbRelease, waitForPress
+    trackLines, attackBot, snooze
 } stateType;
 #endif // STATETYPE_
+
+volatile stateType mainState; 
 
 int main(void){
     
     SYSTEMConfigPerformance(40000000);
     // initialize 
+    mainState = trackLines;
     initTimer3();
     initTimer1();
     initLCD();
@@ -29,10 +35,19 @@ int main(void){
     writeLCD(0b00001111, 0, 50);
     initPWM();
     initADC();
+    initIR(); 
     disableInterrupts();
     
     while(1){   
-        
+        switch(mainState){
+            case trackLines: 
+                    trackLine(); 
+                break;
+            case attackBot:
+                break;
+            case snooze:
+                break;
+        }
         
         
     }

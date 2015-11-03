@@ -4,4 +4,6 @@ config.h  \
 interrupt.h  \
 timer.h  \
  pwm.h  \
-adc.h 
+adc.h  \
+ir.h  \
+lcd.h 
