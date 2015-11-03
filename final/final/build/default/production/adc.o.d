@@ -1,2 +1,3 @@
 build/default/production/adc.o:  \
-adc.c 
+adc.c  \
+adc.h 

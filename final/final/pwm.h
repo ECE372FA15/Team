@@ -12,8 +12,13 @@ extern "C" {
 #endif
 
 void initPWM();
+void setMotorsRotate(int ADCBufferValue);
+void setMotorsSweepForward(int ADCBufferValue);
+void setMotorsSweepBackward(int ADCBufferValue);
+void setMotorsIdle();
 
-
+void setMotorsBackward(int s);
+void setMotorsForward(int s);
 #ifdef	__cplusplus
 }
 #endif

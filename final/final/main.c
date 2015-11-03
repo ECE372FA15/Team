@@ -11,6 +11,13 @@
 #include "pwm.h"
 #include "adc.h"
 
+#ifndef STATETYPE_
+#define STATETYPE_
+typedef enum stateTypeEnum{
+    runToggle, dbPress, dbRelease, waitForPress
+} stateType;
+#endif // STATETYPE_
+
 int main(void){
     
     SYSTEMConfigPerformance(40000000);

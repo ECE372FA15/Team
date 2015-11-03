@@ -2,7 +2,7 @@
 #ifndef LCD_H
 #define LCD_H
 
-void printIR(unsigned int port1,unsigned int port2,unsigned int port3,unsigned int port4);
+
 void writeLCD(unsigned char word, unsigned int commandType, unsigned int delay);
 void writeFourBits(unsigned char word, unsigned int commandType, unsigned int delayAfter, unsigned int lower);
 void initLCD(void);

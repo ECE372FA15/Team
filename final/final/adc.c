@@ -5,6 +5,7 @@
  */
 
 #include <xc.h>
+#include "adc.h"
 
 void initADC(){
    
