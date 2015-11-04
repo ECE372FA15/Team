@@ -5,7 +5,7 @@
 #include "timer.h"
 #include "pwm.h"
 
-
+#define debug_ir
 
 //><><><><><><><><> for refrence only <><><><><><><><><><><><
 //#define IR1tri TRISBbits.TRISB0 //J11 pin 34
@@ -21,7 +21,7 @@ void initIR(){
     // init read and write ports 
     // these may need to be changed to analog reads... 
     trackLineState      = maintainSetting;
-    lastTrackLineState  = maintainSetting; 
+    lastTrackLineState  = goFwd; 
     
     IR1tri = 1; //TRISBbits.TRISB0 //J11 pin 34
     IR2tri = 1; //TRISBbits.TRISB1 //J11 pin 33
@@ -35,9 +35,9 @@ void printIR(){
     // may need to swap port1-2-3-4 function inupts with global definitions...
     
     int irData = readIR(); 
-    
+
     clearLCD();
-    
+
     printCharLCD((irData & 1) + '0'); // print first bit 
     printCharLCD(((irData & 2) << 1) + '0'); // print second bit 
     printCharLCD(((irData & 4) << 2) + '0'); // print third bit 
@@ -66,6 +66,7 @@ int trackLine(){
     
     irStateType nextState = maintainSetting; 
     int motorSpeed = 100; // full speed ahead!!
+    char str[6] = {0,0,0,0,0,0};
     int irData = 0; 
     
     // possible irData values 0-15
@@ -105,7 +106,6 @@ int trackLine(){
         case maintainSetting:
             // check the ir data 
             nextState = parseIRData(readIR());
-            
             // only change states if necessary 
             if(nextState != lastTrackLineState){
                 trackLineState = nextState; 
@@ -115,6 +115,16 @@ int trackLine(){
             break; 
             
     }
+    
+    #ifdef debug_ir
+        clearLCD(); 
+        str[0] = ((nextState & 1) + '0');
+        str[1] = ((nextState & 2) >> 1) + '0'; 
+        str[2] = ((nextState & 4) >> 2) + '0';
+        str[3] = ((nextState & 8) >> 3) + '0';
+        printStringLCD(str);
+    #endif
+    
 }
 
 
