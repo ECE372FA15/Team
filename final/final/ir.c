@@ -5,7 +5,7 @@
 #include "timer.h"
 #include "pwm.h"
 
-#define debug_ir
+//#define debug_ir
 #define use_digital_ir
 
 //><><><><><><><><> for refrence only <><><><><><><><><><><><
@@ -23,7 +23,7 @@ void initIR(){
     // init read and write ports 
     // these may need to be changed to analog reads... 
     trackLineState      = maintainSetting;
-    lastTrackLineState  = goFwd; 
+    lastTrackLineState  = maintainSetting; 
 
     #ifdef use_digital_ir
         // since using analog pins, configure... 
@@ -37,10 +37,11 @@ void initIR(){
         IR3tri = 1; //TRISBbits.TRISB2 //J11 pin 32
         IR4tri = 1; //TRISBbits.TRISB3 //J11 pin 31
 
-        CNPUBbits.CNPUB0 = 0;
-        CNPUBbits.CNPUB1 = 0;
-        CNPUBbits.CNPUB2 = 0;
-        CNPUBbits.CNPUB3 = 0;
+        // maybe pull ups...
+//        CNPUBbits.CNPUB0 = 0;
+//        CNPUBbits.CNPUB1 = 0;
+//        CNPUBbits.CNPUB2 = 0;
+//        CNPUBbits.CNPUB3 = 0;
     #endif
     #ifdef use_analog_ir
         // since using analog pins, configure... 
@@ -62,16 +63,16 @@ void printIR(){
     int irData = readIR(); 
 
     clearLCD();
-//    to test, without readIR(), use this code...
-//    printCharLCD(IR1port + '0');
-//    printCharLCD(IR2port + '0');
-//    printCharLCD(IR3port + '0');
-//    printCharLCD(IR4port + '0');
-
-    printCharLCD((irData & 1) + '0'); // print first bit 
-    printCharLCD(((irData & 2) >> 1) + '0'); // print second bit 
-    printCharLCD(((irData & 4) >> 2) + '0'); // print third bit 
-    printCharLCD(((irData & 8) >> 3) + '0'); // print fourth bit    
+  //  to test, without readIR(), use this code...
+    printCharLCD(IR1port + '0');
+    printCharLCD(IR2port + '0');
+    printCharLCD(IR3port + '0');
+    printCharLCD(IR4port + '0');
+//
+//    printCharLCD((irData & 1) + '0'); // print first bit 
+//    printCharLCD(((irData & 2) >> 1) + '0'); // print second bit 
+//    printCharLCD(((irData & 4) >> 2) + '0'); // print third bit 
+//    printCharLCD(((irData & 8) >> 3) + '0'); // print fourth bit    
 }
 
 void testIR(){
@@ -117,6 +118,8 @@ int trackLine(){
     int irData = 0; 
     
     // possible irData values 0-15
+    
+    //nextState = parseIRData(readIR());
     
     switch(trackLineState){
     // motor movement definitions are in pwm .h and .c files 
@@ -165,11 +168,20 @@ int trackLine(){
     
     #ifdef debug_ir
         clearLCD(); 
-        str[0] = ((nextState & 1) + '0');
-        str[1] = ((nextState & 2) >> 1) + '0'; 
-        str[2] = ((nextState & 4) >> 2) + '0';
-        str[3] = ((nextState & 8) >> 3) + '0';
-        printStringLCD(str);
+        printCharLCD(((nextState & 8) >> 3) + '0');
+        printCharLCD(((nextState & 4) >> 2) + '0'); 
+        printCharLCD(((nextState & 2) >> 1) + '0');
+        printCharLCD(((nextState & 1) >> 0) + '0');
+        printCharLCD(((trackLineState & 8) >> 3) + '0');
+        printCharLCD(((trackLineState & 4) >> 2) + '0'); 
+        printCharLCD(((trackLineState & 2) >> 1) + '0');
+        printCharLCD(((trackLineState & 1) >> 0) + '0');
+        moveCursorLCD(1,2);
+        printCharLCD(((lastTrackLineState & 8) >> 3) + '0');
+        printCharLCD(((lastTrackLineState & 4) >> 2) + '0'); 
+        printCharLCD(((lastTrackLineState & 2) >> 1) + '0');
+        printCharLCD(((lastTrackLineState & 1) >> 0) + '0');
+
     #endif
     
 }
