@@ -39,9 +39,9 @@ void printIR(){
     clearLCD();
 
     printCharLCD((irData & 1) + '0'); // print first bit 
-    printCharLCD(((irData & 2) << 1) + '0'); // print second bit 
-    printCharLCD(((irData & 4) << 2) + '0'); // print third bit 
-    printCharLCD(((irData & 8) << 3) + '0'); // print fourth bit    
+    printCharLCD(((irData & 2) >> 1) + '0'); // print second bit 
+    printCharLCD(((irData & 4) >> 2) + '0'); // print third bit 
+    printCharLCD(((irData & 8) >> 3) + '0'); // print fourth bit    
 }
 
 // function polls all 4 IR led's and returns a 4 bit number where each bit 
@@ -49,15 +49,15 @@ void printIR(){
 int readIR(){
  
     // read all data 
-    int one = IR3port; 
+    int one = IR1port; 
     
-    int two = IR3port;  
+    int two = IR2port;  
     
     int three = IR3port;  
     
-    int four = IR3port;
+    int four = IR4port;
     
-    // return data 
+    // return data as one number
     return one + (two << 1) + (three << 2) + (four << 3); 
     
 }
@@ -117,12 +117,7 @@ int trackLine(){
     }
     
     #ifdef debug_ir
-        clearLCD(); 
-        str[0] = ((nextState & 1) + '0');
-        str[1] = ((nextState & 2) >> 1) + '0'; 
-        str[2] = ((nextState & 4) >> 2) + '0';
-        str[3] = ((nextState & 8) >> 3) + '0';
-        printStringLCD(str);
+        printIR();
     #endif
     
 }

@@ -62,6 +62,4 @@ int trackLine();
 irStateType parseIRData(int data);
 
 
-
-
 #endif // IR_H
