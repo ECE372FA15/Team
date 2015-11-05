@@ -25,6 +25,7 @@ volatile stateType mainState;
 
 int main(void){
     
+    int i = 0;
     SYSTEMConfigPerformance(40000000);
     // initialize 
     mainState = trackLines;
@@ -33,21 +34,22 @@ int main(void){
     initLCD();
     clearLCD();
     writeLCD(0b00001111, 0, 50);
-    initPWM();
-    initADC();
+    //initPWM();
+    //initADC();
     initIR(); 
     disableInterrupts();
-    
     while(1){   
-        switch(mainState){
-            case trackLines: 
-                    trackLine(); 
-                break;
-            case attackBot:
-                break;
-            case snooze:
-                break;
-        }
+        
+        testIR();
+//        switch(mainState){
+//            case trackLines: 
+//                    trackLine(); 
+//                break;
+//            case attackBot:
+//                break;
+//            case snooze:
+//                break;
+//        }
         
         
     }

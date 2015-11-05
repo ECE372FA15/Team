@@ -44,6 +44,23 @@ void printIR(){
     printCharLCD(((irData & 8) >> 3) + '0'); // print fourth bit    
 }
 
+void testIR(){
+    
+    int i = 0;
+    
+    printIR();
+
+    for(i = 0; i < 1000; i++){
+    delayUs(1000);
+    }
+
+    printStringLCD("testing");
+
+    for(i = 0; i < 1000; i++){
+    delayUs(1000);
+    }
+}
+
 // function polls all 4 IR led's and returns a 4 bit number where each bit 
 // corosponds to the logic reading of the respective led 
 int readIR(){
@@ -117,7 +134,12 @@ int trackLine(){
     }
     
     #ifdef debug_ir
-        printIR();
+        clearLCD(); 
+        str[0] = ((nextState & 1) + '0');
+        str[1] = ((nextState & 2) >> 1) + '0'; 
+        str[2] = ((nextState & 4) >> 2) + '0';
+        str[3] = ((nextState & 8) >> 3) + '0';
+        printStringLCD(str);
     #endif
     
 }

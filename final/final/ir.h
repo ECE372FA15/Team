@@ -59,6 +59,8 @@ int readIR();
 
 int trackLine();
 
+void testIR();
+
 irStateType parseIRData(int data);
 
 
