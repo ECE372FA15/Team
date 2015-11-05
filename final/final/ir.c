@@ -34,6 +34,12 @@ void initIR(){
     IR2tri = 1; //TRISBbits.TRISB1 //J11 pin 33
     IR3tri = 1; //TRISBbits.TRISB2 //J11 pin 32
     IR4tri = 1; //TRISBbits.TRISB3 //J11 pin 31
+    
+    CNPUBbits.CNPUB0 = 0;
+    CNPUBbits.CNPUB1 = 0;
+    CNPUBbits.CNPUB2 = 0;
+    CNPUBbits.CNPUB3 = 0;
+          
 }
 
 void printIR(){
@@ -62,15 +68,15 @@ void testIR(){
     
     printIR();
 
-    for(i = 0; i < 1000; i++){
-    delayUs(1000);
-    }
+//    for(i = 0; i < 1000; i++){
+//    delayUs(1000);
+//    }
 
     printStringLCD("testing");
 
-    for(i = 0; i < 1000; i++){
-    delayUs(1000);
-    }
+//    for(i = 0; i < 1000; i++){
+//    delayUs(1000);
+//    }
 }
 
 // function polls all 4 IR led's and returns a 4 bit number where each bit 
