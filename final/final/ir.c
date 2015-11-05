@@ -8,6 +8,7 @@
 #define debug_ir
 
 //><><><><><><><><> for refrence only <><><><><><><><><><><><
+
 //#define IR1tri TRISBbits.TRISB0 //J11 pin 34
 //#define IR2tri TRISBbits.TRISB1 //J11 pin 33
 //#define IR3tri TRISBbits.TRISB2 //J11 pin 32
@@ -23,6 +24,12 @@ void initIR(){
     trackLineState      = maintainSetting;
     lastTrackLineState  = goFwd; 
     
+    // since using analog pins, configure... 
+    ANSELBbits.ANSB0 = 0;
+    ANSELBbits.ANSB1 = 0;
+    ANSELBbits.ANSB2 = 0;
+    ANSELBbits.ANSB3 = 0;
+    
     IR1tri = 1; //TRISBbits.TRISB0 //J11 pin 34
     IR2tri = 1; //TRISBbits.TRISB1 //J11 pin 33
     IR3tri = 1; //TRISBbits.TRISB2 //J11 pin 32
@@ -37,6 +44,11 @@ void printIR(){
     int irData = readIR(); 
 
     clearLCD();
+//    to test, without readIR(), use this code...
+//    printCharLCD(IR1port + '0');
+//    printCharLCD(IR2port + '0');
+//    printCharLCD(IR3port + '0');
+//    printCharLCD(IR4port + '0');
 
     printCharLCD((irData & 1) + '0'); // print first bit 
     printCharLCD(((irData & 2) >> 1) + '0'); // print second bit 
