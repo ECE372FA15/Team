@@ -6,6 +6,7 @@
 #include "pwm.h"
 
 #define debug_ir
+#define use_digital_ir
 
 //><><><><><><><><> for refrence only <><><><><><><><><><><><
 
@@ -23,23 +24,34 @@ void initIR(){
     // these may need to be changed to analog reads... 
     trackLineState      = maintainSetting;
     lastTrackLineState  = goFwd; 
-    
-    // since using analog pins, configure... 
-    ANSELBbits.ANSB0 = 0;
-    ANSELBbits.ANSB1 = 0;
-    ANSELBbits.ANSB2 = 0;
-    ANSELBbits.ANSB3 = 0;
-    
-    IR1tri = 1; //TRISBbits.TRISB0 //J11 pin 34
-    IR2tri = 1; //TRISBbits.TRISB1 //J11 pin 33
-    IR3tri = 1; //TRISBbits.TRISB2 //J11 pin 32
-    IR4tri = 1; //TRISBbits.TRISB3 //J11 pin 31
-    
-    CNPUBbits.CNPUB0 = 0;
-    CNPUBbits.CNPUB1 = 0;
-    CNPUBbits.CNPUB2 = 0;
-    CNPUBbits.CNPUB3 = 0;
-          
+
+    #ifdef use_digital_ir
+        // since using analog pins, configure... 
+        ANSELBbits.ANSB0 = 0;
+        ANSELBbits.ANSB1 = 0;
+        ANSELBbits.ANSB2 = 0;
+        ANSELBbits.ANSB3 = 0;
+
+        IR1tri = 1; //TRISBbits.TRISB0 //J11 pin 34
+        IR2tri = 1; //TRISBbits.TRISB1 //J11 pin 33
+        IR3tri = 1; //TRISBbits.TRISB2 //J11 pin 32
+        IR4tri = 1; //TRISBbits.TRISB3 //J11 pin 31
+
+        CNPUBbits.CNPUB0 = 0;
+        CNPUBbits.CNPUB1 = 0;
+        CNPUBbits.CNPUB2 = 0;
+        CNPUBbits.CNPUB3 = 0;
+    #endif
+    #ifdef use_analog_ir
+        // since using analog pins, configure... 
+        ANSELBbits.ANSB0 = 1;
+        ANSELBbits.ANSB1 = 1;
+        ANSELBbits.ANSB2 = 1;
+        ANSELBbits.ANSB3 = 1;
+        
+        // idl what else you do for analog -jonny 
+
+    #endif
 }
 
 void printIR(){
