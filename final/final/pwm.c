@@ -88,7 +88,7 @@ void setMotorsRotate(int ADCBufferValue){
             OCPin2= 0; // map OC3 to RD2
             OCLatPin2 = 0;
          }
-         else if (ADCBufferValue >= 768 && ADCBufferValue < 1024){      //Right
+         else if (ADCBufferValue >= 768 && ADCBufferValue < 1024){      //Clockwise
             OCPin1 = 0b1011; // map OC2 to RD1 
             OC2RS = (ADCBufferValue*3)/2; // left forward
             OCPin3= 0; // map OC4 to RD3
@@ -217,4 +217,47 @@ void setMotorsForward(int s){
     OCPin2= 0; // unmap OC3 to RD2
     OCLatPin2 = 0;
     
+}
+
+void testMotorFunctionality(){
+    int i = 0;
+    
+    setMotorsRotate(123);       //Robot goes backwards at half speed
+    for(i = 0; i < 10; i ++){
+        delayUs(65000);
+    }
+    setMotorsRotate(500);       //Robot spins counterclockwise quickly
+    for(i = 0; i < 10; i ++){
+        delayUs(65000);
+    }
+    setMotorsRotate(700);       //Robot moves forward at near full speed
+    for(i = 0; i < 10; i ++){
+        delayUs(65000);
+    }
+    setMotorsRotate(800);       //Robot spins clockwise slowly.
+    for(i = 0; i < 10; i ++){
+        delayUs(65000);
+    }
+    
+    setMotorsSweepForward(300);  //Robot moves toward the left around half speed
+    for(i = 0; i < 10; i ++){
+        delayUs(65000);
+    }
+    
+    setMotorsSweepForward(1000); //Robot moves toward the right at close to full speed.
+    for(i = 0; i < 10; i ++){
+        delayUs(65000);
+    }
+
+    setMotorsSweepBackward(300);  //Robot moves toward the back left around half speed
+    for(i = 0; i < 10; i ++){
+        delayUs(65000);
+    }
+    
+    setMotorsSweepBackward(1000); //Robot moves toward the back right at close to full speed.
+    for(i = 0; i < 10; i ++){
+        delayUs(65000);
+    }
+    
+    return;
 }

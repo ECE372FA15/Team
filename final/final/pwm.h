@@ -16,5 +16,6 @@ void setMotorsIdle();
 void setMotorsBackward(int s);
 void setMotorsForward(int s);
 
+void testMotorFunctionality();
 #endif	/* PWM_H */
 
