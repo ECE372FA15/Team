@@ -24,8 +24,7 @@ typedef enum stateTypeEnum{
 volatile stateType mainState; 
 
 int main(void){
-    
-    int i = 0;
+
     SYSTEMConfigPerformance(40000000);
     // initialize 
     mainState = trackLines;
@@ -39,9 +38,9 @@ int main(void){
     initIR(); 
     disableInterrupts();
     while(1){   
-        
-////    testIR(); 
-//      testMotorAndIR();
+//        
+//    testIR(); 
+////     testMotorAndIR();
       
         switch(mainState){
             case trackLines: 

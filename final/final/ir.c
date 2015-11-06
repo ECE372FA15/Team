@@ -64,10 +64,10 @@ void printIR(){
 
     clearLCD();
   //  to test, without readIR(), use this code...
-    printCharLCD(IR1port + '0');
-    printCharLCD(IR2port + '0');
-    printCharLCD(IR3port + '0');
-    printCharLCD(IR4port + '0');
+    printCharLCD(!IR1port + '0');
+    printCharLCD(!IR2port + '0');
+    printCharLCD(!IR3port + '0');
+    printCharLCD(!IR4port + '0');
 //
 //    printCharLCD((irData & 1) + '0'); // print first bit 
 //    printCharLCD(((irData & 2) >> 1) + '0'); // print second bit 
@@ -103,16 +103,9 @@ void testMotorAndIR(){
 void testIR(){
     
     printIR();
-
-//    for(i = 0; i < 1000; i++){
-//    delayUs(1000);
-//    }
-
+    moveCursorLCD(1,2);
     printStringLCD("testing");
-
-//    for(i = 0; i < 1000; i++){
-//    delayUs(1000);
-//    }
+    
 }
 
 // function polls all 4 IR led's and returns a 4 bit number where each bit 
@@ -120,13 +113,13 @@ void testIR(){
 int readIR(){
  
     // read all data 
-    int one = IR1port; 
+    int one = !IR1port; 
     
-    int two = IR2port;  
+    int two = !IR2port;  
     
-    int three = IR3port;  
+    int three = !IR3port;  
     
-    int four = IR4port;
+    int four = !IR4port;
     
     // return data as one number
     return (one + (two << 1) + (three << 2) + (four << 3) ); 
@@ -137,6 +130,7 @@ int trackLine(){
     
     irStateType nextState = maintainSetting; 
     int motorSpeed = 100; // full speed ahead!!
+    int secondMotorSpeed = 1023; 
     char str[6] = {0,0,0,0,0,0};
     int irData = 0; 
     
@@ -145,65 +139,43 @@ int trackLine(){
     switch(trackLineState){
     // motor movement definitions are in pwm .h and .c files 
         case findLine:  // turn in circles until line is found 
-            setMotorsSweepForward(1023);
+            setMotorsSweepForward(secondMotorSpeed );
             lastTrackLineState = findLine;
-                #ifdef debug_ir
-                     clearLCD();
-                     printStringLCD("findLine");
-                #endif
             trackLineState = maintainSetting; 
              break; 
         case turnLeft:  // turn left
-            setMotorsSweepForward(1023);
+            setMotorsSweepBackward(1 );
             lastTrackLineState = turnLeft; 
-                #ifdef debug_ir
-                     clearLCD();
-                     printStringLCD("turnLeft");
-                #endif
             trackLineState = maintainSetting; 
              break; 
         case turnRight: // turn right 
-            setMotorsSweepForward(1);
+            setMotorsSweepBackward(secondMotorSpeed);
             lastTrackLineState = turnRight; 
-                #ifdef debug_ir
-                     clearLCD();
-                     printStringLCD("turnRight");
-                #endif
             trackLineState = maintainSetting; 
              break; 
         case goFwd:     // go forward 
             setMotorsForward(motorSpeed);
             lastTrackLineState = goFwd; 
-                #ifdef debug_ir
-                     clearLCD();
-                     printStringLCD("goFwd");
-                #endif
             trackLineState = maintainSetting; 
              break; 
         case goBck:     // go backward
             setMotorsBackward(motorSpeed);
             lastTrackLineState = goBck; 
-                #ifdef debug_ir
-                     clearLCD();
-                     printStringLCD("goBck");
-                #endif
             trackLineState = maintainSetting; 
              break;  
         case stop:       // stop! 
             setMotorsIdle(); 
             lastTrackLineState = stop;
-                #ifdef debug_ir
-                     clearLCD();
-                     printStringLCD("stop");
-                #endif
             trackLineState = maintainSetting; 
              break; 
         case maintainSetting:
             // check the ir data 
-            nextState = parseIRData(readIR());
+            irData = readIR();
+            nextState = parseIRData(irData);
             // only change states if necessary 
             if(nextState != lastTrackLineState){
                 trackLineState = nextState; 
+                lastTrackLineState = maintainSetting; 
             }else{
                 trackLineState = maintainSetting; 
             }
@@ -212,18 +184,21 @@ int trackLine(){
     }
     
     #ifdef debug_ir
-//        clearLCD(); 
-//        printCharLCD(((nextState & 8) >> 3) + '0');
-//        printCharLCD(((nextState & 4) >> 2) + '0'); 
-//        printCharLCD(((nextState & 2) >> 1) + '0');
-//        printCharLCD(((nextState & 1) >> 0) + '0');
-//        
+          clearLCD(); 
+          printIRStateCode(lastTrackLineState); 
+        moveCursorLCD(1,2);
+          
+        printCharLCD(((irData & 8) >> 3) + '0');
+        printCharLCD(((irData & 4) >> 2) + '0'); 
+        printCharLCD(((irData & 2) >> 1) + '0');
+        printCharLCD(((irData & 1) >> 0) + '0');
+        
 //        printCharLCD(((trackLineState & 8) >> 3) + '0');
 //        printCharLCD(((trackLineState & 4) >> 2) + '0'); 
 //        printCharLCD(((trackLineState & 2) >> 1) + '0');
 //        printCharLCD(((trackLineState & 1) >> 0) + '0');
-//        
-//        moveCursorLCD(1,2);
+        
+//        printIR();
 //        printCharLCD(((lastTrackLineState & 8) >> 3) + '0');
 //        printCharLCD(((lastTrackLineState & 4) >> 2) + '0'); 
 //        printCharLCD(((lastTrackLineState & 2) >> 1) + '0');
@@ -237,67 +212,81 @@ int trackLine(){
 irStateType parseIRData(int data){
     //  IR emitter/ collecter configuration (for refrence)
     
-// IR1port                    IR2port 
-// pin 34                     pin 33
 //               IR3port 
 //               pin 32
 
 //               IR4port 
 //               pin 31
 
-//    0000      findLine
-//    0001  turnLeft
-//    0010  turnRight 
-//    0011  goFwd
-//    0100  
-//    0101  
-//    0110  
-//    0111  turnRight 
-//    1000  
-//    1001  
-//    1010  
-//    1011  
-//    1100  
-//    1101  turnLeft
-//    1110  
-//    1111  goFwd
+// IR2port                    IR1port 
+// pin 33                     pin 34
     
     // table is not filled out all of the way...
     //IDK what to do for some of it 
     switch(data){
-        case 0b0000:
-            return findLine; 
-        case 0b0001:
-            return turnLeft;
-        case 0b0010:
-            return turnRight;
-        case 0b0011:
-            return goFwd;
-        case 0b0100:
-            break;
-        case 0b0101:
-            break;
-        case 0b0110:
-            break;
-        case 0b0111:
-            return turnRight; 
-        case 0b1000:
-            break;
-        case 0b1001:
-            break;
-        case 0b1010:
-            break;
-        case 0b1011:
-            break;
-        case 0b1100:
-            break;
-        case 0b1101:
-            return turnLeft; 
-        case 0b1110:
-            break;
-        case 0b1111:
+        case 0b0000:        //bbbb
             return goFwd; 
+        case 0b0001:        //bbbw
+            return goFwd;
+        case 0b0010:        //bbwb
+            return goFwd; // this is a classic wrong button manueuver 
+        case 0b0011:        //bbw.... haha bbw...
+            return goFwd;
+        case 0b0100:        //bwbb
+            return turnLeft;//-
+        case 0b0101:        //bwbw
+            return turnRight;
+        case 0b0110:        //bwwb
+            return turnLeft; 
+        case 0b0111:        //bwww
+            return turnRight; 
+        case 0b1000:        //wbbb
+            return turnRight;
+        case 0b1001:        //wbbw
+            return turnLeft;
+        case 0b1010:        //wbwb
+            return turnLeft;
+        case 0b1011:        //wbww
+            return turnRight;
+        case 0b1100:        //wwbb
+            return goFwd;
+        case 0b1101:        //wwbw
+            return goFwd; 
+        case 0b1110:        //wwwb
+            return findLine;// maybe goBck;
+        case 0b1111:        //wwww
+            return findLine; 
     }
     // default is to findLine
     return findLine; 
+};
+
+void printIRStateCode(irStateType data){
+
+    // table is not filled out all of the way...
+    //IDK what to do for some of it 
+    switch(data){
+        case findLine:  // turn in circles until line is found 
+            printStringLCD("findLine");
+            return;
+        case turnLeft:  // turn left
+            printStringLCD("turnLeft");
+            return;
+        case turnRight: // turn right 
+            printStringLCD("turnRight");
+            return;
+        case goFwd:     // go forward 
+            printStringLCD("goFwd");
+            return;
+        case goBck:     // fo backward 
+            printStringLCD("goBck");
+            return;
+        case maintainSetting: // keep previous states speed setting 
+            printStringLCD("maintainSetting");
+            return;
+        case stop:       // stop! 
+            printStringLCD("stop!");
+            return;
+    }
+    return; 
 };

@@ -19,6 +19,8 @@
 #define IR2port PORTBbits.RB1
 #define IR3port PORTBbits.RB2
 #define IR4port PORTBbits.RB3
+#define black 0
+#define white 1
 
 
 #ifndef irstateTypeEnum
@@ -45,13 +47,15 @@ volatile irStateType lastTrackLineState;
 #endif // lastTrackLineStte_
 
 
-// IR1port                    IR2port 
-// pin 34                     pin 33
 //               IR3port 
 //               pin 32
 
 //               IR4port 
 //               pin 31
+
+// IR2port                    IR1port 
+// pin 33                     pin 34
+
 void initIR();
 
 void printIR();
@@ -65,6 +69,8 @@ void testIR();
 void testMotorAndIR();
 
 irStateType parseIRData(int data);
+
+void printIRStateCode(irStateType data);
 
 
 #endif // IR_H
