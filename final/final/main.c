@@ -40,18 +40,18 @@ int main(void){
     disableInterrupts();
     while(1){   
         
-//    testIR(); 
-      testMotorAndIR();
+////    testIR(); 
+//      testMotorAndIR();
       
-//        switch(mainState){
-//            case trackLines: 
-//                    trackLine(); 
-//                break;
-//            case attackBot:
-//                break;
-//            case snooze:
-//                break;
-//        }
+        switch(mainState){
+            case trackLines: 
+                    trackLine(); 
+                break;
+            case attackBot:
+                break;
+            case snooze:
+                break;
+        }
         
         
     }

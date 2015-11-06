@@ -100,7 +100,6 @@ void testMotorAndIR(){
     
 }
 
-
 void testIR(){
     
     printIR();
@@ -147,32 +146,56 @@ int trackLine(){
     // motor movement definitions are in pwm .h and .c files 
         case findLine:  // turn in circles until line is found 
             setMotorsSweepForward(1023);
-            lastTrackLineState = findLine;  
+            lastTrackLineState = findLine;
+                #ifdef debug_ir
+                     clearLCD();
+                     printStringLCD("findLine");
+                #endif
             trackLineState = maintainSetting; 
              break; 
         case turnLeft:  // turn left
             setMotorsSweepForward(1023);
             lastTrackLineState = turnLeft; 
+                #ifdef debug_ir
+                     clearLCD();
+                     printStringLCD("turnLeft");
+                #endif
             trackLineState = maintainSetting; 
              break; 
         case turnRight: // turn right 
             setMotorsSweepForward(1);
             lastTrackLineState = turnRight; 
+                #ifdef debug_ir
+                     clearLCD();
+                     printStringLCD("turnRight");
+                #endif
             trackLineState = maintainSetting; 
              break; 
         case goFwd:     // go forward 
             setMotorsForward(motorSpeed);
             lastTrackLineState = goFwd; 
+                #ifdef debug_ir
+                     clearLCD();
+                     printStringLCD("goFwd");
+                #endif
             trackLineState = maintainSetting; 
              break; 
         case goBck:     // go backward
             setMotorsBackward(motorSpeed);
             lastTrackLineState = goBck; 
+                #ifdef debug_ir
+                     clearLCD();
+                     printStringLCD("goBck");
+                #endif
             trackLineState = maintainSetting; 
              break;  
         case stop:       // stop! 
             setMotorsIdle(); 
             lastTrackLineState = stop;
+                #ifdef debug_ir
+                     clearLCD();
+                     printStringLCD("stop");
+                #endif
             trackLineState = maintainSetting; 
              break; 
         case maintainSetting:
@@ -189,22 +212,22 @@ int trackLine(){
     }
     
     #ifdef debug_ir
-        clearLCD(); 
-        printCharLCD(((nextState & 8) >> 3) + '0');
-        printCharLCD(((nextState & 4) >> 2) + '0'); 
-        printCharLCD(((nextState & 2) >> 1) + '0');
-        printCharLCD(((nextState & 1) >> 0) + '0');
-        
-        printCharLCD(((trackLineState & 8) >> 3) + '0');
-        printCharLCD(((trackLineState & 4) >> 2) + '0'); 
-        printCharLCD(((trackLineState & 2) >> 1) + '0');
-        printCharLCD(((trackLineState & 1) >> 0) + '0');
-        
-        moveCursorLCD(1,2);
-        printCharLCD(((lastTrackLineState & 8) >> 3) + '0');
-        printCharLCD(((lastTrackLineState & 4) >> 2) + '0'); 
-        printCharLCD(((lastTrackLineState & 2) >> 1) + '0');
-        printCharLCD(((lastTrackLineState & 1) >> 0) + '0');
+//        clearLCD(); 
+//        printCharLCD(((nextState & 8) >> 3) + '0');
+//        printCharLCD(((nextState & 4) >> 2) + '0'); 
+//        printCharLCD(((nextState & 2) >> 1) + '0');
+//        printCharLCD(((nextState & 1) >> 0) + '0');
+//        
+//        printCharLCD(((trackLineState & 8) >> 3) + '0');
+//        printCharLCD(((trackLineState & 4) >> 2) + '0'); 
+//        printCharLCD(((trackLineState & 2) >> 1) + '0');
+//        printCharLCD(((trackLineState & 1) >> 0) + '0');
+//        
+//        moveCursorLCD(1,2);
+//        printCharLCD(((lastTrackLineState & 8) >> 3) + '0');
+//        printCharLCD(((lastTrackLineState & 4) >> 2) + '0'); 
+//        printCharLCD(((lastTrackLineState & 2) >> 1) + '0');
+//        printCharLCD(((lastTrackLineState & 1) >> 0) + '0');
 
     #endif
     
