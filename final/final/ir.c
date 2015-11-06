@@ -233,21 +233,21 @@ irStateType parseIRData(int data){
         case 0b0011:        //bbw.... haha bbw...
             return goFwd;
         case 0b0100:        //bwbb
-            return turnLeft;//-
+            return turnRight;
         case 0b0101:        //bwbw
-            return turnRight;
+            return turnLeft;
         case 0b0110:        //bwwb
-            return turnLeft; 
+            return turnRight;
         case 0b0111:        //bwww
-            return turnRight; 
+            return turnLeft;
         case 0b1000:        //wbbb
-            return turnRight;
+            return turnLeft;
         case 0b1001:        //wbbw
-            return turnLeft;
-        case 0b1010:        //wbwb
-            return turnLeft;
-        case 0b1011:        //wbww
             return turnRight;
+        case 0b1010:        //wbwb
+            return turnRight;
+        case 0b1011:        //wbww
+            return turnLeft;
         case 0b1100:        //wwbb
             return goFwd;
         case 0b1101:        //wwbw
