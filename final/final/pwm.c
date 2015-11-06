@@ -221,6 +221,45 @@ void setMotorsBackward(int s){
     
 }
 
+void setMotorsLeft(int s){
+    
+    // speed input will be 0-100
+    // allows for a range of 0-1024 as an integer 
+    float t = 10.24 * s;                    // scaling speed to pr register size
+    int speed = t;                          // integer casting 
+    if (speed < 1){          speed = 0;   } // check lower bound
+    else if ( speed > 1023){ speed = 1023;} // check upper bound 
+    
+    OCPin1 = 0; // unmap OC2 to RD1
+    OCLatPin1 = 0;
+    OCPin3= 0b1011; // map OC4 to RD3
+    OC4RS = 0; // left backwards
+    OCPin0= 0; // unmap OC1 to RD0
+    OCLatPin0 = 0;
+    OCPin2= 0b1011; // map OC3 to RD2
+    OC3RS = speed; // Right Backwards 
+    
+}
+void setMotorsRight(int s){
+    
+    // speed input will be 0-100
+    // allows for a range of 0-1024 as an integer 
+    float t = 10.24 * s;                    // scaling speed to pr register size
+    int speed = t;                          // integer casting 
+    if (speed < 1){          speed = 0;   } // check lower bound
+    else if ( speed > 1023){ speed = 1023;} // check upper bound 
+    
+    OCPin1 = 0; // unmap OC2 to RD1
+    OCLatPin1 = 0;
+    OCPin3= 0b1011; // map OC4 to RD3
+    OC4RS = speed; // left backwards
+    OCPin0= 0; // unmap OC1 to RD0
+    OCLatPin0 = 0;
+    OCPin2= 0b1011; // map OC3 to RD2
+    OC3RS = 0; // Right Backwards 
+    
+}
+
 void testMotorFunctionality(){
     int i = 0;
     

@@ -129,8 +129,8 @@ int readIR(){
 int trackLine(){
     
     irStateType nextState = maintainSetting; 
-    int motorSpeed = 100; // full speed ahead!!
-    int secondMotorSpeed = 1023; 
+    int motorSpeed = 90; // full speed ahead!!
+    int secondMotorSpeed = 515; 
     char str[6] = {0,0,0,0,0,0};
     int irData = 0; 
     
@@ -144,12 +144,12 @@ int trackLine(){
             trackLineState = maintainSetting; 
              break; 
         case turnLeft:  // turn left
-            setMotorsSweepBackward(1 );
+            setMotorsLeft(motorSpeed);
             lastTrackLineState = turnLeft; 
             trackLineState = maintainSetting; 
              break; 
         case turnRight: // turn right 
-            setMotorsSweepBackward(secondMotorSpeed);
+            setMotorsRight(motorSpeed);
             lastTrackLineState = turnRight; 
             trackLineState = maintainSetting; 
              break; 
