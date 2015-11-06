@@ -5,7 +5,7 @@
 #include "timer.h"
 #include "pwm.h"
 
-//#define debug_ir
+#define debug_ir
 #define use_digital_ir
 
 //><><><><><><><><> for refrence only <><><><><><><><><><><><
@@ -75,9 +75,33 @@ void printIR(){
 //    printCharLCD(((irData & 8) >> 3) + '0'); // print fourth bit    
 }
 
-void testIR(){
+void testMotorAndIR(){
     
-    int i = 0;
+    int data = 0;
+    data = readIR();
+    clearLCD(); 
+    
+    if( data == 0b1111){
+        setMotorsBackward(100);
+        printStringLCD("backward");
+        //setMotorsSweepForward(1023);
+    }
+    else if (data == 0){
+        setMotorsForward(100);
+        printStringLCD("forward");
+    }
+    
+    moveCursorLCD(1,1);
+    printCharLCD((((data & 8) >> 3) + '0'));
+    printCharLCD((((data & 4) >> 2) + '0')); 
+    printCharLCD((((data & 2) >> 1) + '0'));
+    printCharLCD((((data & 1) >> 0) + '0'));
+
+    
+}
+
+
+void testIR(){
     
     printIR();
 
@@ -106,7 +130,7 @@ int readIR(){
     int four = IR4port;
     
     // return data as one number
-    return one + (two << 1) + (three << 2) + (four << 3); 
+    return (one + (two << 1) + (three << 2) + (four << 3) ); 
     
 }
 
@@ -118,8 +142,6 @@ int trackLine(){
     int irData = 0; 
     
     // possible irData values 0-15
-    
-    //nextState = parseIRData(readIR());
     
     switch(trackLineState){
     // motor movement definitions are in pwm .h and .c files 
@@ -172,10 +194,12 @@ int trackLine(){
         printCharLCD(((nextState & 4) >> 2) + '0'); 
         printCharLCD(((nextState & 2) >> 1) + '0');
         printCharLCD(((nextState & 1) >> 0) + '0');
+        
         printCharLCD(((trackLineState & 8) >> 3) + '0');
         printCharLCD(((trackLineState & 4) >> 2) + '0'); 
         printCharLCD(((trackLineState & 2) >> 1) + '0');
         printCharLCD(((trackLineState & 1) >> 0) + '0');
+        
         moveCursorLCD(1,2);
         printCharLCD(((lastTrackLineState & 8) >> 3) + '0');
         printCharLCD(((lastTrackLineState & 4) >> 2) + '0'); 
@@ -191,10 +215,12 @@ irStateType parseIRData(int data){
     //  IR emitter/ collecter configuration (for refrence)
     
 // IR1port                    IR2port 
-
+// pin 34                     pin 33
 //               IR3port 
-    
+//               pin 32
+
 //               IR4port 
+//               pin 31
 
 //    0000      findLine
 //    0001  turnLeft

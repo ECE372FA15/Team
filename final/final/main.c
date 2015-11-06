@@ -34,13 +34,15 @@ int main(void){
     initLCD();
     clearLCD();
     writeLCD(0b00001111, 0, 50);
-    //initPWM();
+    initPWM();
     //initADC();
     initIR(); 
     disableInterrupts();
     while(1){   
         
-      testIR();  
+//    testIR(); 
+      testMotorAndIR();
+      
 //        switch(mainState){
 //            case trackLines: 
 //                    trackLine(); 

@@ -180,13 +180,14 @@ void setMotorsIdle(){
         OC3RS = 0; // Right Backwards
 }
 
-void setMotorsBackward(int s){
+void setMotorsForward(int s){
     
     // speed input will be 0-100
     // allows for a range of 0-1024 as an integer 
-    float t = s % 100;
-    t *= 10.24;
-    int speed = t; 
+    float t = 10.24 * s;                    // scaling speed to pr register size
+    int speed = t;                          // integer casting 
+    if (speed < 1){          speed = 0;   } // check lower bound
+    else if ( speed > 1023){ speed = 1023;} // check upper bound 
     
     OCPin1 = 0; // unmap OC2 to RD1
     OCLatPin1 = 0;
@@ -199,13 +200,14 @@ void setMotorsBackward(int s){
     
 }
 
-void setMotorsForward(int s){
+void setMotorsBackward(int s){
       
     // speed input will be 0-100
     // allows for a range of 0-1024 as an integer 
-    float t = s % 100;
-    t *= 10.24;
-    int speed = t; 
+    float t = 10.24 * s;                    // scaling speed to pr register size
+    int speed = t;                          // integer casting 
+    if (speed < 1){          speed = 0;   } // check lower bound
+    else if ( speed > 1023){ speed = 1023;} // check upper bound 
     
 
     OCPin1 = 0b1011; // map OC2 to RD1

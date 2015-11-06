@@ -46,11 +46,12 @@ volatile irStateType lastTrackLineState;
 
 
 // IR1port                    IR2port 
-
+// pin 34                     pin 33
 //               IR3port 
-    
-//               IR4port 
+//               pin 32
 
+//               IR4port 
+//               pin 31
 void initIR();
 
 void printIR();
@@ -60,6 +61,8 @@ int readIR();
 int trackLine();
 
 void testIR();
+
+void testMotorAndIR();
 
 irStateType parseIRData(int data);
 
