@@ -129,7 +129,7 @@ int readIR(){
 int trackLine(){
     
     irStateType nextState = maintainSetting; 
-    int motorSpeed = 90; // full speed ahead!!
+    int motorSpeed = 100; // full speed ahead!!
     int secondMotorSpeed = 515; 
     char str[6] = {0,0,0,0,0,0};
     int irData = 0; 
@@ -227,33 +227,33 @@ irStateType parseIRData(int data){
         case 0b0000:        //bbbb
             return goFwd; 
         case 0b0001:        //bbbw
-            return goFwd;
+            return turnRight;
         case 0b0010:        //bbwb
-            return goFwd; // this is a classic wrong button manueuver 
+            return turnLeft;  
         case 0b0011:        //bbw.... haha bbw...
             return goFwd;
         case 0b0100:        //bwbb
-            return turnRight;
+            return ;
         case 0b0101:        //bwbw
-            return turnLeft;
+            return ;
         case 0b0110:        //bwwb
-            return turnRight;
+            return ;
         case 0b0111:        //bwww
             return turnLeft;
         case 0b1000:        //wbbb
-            return turnLeft;
+            return ;
         case 0b1001:        //wbbw
-            return turnRight;
+            return ;
         case 0b1010:        //wbwb
-            return turnRight;
+            return ;
         case 0b1011:        //wbww
-            return turnLeft;
+            return turnRight;
         case 0b1100:        //wwbb
-            return goFwd;
+            return ;
         case 0b1101:        //wwbw
-            return goFwd; 
+            return ; 
         case 0b1110:        //wwwb
-            return findLine;// maybe goBck;
+            return ;// maybe goBck;
         case 0b1111:        //wwww
             return findLine; 
     }
