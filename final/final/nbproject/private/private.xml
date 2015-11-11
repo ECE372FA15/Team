@@ -3,6 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
+            <file>file:/C:/Geeit/Team/Team/final/final/pwm.c</file>
+            <file>file:/C:/Geeit/Team/Team/final/final/ir.c</file>
+            <file>file:/C:/Geeit/Team/Team/final/final/main.c</file>
+=======
             <file>file:/C:/Users/Brandon/Documents/School/ECE372/Team/final/final/pwm.c</file>
             <file>file:/C:/Users/Brandon/Documents/School/ECE372/Team/final/final/main.c</file>
             <file>file:/C:/Users/Brandon/Documents/School/ECE372/Team/final/final/ir.h</file>
@@ -10,6 +15,7 @@
             <file>file:/C:/Users/Brandon/Documents/School/ECE372/Team/final/final/adc.c</file>
             <file>file:/C:/Users/Brandon/Documents/School/ECE372/Team/final/final/timer.c</file>
             <file>file:/C:/Users/Brandon/Documents/School/ECE372/Team/final/final/ir.c</file>
+>>>>>>> dadcbc3676f6142c0f4af1b2e5da45608586b813
         </group>
     </open-files>
 </project-private>

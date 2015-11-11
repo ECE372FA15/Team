@@ -45,10 +45,10 @@ void initIR(){
     #endif
     #ifdef use_analog_ir
         // since using analog pins, configure... 
-        ANSELBbits.ANSB0 = 1;
-        ANSELBbits.ANSB1 = 1;
-        ANSELBbits.ANSB2 = 1;
-        ANSELBbits.ANSB3 = 1;
+        ANSELBbits.ANSB0 = 0;
+        ANSELBbits.ANSB1 = 0;
+        ANSELBbits.ANSB2 = 0;
+        ANSELBbits.ANSB3 = 0;
         
         // idl what else you do for analog -jonny 
 
@@ -111,7 +111,7 @@ void testIR(){
 // function polls all 4 IR led's and returns a 4 bit number where each bit 
 // corosponds to the logic reading of the respective led 
 int readIR(){
- 
+     #ifdef use_digital_ir
     // read all data 
     int one = !IR1port; 
     
@@ -123,13 +123,16 @@ int readIR(){
     
     // return data as one number
     return (one + (two << 1) + (three << 2) + (four << 3) ); 
-    
+    #endif
+#ifdef use_analog_ir
+    int one_ = 
+#endif 
 }
 
 int trackLine(){
     
     irStateType nextState = maintainSetting; 
-    int motorSpeed = 90; // full speed ahead!!
+    int motorSpeed = 100; // full speed ahead!!
     int secondMotorSpeed = 515; 
     char str[6] = {0,0,0,0,0,0};
     int irData = 0; 
@@ -139,7 +142,7 @@ int trackLine(){
     switch(trackLineState){
     // motor movement definitions are in pwm .h and .c files 
         case findLine:  // turn in circles until line is found 
-            setMotorsSweepForward(secondMotorSpeed );
+            motorFindLine(motorSpeed);
             lastTrackLineState = findLine;
             trackLineState = maintainSetting; 
              break; 
@@ -227,33 +230,33 @@ irStateType parseIRData(int data){
         case 0b0000:        //bbbb
             return goFwd; 
         case 0b0001:        //bbbw
-            return goFwd;
+            return turnRight;
         case 0b0010:        //bbwb
-            return goFwd; // this is a classic wrong button manueuver 
+            return turnLeft;  
         case 0b0011:        //bbw.... haha bbw...
             return goFwd;
         case 0b0100:        //bwbb
-            return turnRight;
+            break ;
         case 0b0101:        //bwbw
-            return turnLeft;
+            break ;
         case 0b0110:        //bwwb
-            return turnRight;
+            break ;
         case 0b0111:        //bwww
             return turnLeft;
         case 0b1000:        //wbbb
-            return turnLeft;
+            break ;
         case 0b1001:        //wbbw
-            return turnRight;
+            break ;
         case 0b1010:        //wbwb
-            return turnRight;
+            break ;
         case 0b1011:        //wbww
-            return turnLeft;
+            return turnRight;
         case 0b1100:        //wwbb
-            return goFwd;
+            break ;
         case 0b1101:        //wwbw
-            return goFwd; 
+            break ; 
         case 0b1110:        //wwwb
-            return findLine;// maybe goBck;
+            break ;// maybe goBck;
         case 0b1111:        //wwww
             return findLine; 
     }
