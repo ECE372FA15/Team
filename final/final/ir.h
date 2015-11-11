@@ -69,7 +69,7 @@ void testIR();
 void testMotorAndIR();
 
 irStateType parseIRData(int data);
-
+irStateType parseIRDataAnalog(int data);
 void printIRStateCode(irStateType data);
 
 
