@@ -44,6 +44,7 @@ int main(void){
       
         switch(mainState){
             case trackLines: 
+               // analogPrintIR(); 
                     trackLine(); 
                 break;
             case attackBot:

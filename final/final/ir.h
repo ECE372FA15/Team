@@ -60,7 +60,11 @@ void initIR();
 
 void printIR();
 
+void analogPrintIR();
+
 int readIR();
+
+int analogReadIR();
 
 int trackLine();
 
