@@ -353,6 +353,7 @@ void motorFindLine(int s){
     else if ( speed > 1023){ speed = 1023;} // check upper bound  
 
     OCPin1 = 0b1011; // map OC2 to RD1 
+    //*****TESTING******
     OC2RS = 0; // left forward
     OCPin3= 0; // map OC4 to RD3
     OCLatPin3 = 0;

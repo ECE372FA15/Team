@@ -9,7 +9,7 @@
 #define use_digital_ir
 //#define use_analog_ir
 
-//><><><><><><><><> for refrence only <><><><><><><><><><><><
+//><><><><><><><><> for reference only <><><><><><><><><><><><
 
 //#define IR1tri TRISBbits.TRISB0 //J11 pin 34
 //#define IR2tri TRISBbits.TRISB1 //J11 pin 33
@@ -34,6 +34,7 @@ void initIR(){
         ANSELBbits.ANSB3 = 0;
 
         IR1tri = 1; //TRISBbits.TRISB0 //J11 pin 34
+        //****************TESTING********************
         IR2tri = 1; //TRISBbits.TRISB1 //J11 pin 33
         IR3tri = 1; //TRISBbits.TRISB2 //J11 pin 32
         IR4tri = 1; //TRISBbits.TRISB3 //J11 pin 31
@@ -154,7 +155,7 @@ void testIR(){
 }
 
 // function polls all 4 IR led's and returns a 4 bit number where each bit 
-// corosponds to the logic reading of the respective led 
+// corresponds to the logic reading of the respective led 
 int readIR(){
     #ifdef use_analog_ir
     #endif 
@@ -162,14 +163,15 @@ int readIR(){
     #ifdef use_digital_ir
         // read all data 
         int one = !IR1port; 
-
+//****************TESTING********************
         int two = !IR2port;  
-
+//****************TESTING********************
         int three = !IR3port;  
-
+//****************TESTING********************
         int four = !IR4port;
 
         // return data as one number
+        //****************TESTING********************
         return (one + (two << 1) + (three << 2) + (four << 3) ); 
     #endif
 }
@@ -325,6 +327,7 @@ irStateType parseIRData(int data){
     // table is not filled out all of the way...
     //IDK what to do for some of it 
     switch(data){
+        //Middle front, middle back, right, left
         case 0b0000:        //bbbb
             return goFwd; 
         case 0b0001:        //bbbw
@@ -334,30 +337,41 @@ irStateType parseIRData(int data){
         case 0b0011:        //bbw.... haha bbw...
             return goFwd;
         case 0b0100:        //bwbb
-            break ;
-        case 0b0101:        //bwbw
-            break ;
+            //TESTING
+            return turnRight;
+            //break ;
+        case 0b0101://bwbw
+            return turnRight;
+            //break ;
         case 0b0110:        //bwwb
-            break ;
-        case 0b0111:        //bwww
             return turnLeft;
+            // ;
+        case 0b0111:        //bwww
+            return goFwd;
         case 0b1000:        //wbbb
-            break ;
+            return turnRight;
+            //break ;
         case 0b1001:        //wbbw
+            return turnRight;
             break ;
         case 0b1010:        //wbwb
+            return turnLeft;
             break ;
         case 0b1011:        //wbww
-            //return goFwd; 
-            return turnRight;
+            return goFwd; 
+            //return turnRight;
         case 0b1100:        //wwbb
+            return turnLeft;
             break ;
         case 0b1101:        //wwbw
+            return turnRight;
             break ; 
         case 0b1110:        //wwwb
+            return turnLeft;
             break ;// maybe goBck;
         case 0b1111:        //wwww
-            return findLine; 
+            return goBck;
+         
     }
     // default is to findLine
     return findLine; 
