@@ -7,8 +7,9 @@
 
 #define debug_ir
 #define use_digital_ir
+//#define use_analog_ir
 
-//><><><><><><><><> for refrence only <><><><><><><><><><><><
+//><><><><><><><><> for reference only <><><><><><><><><><><><
 
 //#define IR1tri TRISBbits.TRISB0 //J11 pin 34
 //#define IR2tri TRISBbits.TRISB1 //J11 pin 33
@@ -33,6 +34,7 @@ void initIR(){
         ANSELBbits.ANSB3 = 0;
 
         IR1tri = 1; //TRISBbits.TRISB0 //J11 pin 34
+        //****************TESTING********************
         IR2tri = 1; //TRISBbits.TRISB1 //J11 pin 33
         IR3tri = 1; //TRISBbits.TRISB2 //J11 pin 32
         IR4tri = 1; //TRISBbits.TRISB3 //J11 pin 31
@@ -105,6 +107,20 @@ void printIR(){
 //    printCharLCD(((irData & 8) >> 3) + '0'); // print fourth bit    
 }
 
+void analogPrintIR(){
+        // gather data from ports 
+    // may need to swap port1-2-3-4 function inupts with global definitions...
+    
+    int irData = analogReadIR(); 
+
+    clearLCD();
+
+    printCharLCD((irData % 10) + '0'); // print first digit 
+    printCharLCD(((irData % 100)/10) + '0'); // print second digit 
+    printCharLCD(((irData % 1000)/100) + '0'); // print third digit
+    printCharLCD(((irData % 10000)/1000) + '0'); // print fourth digit
+}
+
 void testMotorAndIR(){
     
     int data = 0;
@@ -139,9 +155,28 @@ void testIR(){
 }
 
 // function polls all 4 IR led's and returns a 4 bit number where each bit 
-// corosponds to the logic reading of the respective led 
+// corresponds to the logic reading of the respective led 
 int readIR(){
     #ifdef use_analog_ir
+    #endif 
+    
+    #ifdef use_digital_ir
+        // read all data 
+        int one = !IR1port; 
+//****************TESTING********************
+        int two = !IR2port;  
+//****************TESTING********************
+        int three = !IR3port;  
+//****************TESTING********************
+        int four = !IR4port;
+
+        // return data as one number
+        //****************TESTING********************
+        return (one + (two << 1) + (three << 2) + (four << 3) ); 
+    #endif
+}
+
+int analogReadIR(){
     // we might have to turn the "whole adc" off and then on each
     // time we do a read, but IDK how to do that so....
                        // #define ADCDone     AD1CON1bits.SSRC
@@ -150,8 +185,8 @@ int readIR(){
                        //  while(ADCDone == 0 );
                        //  setMotorsSweepForward(ADC1BUF0);
 
+    
         AD1CON1bits.ADON = 0;       // Turn off A/D for good measure 
-
         ANSELBbits.ANSB0 = 1;       // set led to read 
         AD1CON1bits.ADON = 1;       // Turn on A/D
         IFS0bits.AD1IF = 0;         // reset adc thing 
@@ -184,27 +219,14 @@ int readIR(){
         AD1CON1bits.ADON = 0;       // Turn off A/D
         ANSELBbits.ANSB3 = 0;       // set led to off
 
-        return  (one + (two * 10) + (three * 100) + (four * 1000) ); 
-    #endif 
-    
-    #ifdef use_digital_ir
-        // read all data 
-        int one = !IR1port; 
+        return  (one_ + (two_ * 10) + (three_ * 100) + (four_ * 1000) ); 
 
-        int two = !IR2port;  
-
-        int three = !IR3port;  
-
-        int four = !IR4port;
-
-        // return data as one number
-        return (one + (two << 1) + (three << 2) + (four << 3) ); 
-    #endif
 }
 
 int trackLine(){
     
     irStateType nextState = maintainSetting; 
+    //increased motor speed from 85 to 100
     int motorSpeed = 100; // full speed ahead!!
     int secondMotorSpeed = 515; 
     char str[6] = {0,0,0,0,0,0};
@@ -306,6 +328,7 @@ irStateType parseIRData(int data){
     // table is not filled out all of the way...
     //IDK what to do for some of it 
     switch(data){
+        //Middle front, middle back, right, left
         case 0b0000:        //bbbb
             return goFwd; 
         case 0b0001:        //bbbw
@@ -315,29 +338,41 @@ irStateType parseIRData(int data){
         case 0b0011:        //bbw.... haha bbw...
             return goFwd;
         case 0b0100:        //bwbb
-            break ;
-        case 0b0101:        //bwbw
-            break ;
+            //TESTING
+            return goFwd;
+            //break ;
+        case 0b0101://bwbw
+            return turnRight;
+            //break ;
         case 0b0110:        //bwwb
-            break ;
-        case 0b0111:        //bwww
             return turnLeft;
+            // ;
+        case 0b0111:        //bwww
+            return goFwd;
         case 0b1000:        //wbbb
-            break ;
+            return goFwd;
+            //break ;
         case 0b1001:        //wbbw
+            return turnRight;
             break ;
         case 0b1010:        //wbwb
+            return turnLeft;
             break ;
         case 0b1011:        //wbww
-            return turnRight;
+            return goFwd; 
+            //return turnRight;
         case 0b1100:        //wwbb
+            return turnRight;
             break ;
         case 0b1101:        //wwbw
+            return turnRight;
             break ; 
         case 0b1110:        //wwwb
+            return turnLeft;
             break ;// maybe goBck;
         case 0b1111:        //wwww
-            return findLine; 
+            return goBck;
+         
     }
     // default is to findLine
     return findLine; 

@@ -215,7 +215,7 @@ void setMotorsBackward(int s){
     OCPin3= 0; // unmap OC4 to RD3
     OCLatPin3 = 0;
     OCPin0= 0b1100; // map OC1 to RD0
-    OC1RS = speed; //Right Forwards
+    OC1RS = speed/1.05; //Right Forwards
     OCPin2= 0; // unmap OC3 to RD2
     OCLatPin2 = 0;
     
@@ -233,7 +233,7 @@ void setMotorsLeft(int s){
     OCPin1 = 0; // unmap OC2 to RD1
     OCLatPin1 = 0;
     OCPin3= 0b1011; // map OC4 to RD3
-    OC4RS = speed; // left backwards
+    OC4RS = speed/1.1; // left backwards
     OCPin0= 0; // unmap OC1 to RD0
     OCLatPin0 = 0;
     OCPin2= 0b1011; // map OC3 to RD2
@@ -256,7 +256,7 @@ void setMotorsRight(int s){
     OCPin0= 0; // unmap OC1 to RD0
     OCLatPin0 = 0;
     OCPin2= 0b1011; // map OC3 to RD2
-    OC3RS = speed; // Right Backwards 
+    OC3RS = speed/1.1; // Right Backwards 
     
     
 }
@@ -353,6 +353,7 @@ void motorFindLine(int s){
     else if ( speed > 1023){ speed = 1023;} // check upper bound  
 
     OCPin1 = 0b1011; // map OC2 to RD1 
+    //*****TESTING******
     OC2RS = 0; // left forward
     OCPin3= 0; // map OC4 to RD3
     OCLatPin3 = 0;
