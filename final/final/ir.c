@@ -226,7 +226,8 @@ int analogReadIR(){
 int trackLine(){
     
     irStateType nextState = maintainSetting; 
-    int motorSpeed = 85; // full speed ahead!!
+    //increased motor speed from 85 to 100
+    int motorSpeed = 100; // full speed ahead!!
     int secondMotorSpeed = 515; 
     char str[6] = {0,0,0,0,0,0};
     int irData = 0; 
@@ -338,7 +339,7 @@ irStateType parseIRData(int data){
             return goFwd;
         case 0b0100:        //bwbb
             //TESTING
-            return turnRight;
+            return goFwd;
             //break ;
         case 0b0101://bwbw
             return turnRight;
@@ -349,7 +350,7 @@ irStateType parseIRData(int data){
         case 0b0111:        //bwww
             return goFwd;
         case 0b1000:        //wbbb
-            return turnRight;
+            return goFwd;
             //break ;
         case 0b1001:        //wbbw
             return turnRight;
@@ -361,7 +362,7 @@ irStateType parseIRData(int data){
             return goFwd; 
             //return turnRight;
         case 0b1100:        //wwbb
-            return turnLeft;
+            return turnRight;
             break ;
         case 0b1101:        //wwbw
             return turnRight;

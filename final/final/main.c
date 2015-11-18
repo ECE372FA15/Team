@@ -37,6 +37,7 @@ int main(void){
     //initADC();
     initIR(); 
     disableInterrupts();
+    int *count = 0;
     while(1){   
 //        
 //    testIR(); 
