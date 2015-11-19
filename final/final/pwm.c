@@ -215,7 +215,7 @@ void setMotorsBackward(int s){
     OCPin3= 0; // unmap OC4 to RD3
     OCLatPin3 = 0;
     OCPin0= 0b1100; // map OC1 to RD0
-    OC1RS = speed/1.05; //Right Forwards
+    OC1RS = speed/1.2; //Right Forwards
     OCPin2= 0; // unmap OC3 to RD2
     OCLatPin2 = 0;
     

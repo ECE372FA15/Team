@@ -227,7 +227,7 @@ int trackLine(){
     
     irStateType nextState = maintainSetting; 
     //increased motor speed from 85 to 100
-    int motorSpeed = 100; // full speed ahead!!
+    int motorSpeed = 90; // full speed ahead!!
     int secondMotorSpeed = 515; 
     char str[6] = {0,0,0,0,0,0};
     int irData = 0; 
