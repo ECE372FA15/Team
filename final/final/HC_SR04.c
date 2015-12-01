@@ -45,3 +45,28 @@ int CalculateDistance(){
     
     
 }
+
+void testUltraSonicSensor(){
+     int Distance = 0;
+     char Dist [3];
+     
+     int i = 0;
+    
+     printStringLCD("Test");
+    
+    while(1){
+    
+    Distance = FindDistance();
+    sprintf(Dist, "%d", Distance);
+    printStringLCD(Dist);
+    printStringLCD("in");
+    for(i=0; i < 1000 ; i++){
+        
+    
+    delayUs(1000);
+    }
+    
+    clearLCD();
+   
+    }
+}

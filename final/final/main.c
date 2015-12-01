@@ -14,7 +14,7 @@
 
 #include "ir.h"
 
-#define TEST_SENSOR
+#define TEST_TASK2
 
 #ifndef STATETYPE_
 #define STATETYPE_
@@ -73,33 +73,121 @@ int main(void){
 #ifdef TEST_SENSOR
 int main (void){
      SYSTEMConfigPerformance(40000000);
-     int Distance = 0;
-     char Dist [3];
-     
-     int i = 0;
+
     initTimer3();
     initTimer1();
     initLCD();
     clearLCD();
     writeLCD(0b00001111, 0, 50);
     disableInterrupts();
-    printStringLCD("Test");
-    
-    while(1){
-    
-    Distance = FindDistance();
-    sprintf(Dist, "%d", Distance);
-    printStringLCD(Dist);
-    printStringLCD("in");
-    for(i=0; i < 1000 ; i++){
-        
-    
-    delayUs(1000);
-    }
-    
-    clearLCD();
-   
-    }
-     return 0;
+
+    testUltraSonicSensor();
+    return 0;
 }
+#endif
+
+#ifdef TEST_TASK2
+
+//Right, Fwd, Left, Fwd, Left, Fwd, Right, Fwd
+
+int main (void){
+    
+    SYSTEMConfigPerformance(40000000);
+    // initialize 
+    mainState = trackLines;
+    initTimer3();
+    initTimer1();
+    initLCD();
+    clearLCD();
+    writeLCD(0b00001111, 0, 50);
+    initPWM();
+    initIR(); 
+    disableInterrupts();
+    int i = 0;
+    int Distance = 0;
+    char Dist [3];
+    while (1){
+        
+        setMotorsForward(100);
+        Distance = FindDistance();
+    
+     
+        while( Distance > 5){
+            Distance = FindDistance();
+     
+            delayUs(1000);
+        }
+        clearLCD();
+        
+        setMotorsRight(100);
+        printStringLCD("Right");
+        for(i=0; i < 750; i++){
+            delayUs(1000);
+            
+        }
+        clearLCD();
+        
+        setMotorsForward(100);
+        printStringLCD("Fwd");
+        for(i=0; i < 700; i++){
+            delayUs(1000);
+            
+        }
+        clearLCD();
+        
+        setMotorsLeft(100);
+        printStringLCD("Left");
+         for(i=0; i < 700; i++){
+            delayUs(1000);
+        }
+        clearLCD();
+        
+        setMotorsForward(100);
+        printStringLCD("Fwd");
+        for(i=0; i < 700; i++){
+            delayUs(1000);
+            
+        }
+        clearLCD();
+        /*
+        setMotorsLeft(100);
+        printStringLCD("Left");
+         for(i=0; i < 700; i++){
+            delayUs(1000);
+        }
+        clearLCD();
+        
+        setMotorsForward(100);
+        printStringLCD("Fwd");
+        for(i=0; i < 700; i++){
+            delayUs(1000);
+            
+        }
+        clearLCD();
+        */
+          /*
+        setMotorsRight(100);
+        printStringLCD("Right");
+         for(i=0; i < 650; i++){
+            delayUs(1000);
+        }
+        clearLCD();
+        
+        setMotorsForward(100);
+        printStringLCD("Fwd");
+        for(i=0; i < 400; i++){
+            delayUs(1000);
+            
+        }*/
+        clearLCD();
+       
+        
+    }
+
+    
+    
+    return 0;
+}
+
+
 #endif
