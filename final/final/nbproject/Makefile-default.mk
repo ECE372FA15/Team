@@ -45,17 +45,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=interrupt.c main.c adc.c timer.c ir.c lcd.c pwm.c
+SOURCEFILES_QUOTED_IF_SPACED=interrupt.c main.c adc.c timer.c ir.c lcd.c pwm.c HC_SR04.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/interrupt.o ${OBJECTDIR}/main.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/ir.o ${OBJECTDIR}/lcd.o ${OBJECTDIR}/pwm.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/interrupt.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/adc.o.d ${OBJECTDIR}/timer.o.d ${OBJECTDIR}/ir.o.d ${OBJECTDIR}/lcd.o.d ${OBJECTDIR}/pwm.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/interrupt.o ${OBJECTDIR}/main.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/ir.o ${OBJECTDIR}/lcd.o ${OBJECTDIR}/pwm.o ${OBJECTDIR}/HC_SR04.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/interrupt.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/adc.o.d ${OBJECTDIR}/timer.o.d ${OBJECTDIR}/ir.o.d ${OBJECTDIR}/lcd.o.d ${OBJECTDIR}/pwm.o.d ${OBJECTDIR}/HC_SR04.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/interrupt.o ${OBJECTDIR}/main.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/ir.o ${OBJECTDIR}/lcd.o ${OBJECTDIR}/pwm.o
+OBJECTFILES=${OBJECTDIR}/interrupt.o ${OBJECTDIR}/main.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/ir.o ${OBJECTDIR}/lcd.o ${OBJECTDIR}/pwm.o ${OBJECTDIR}/HC_SR04.o
 
 # Source Files
-SOURCEFILES=interrupt.c main.c adc.c timer.c ir.c lcd.c pwm.c
+SOURCEFILES=interrupt.c main.c adc.c timer.c ir.c lcd.c pwm.c HC_SR04.c
 
 
 CFLAGS=
@@ -136,6 +136,12 @@ ${OBJECTDIR}/pwm.o: pwm.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/pwm.o 
 	@${FIXDEPS} "${OBJECTDIR}/pwm.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -DPIC32_STARTER_KIT -MMD -MF "${OBJECTDIR}/pwm.o.d" -o ${OBJECTDIR}/pwm.o pwm.c   
 	
+${OBJECTDIR}/HC_SR04.o: HC_SR04.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/HC_SR04.o.d 
+	@${RM} ${OBJECTDIR}/HC_SR04.o 
+	@${FIXDEPS} "${OBJECTDIR}/HC_SR04.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -DPIC32_STARTER_KIT -MMD -MF "${OBJECTDIR}/HC_SR04.o.d" -o ${OBJECTDIR}/HC_SR04.o HC_SR04.c   
+	
 else
 ${OBJECTDIR}/interrupt.o: interrupt.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
@@ -178,6 +184,12 @@ ${OBJECTDIR}/pwm.o: pwm.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/pwm.o.d 
 	@${RM} ${OBJECTDIR}/pwm.o 
 	@${FIXDEPS} "${OBJECTDIR}/pwm.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -DPIC32_STARTER_KIT -MMD -MF "${OBJECTDIR}/pwm.o.d" -o ${OBJECTDIR}/pwm.o pwm.c   
+	
+${OBJECTDIR}/HC_SR04.o: HC_SR04.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/HC_SR04.o.d 
+	@${RM} ${OBJECTDIR}/HC_SR04.o 
+	@${FIXDEPS} "${OBJECTDIR}/HC_SR04.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -DPIC32_STARTER_KIT -MMD -MF "${OBJECTDIR}/HC_SR04.o.d" -o ${OBJECTDIR}/HC_SR04.o HC_SR04.c   
 	
 endif
 

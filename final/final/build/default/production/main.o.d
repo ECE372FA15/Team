@@ -5,5 +5,6 @@ interrupt.h  \
 timer.h  \
  pwm.h  \
 adc.h  \
+HC_SR04.h  \
 ir.h  \
 lcd.h 
