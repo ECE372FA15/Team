@@ -15,10 +15,19 @@
 #define IR2tri TRISBbits.TRISB1 //J11 pin 33
 #define IR3tri TRISBbits.TRISB2 //J11 pin 32
 #define IR4tri TRISBbits.TRISB3 //J11 pin 31
+#define IR5tri 
+#define IR6tri 
+#define IR7tri 
+#define IR8tri
+
 #define IR1port PORTBbits.RB0
 #define IR2port PORTBbits.RB1
 #define IR3port PORTBbits.RB2
 #define IR4port PORTBbits.RB3
+#define IR5port 
+#define IR6port 
+#define IR7port 
+#define IR8port 
 #define black 0
 #define white 1
 
@@ -71,6 +80,9 @@ int trackLine();
 void testIR();
 
 void testMotorAndIR();
+
+irStateType parseNewIRData(int data);
+int readNewIR(); 
 
 irStateType parseIRData(int data);
 irStateType parseIRDataAnalog(int data);

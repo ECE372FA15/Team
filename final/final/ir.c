@@ -38,6 +38,10 @@ void initIR(){
         IR2tri = 1; //TRISBbits.TRISB1 //J11 pin 33
         IR3tri = 1; //TRISBbits.TRISB2 //J11 pin 32
         IR4tri = 1; //TRISBbits.TRISB3 //J11 pin 31
+        IR5tri = 1; //TRISBbits.TRISB3 //J11 pin 31
+        IR6tri = 1; //TRISBbits.TRISB3 //J11 pin 31
+        IR7tri = 1; //TRISBbits.TRISB3 //J11 pin 31
+        IR8tri = 1; //TRISBbits.TRISB3 //J11 pin 31
 
         // maybe pull ups...
 //        CNPUBbits.CNPUB0 = 0;
@@ -83,8 +87,8 @@ void initIR(){
     IFS0bits.AD1IF = 0;         // Clear A/D conversion interrupt.
    // AD1CON1bits.ADON = 1;       // Turn on A/D
     AD1CON1bits.ADON = 0;       // Turn off A/D
-
     #endif
+
 }
 
 void printIR(){
@@ -173,6 +177,30 @@ int readIR(){
         // return data as one number
         //****************TESTING********************
         return (one + (two << 1) + (three << 2) + (four << 3) ); 
+    #endif
+}
+
+int readNewIR(){
+    #ifdef use_analog_ir
+    #endif 
+    
+    #ifdef use_digital_ir
+        // read all data 
+        int one = !IR1port; 
+//****************TESTING********************
+        int two = !IR2port;  
+//****************TESTING********************
+        int three = !IR3port;  
+//****************TESTING********************
+        int four = !IR4port;
+        int five = !IR5port;
+        int six = !IR6port;
+        int seven = !IR7port;
+        int eight = !IR8port;
+
+        // return data as one number
+        //****************TESTING********************
+        return (one + (two << 1) + (three << 2) + (four << 3)  + (five << 4)  + (six << 5)  + (seven << 6)  + (eight << 7) ); 
     #endif
 }
 
@@ -314,6 +342,71 @@ irStateType parseIRDataAnalog(int data){
     
 }
 irStateType parseIRData(int data){
+    //  IR emitter/ collecter configuration (for refrence)
+    
+//               IR3port 
+//               pin 32
+
+//               IR4port 
+//               pin 31
+
+// IR2port                    IR1port 
+// pin 33                     pin 34
+    
+    // table is not filled out all of the way...
+    //IDK what to do for some of it 
+    switch(data){
+        //Middle front, middle back, right, left
+        case 0b0000:        //bbbb
+            return goFwd; 
+        case 0b0001:        //bbbw
+            return turnRight;
+        case 0b0010:        //bbwb
+            return turnLeft;  
+        case 0b0011:        //bbw.... haha bbw...
+            return goFwd;
+        case 0b0100:        //bwbb
+            //TESTING
+            return goFwd;
+            //break ;
+        case 0b0101://bwbw
+            return turnRight;
+            //break ;
+        case 0b0110:        //bwwb
+            return turnLeft;
+            // ;
+        case 0b0111:        //bwww
+            return goFwd;
+        case 0b1000:        //wbbb
+            return goFwd;
+            //break ;
+        case 0b1001:        //wbbw
+            return turnRight;
+            break ;
+        case 0b1010:        //wbwb
+            return turnLeft;
+            break ;
+        case 0b1011:        //wbww
+            return goFwd; 
+            //return turnRight;
+        case 0b1100:        //wwbb
+            return turnRight;
+            break ;
+        case 0b1101:        //wwbw
+            return turnRight;
+            break ; 
+        case 0b1110:        //wwwb
+            return turnLeft;
+            break ;// maybe goBck;
+        case 0b1111:        //wwww
+            return goBck;
+         
+    }
+    // default is to findLine
+    return findLine; 
+};
+
+irStateType parseNewIRData(int data){
     //  IR emitter/ collecter configuration (for refrence)
     
 //               IR3port 
