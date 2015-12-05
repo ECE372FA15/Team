@@ -15,19 +15,19 @@
 #define IR2tri TRISBbits.TRISB1 //J11 pin 33
 #define IR3tri TRISBbits.TRISB2 //J11 pin 32
 #define IR4tri TRISBbits.TRISB3 //J11 pin 31
-#define IR5tri 
-#define IR6tri 
-#define IR7tri 
-#define IR8tri
+#define IR5tri TRISBbits.TRISB4 //J11 pin 30
+#define IR6tri TRISBbits.TRISB5 //J11 pin 29
+#define IR7tri TRISBbits.TRISB8 //J10 pin 33
+#define IR8tri TRISBbits.TRISB9 //J10 pin 34
 
 #define IR1port PORTBbits.RB0
 #define IR2port PORTBbits.RB1
 #define IR3port PORTBbits.RB2
 #define IR4port PORTBbits.RB3
-#define IR5port 
-#define IR6port 
-#define IR7port 
-#define IR8port 
+#define IR5port PORTBbits.RB4
+#define IR6port PORTBbits.RB5
+#define IR7port PORTBbits.RB8
+#define IR8port PORTBbits.RB9
 #define black 0
 #define white 1
 
