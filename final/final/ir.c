@@ -315,7 +315,12 @@ int trackLine(){
     #ifdef debug_ir
           clearLCD(); 
           printIRStateCode(lastTrackLineState); 
-        moveCursorLCD(1,2);
+        moveCursorLCD(1,1);
+        
+        printCharLCD(((irData & 128) >> 7) + '0');
+        printCharLCD(((irData & 64) >> 6) + '0');
+        printCharLCD(((irData & 32) >> 5) + '0');
+        printCharLCD(((irData & 16) >> 4) + '0');
           
         printCharLCD(((irData & 8) >> 3) + '0');
         printCharLCD(((irData & 4) >> 2) + '0'); 
@@ -409,14 +414,16 @@ irStateType parseIRData(int data){
 irStateType parseNewIRData(int data){
     //  IR emitter/ collecter configuration (for refrence)
     
-//               IR3port 
-//               pin 32
+//               IR1port                IR2port                IR3port 
+//               pin 32                 pin 32                 pin 32
+    
+//               IR4port                                       IR5port 
+//               pin 32                                        pin 32
+    
+//               IR6port                IR7port                IR8port 
+//               pin 32                 pin 32                 pin 32
 
-//               IR4port 
-//               pin 31
-
-// IR2port                    IR1port 
-// pin 33                     pin 34
+    
     
     // table is not filled out all of the way...
     //IDK what to do for some of it 

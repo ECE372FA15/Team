@@ -107,6 +107,11 @@ int main (void){
     int Distance = 0;
     char Dist [3];
     while (1){
+        // over ride 
+        while(1)
+        {       
+            trackLine(); 
+        }
         
         setMotorsForward(100);
         Distance = FindDistance();
