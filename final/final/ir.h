@@ -19,16 +19,17 @@
 #define IR6tri TRISBbits.TRISB5 //J11 pin 29
 #define IR7tri TRISBbits.TRISB8 //J10 pin 33
 #define IR8tri TRISBbits.TRISB9 //J10 pin 34
-    
+//                                       front
+
 //               IR1port                IR2port                IR3port 
 //               pin 32                 pin 32                 pin 32
     
-//               IR4port                                       IR5port 
-//               pin 32                                        pin 32
+//left           IR4port                                       IR5port      right 
+//               pin 32             [top down view]            pin 32
     
 //               IR6port                IR7port                IR8port 
 //               pin 32                 pin 32                 pin 32
-
+//                                      back
 #define IR1port PORTBbits.RB0
 #define IR2port PORTBbits.RB1
 #define IR3port PORTBbits.RB2
