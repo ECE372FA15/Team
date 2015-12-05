@@ -186,17 +186,14 @@ int readNewIR(){
     
     #ifdef use_digital_ir
         // read all data 
-        int one = !IR1port; 
-//****************TESTING********************
-        int two = !IR2port;  
-//****************TESTING********************
-        int three = !IR3port;  
-//****************TESTING********************
-        int four = !IR4port;
-        int five = !IR5port;
-        int six = !IR6port;
-        int seven = !IR7port;
-        int eight = !IR8port;
+        int one = !IR8port; 
+        int two = !IR7port;  
+        int three = !IR6port;  
+        int four = !IR5port;
+        int five = !IR4port;
+        int six = !IR3port;
+        int seven = !IR2port;
+        int eight = !IR1port;
 
         // return data as one number
         //****************TESTING********************
@@ -296,7 +293,7 @@ int trackLine(){
              break; 
         case maintainSetting:
             // check the ir data 
-            irData = readIR();
+            irData = readNewIR(); // changed from readIR()
             nextState = parseIRData(irData);
                 #ifdef use_analog_ir
                     nextState = parseIRData(irData);

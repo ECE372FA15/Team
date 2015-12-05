@@ -100,7 +100,7 @@ int main (void){
     initLCD();
     clearLCD();
     writeLCD(0b00001111, 0, 50);
-    initPWM();
+    //initPWM();
     initIR(); 
     disableInterrupts();
     int i = 0;
