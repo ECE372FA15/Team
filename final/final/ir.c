@@ -320,12 +320,12 @@ int trackLine(){
           
          // ### 000
          //    00000
-          printIRStateCode(lastTrackLineState); 
+          printIRStateCode(lastTrackLineState);
+        printCharLCD(' '); 
           
         printCharLCD(((irData & 128) >> 7) + '0');
         printCharLCD(((irData & 64) >> 6) + '0');
         printCharLCD(((irData & 32) >> 5) + '0');
-        printCharLCD(' ');
         
         moveCursorLCD(1,1);
         printStringLCD("   "); 
