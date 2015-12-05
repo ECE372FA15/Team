@@ -228,23 +228,26 @@ int analogReadIR() {
     //  ADCFlag = 0;            // reset adc thing 
     //  while(ADCDone == 0 );
     //  setMotorsSweepForward(ADC1BUF0);
-
-
-
-    if (IFS0bits.AD1IF == 1) { //Check if ADC flag is up
-        int one_ = ADC1BUF0 / 103 + 1; // get value for AN0
-        int two_ = ADC1BUF1 / 103 + 1;
-        int three_ = ADC1BUF2 / 103 + 1;
-        int four_ = ADC1BUF3 / 103 + 1;
-        int five_ = ADC1BUF4 / 103 + 1;
-        int six_ = ADC1BUF5 / 103 + 1;
-        int seven_ = ADC1BUF8 / 103 + 1;
-        int eight_ = ADC1BUF9 / 103 + 1;
-        IFS0bits.AD1IF = 0;
-        return (one_ + (two_ * 10) + (three_ * 100) + (four_ * 1000) +
-                (five_ * 10000) + (six_ * 100000) + (seven_ * 1000000) +
-                (eight_ * 10000000));
+    AD1CON1bits.ASAM = 1;
+        
+    while (!IFS0bits.AD1IF){
     }
+    //Check if ADC flag is up
+    AD1CON1bits.ASAM = 0;
+    int one_ = ADC1BUF0 / 103 + 1; // get value for AN0
+    int two_ = ADC1BUF1 / 103 + 1;
+    int three_ = ADC1BUF2 / 103 + 1;
+    int four_ = ADC1BUF3 / 103 + 1;
+    int five_ = ADC1BUF4 / 103 + 1;
+    int six_ = ADC1BUF5 / 103 + 1;
+    int seven_ = ADC1BUF8 / 103 + 1;
+    int eight_ = ADC1BUF9 / 103 + 1;
+    IFS0bits.AD1IF = 0;
+    AD1CON1bits.ADON = 0; // Turn off ADC
+    return (one_ + (two_ * 10) + (three_ * 100) + (four_ * 1000) +
+            (five_ * 10000) + (six_ * 100000) + (seven_ * 1000000) +
+            (eight_ * 10000000));
+    
 
 }
 
