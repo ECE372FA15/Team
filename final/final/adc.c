@@ -22,13 +22,13 @@ void initADC() {
 
     AD1CON1bits.FORM = 0; // 16 unsigned integer
     AD1CON1bits.SSRC = 7; // Auto-convert mode
-    AD1CON1bits.ASAM = 1; // Auto-sampling
+    AD1CON1bits.ASAM = 1;
     AD1CON2bits.VCFG = 0; // Use board refernece voltages
     AD1CON2bits.CSCNA = 0; // Disable scanning
-    AD1CON2bits.SMPI = 10; // 10 burritos
+    AD1CON2bits.SMPI = 0; // 1 burritos
     AD1CON2bits.ALTS = 0; // Only Mux A
     AD1CON3bits.ADRC = 0; // Use PBCLK
-    AD1CON3bits.SAMC = 1; // 2 Tad per sample
+    AD1CON3bits.SAMC = 10; // 2 Tad per sample
     AD1CON3bits.ADCS = 1; // 4 times the PBCLK
     AD1CHSbits.CH0NA = 0; // Use Vref- as negative reference
     //AD1CSSL = 0b0000000110011111; //Disable scanning again
@@ -37,6 +37,17 @@ void initADC() {
     //    IEC0bits.AD1IE = 1; //Enable ADC interrupts
     //    IPC5bits.AD1IP = 7; //Enable ADC priority
     AD1CON1bits.ADON = 1; // Turn on A/D
+}
+
+int readADC(int numPin){
+    IFS0bits.AD1IF = 0; //Set flag down
+    AD1CHSbits.CH0SA = numPin; // Scan the indicated phototransistor
+    AD1CON1bits.ADON = 1; // Turn on A/D
+    while(!IFS0bits.AD1IF){} //wait for flag to go up
+    int value = ADC1BUF0 / 103 + 1; //store buffer value
+    AD1CON1bits.ADON = 0; //turn A/D off
+    
+    return value;
 }
 
 void printVoltage(int ADCBufferValue) {
