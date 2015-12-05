@@ -6,8 +6,8 @@
 #include "pwm.h"
 
 #define debug_ir
-#define use_digital_ir
-//#define use_analog_ir
+//#define use_digital_ir
+#define use_analog_ir
 
 //><><><><><><><><> for reference only <><><><><><><><><><><><
 
@@ -54,43 +54,19 @@ void initIR(){
 //        CNPUBbits.CNPUB3 = 0;
     #endif
     #ifdef use_analog_ir
-        // since using analog pins, configure... 
+
+        //Map pins to analog
         ANSELBbits.ANSB0 = 1;
         ANSELBbits.ANSB1 = 1;
         ANSELBbits.ANSB2 = 1;
         ANSELBbits.ANSB3 = 1;
+        ANSELBbits.ANSB4 = 1;
+        ANSELBbits.ANSB5 = 1;
+        ANSELBbits.ANSB8 = 1;
+        ANSELBbits.ANSB9 = 1;
         
-        // idl what else you do for analog -jonny     ANSELE = 0;
-  
-    //Just in case digital thresholds don't work like we want, uncomment the next
-    //four lines
-    //ANSELBbits.ANSB0 = 0; 
-    //ANSELBbits.ANSB1 = 0;
-    //ANSELBbits.ANSB2 = 0;
-    //ANSELBbits.ANSB3 = 0;
-   // ANSELBbits.ANSB5 = 0;
-    AD1CON1bits.FORM = 0; // 16 unsigned integer
-    AD1CON1bits.SSRC = 7; // Auto-convert mode
-    AD1CON1bits.ASAM = 1; // Auto-sampling
-    AD1CON2bits.VCFG = 0; // Use board refernece voltages
-    AD1CON2bits.CSCNA = 0; // Disable scanning
-    AD1CON2bits.SMPI = 15; // 15 burritos
-    AD1CON2bits.ALTS = 0; // Only Mux A
-    AD1CON3bits.ADRC = 0; // Use PBCLK
-    AD1CON3bits.SAMC = 2; // 2 Tad per sample
-    AD1CON3bits.ADCS = 0xFF; // 512 times the PBCLK
-    AD1CHSbits.CH0NA = 0; // Use Vref- as negative reference
-    
-    AD1CHS = 0x00050000;
-    AD1CSSL = 0;
-    IFS0bits.AD1IF = 0;
-    IEC0bits.AD1IE = 1;
-    IPC5bits.AD1IP = 7;
-
-
-    IFS0bits.AD1IF = 0;         // Clear A/D conversion interrupt.
-   // AD1CON1bits.ADON = 1;       // Turn on A/D
-    AD1CON1bits.ADON = 0;       // Turn off A/D
+        //Should only need to call initADC();
+        initADC();
     #endif
 
 }
@@ -214,41 +190,22 @@ int analogReadIR(){
                        //  while(ADCDone == 0 );
                        //  setMotorsSweepForward(ADC1BUF0);
 
-    
-        AD1CON1bits.ADON = 0;       // Turn off A/D for good measure 
-        ANSELBbits.ANSB0 = 1;       // set led to read 
-        AD1CON1bits.ADON = 1;       // Turn on A/D
-        IFS0bits.AD1IF = 0;         // reset adc thing 
-        while(!AD1CON1bits.SSRC);   // wait for adc to finish 
-        int one_ = ADC1BUF0/103 + 1;    // get value 
-        AD1CON1bits.ADON = 0;       // Turn off A/D
-        ANSELBbits.ANSB0 = 0;       // set led off
 
-        ANSELBbits.ANSB1 = 1;       // set led to on
-        AD1CON1bits.ADON = 1;       // Turn on A/D
-        IFS0bits.AD1IF = 0;         // reset adc thing 
-        while(!AD1CON1bits.SSRC);   // wait for adc to finish 
-        int two_ = ADC1BUF0/103 + 1;
-        AD1CON1bits.ADON = 0;       // Turn off A/D
-        ANSELBbits.ANSB1 = 0;       // set led to off
-
-        ANSELBbits.ANSB2 = 1;       // set led to on
-        AD1CON1bits.ADON = 0;       // Turn off A/D
-        IFS0bits.AD1IF = 0; // reset adc thing 
-        while(!AD1CON1bits.SSRC); // wait for adc to finish 
-        int three_ = ADC1BUF0/103 + 1;
-        AD1CON1bits.ADON = 0;       // Turn off A/D
-        ANSELBbits.ANSB2 = 0;       // set led to off
-
-        ANSELBbits.ANSB3 = 1;       // set led to on
-        AD1CON1bits.ADON = 0;       // Turn off A/D
-        IFS0bits.AD1IF = 0; // reset adc thing 
-        while(!AD1CON1bits.SSRC); // wait for adc to finish 
-        int four_ = ADC1BUF0/103 + 1;
-        AD1CON1bits.ADON = 0;       // Turn off A/D
-        ANSELBbits.ANSB3 = 0;       // set led to off
-
-        return  (one_ + (two_ * 10) + (three_ * 100) + (four_ * 1000) ); 
+ 
+    if (IFS0bits.AD1IF == 1) { //Check if ADC flag is up
+        int one_ = ADC1BUF0 / 103 + 1; // get value for AN0
+        int two_ = ADC1BUF1 / 103 + 1;
+        int three_ = ADC1BUF2 / 103 + 1;
+        int four_ = ADC1BUF3 / 103 + 1;
+        int five_ = ADC1BUF4 / 103 + 1;
+        int six_ = ADC1BUF5 / 103 + 1;
+        int seven_ = ADC1BUF8 / 103 + 1;
+        int eight_ = ADC1BUF9 / 103 + 1;
+        IFS0bits.AD1IF = 0;
+        return (one_ + (two_ * 10) + (three_ * 100) + (four_ * 1000) + 
+                (five_ * 10000) + (six_ * 100000) + (seven_ * 1000000) + 
+                (eight_ * 10000000));
+    }
 
 }
 
@@ -300,6 +257,7 @@ int trackLine(){
             irData = readNewIR(); // changed from readIR()
             nextState = parseIRData(irData);
                 #ifdef use_analog_ir
+                    irData = readAnalogIR();
                     nextState = parseIRData(irData);
                 #endif 
             // only change states if necessary 
