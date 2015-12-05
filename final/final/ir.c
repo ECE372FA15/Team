@@ -32,6 +32,10 @@ void initIR(){
         ANSELBbits.ANSB1 = 0;
         ANSELBbits.ANSB2 = 0;
         ANSELBbits.ANSB3 = 0;
+        ANSELBbits.ANSB4 = 0;
+        ANSELBbits.ANSB5 = 0;
+        ANSELBbits.ANSB8 = 0;
+        ANSELBbits.ANSB9 = 0;
 
         IR1tri = 1; //TRISBbits.TRISB0 //J11 pin 34
         //****************TESTING********************
