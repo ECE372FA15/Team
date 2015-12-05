@@ -95,39 +95,49 @@ void analogPrintIR() {
     // gather data from ports 
     // may need to swap port1-2-3-4 function inupts with global definitions...
 
-    
-////////    printIRStateCode(lastTrackLineState);
-////////    printCharLCD(' ');
-////////
-////////    printCharLCD(((irData & 128) >> 7) + '0');
-////////    printCharLCD(((irData & 64) >> 6) + '0');
-////////    printCharLCD(((irData & 32) >> 5) + '0');
-////////
-////////    moveCursorLCD(1, 1);
-////////    printStringLCD("   ");
-////////    printCharLCD(((irData & 16) >> 4) + '0');
-////////
-////////    printCharLCD(((irData & 4) >> 2) + '0');
-////////    printCharLCD(((irData & 2) >> 1) + '0');
-////////    printCharLCD(((irData & 1) >> 0) + '0');
-////////
-////////    printCharLCD(((irData & 8) >> 3) + '0');
-    
+
+    ////////    printIRStateCode(lastTrackLineState);
+    ////////    printCharLCD(' ');
+    ////////
+    ////////    printCharLCD(((irData & 128) >> 7) + '0');
+    ////////    printCharLCD(((irData & 64) >> 6) + '0');
+    ////////    printCharLCD(((irData & 32) >> 5) + '0');
+    ////////
+    ////////    moveCursorLCD(1, 1);
+    ////////    printStringLCD("   ");
+    ////////    printCharLCD(((irData & 16) >> 4) + '0');
+    ////////
+    ////////    printCharLCD(((irData & 4) >> 2) + '0');
+    ////////    printCharLCD(((irData & 2) >> 1) + '0');
+    ////////    printCharLCD(((irData & 1) >> 0) + '0');
+    ////////
+    ////////    printCharLCD(((irData & 8) >> 3) + '0');
+
     int irData = analogReadIR();
 
     clearLCD();
 
-   printIRStateCode(lastTrackLineState);
-   printCharLCD(' ');
-    
-    printCharLCD((irData % 10) + '0'); // print first digit 
-    printCharLCD(((irData % 100) / 10) + '0'); // print second digit 
+    printIRStateCode(lastTrackLineState);
+    printCharLCD(' ');
+
+    printCharLCD(((irData % 100000000) / 10000000) + '0'); // print eight digit
+    printCharLCD(((irData % 10000000) / 1000000) + '0'); // print seventh digit
+    printCharLCD(((irData % 1000000) / 100000) + '0'); // print sixth digit 
+
+    moveCursorLCD(1, 1);
+    printStringLCD("   ");
+
+    printCharLCD(((irData % 100000) / 10000) + '0'); // print fifth digit
     printCharLCD(((irData % 1000) / 100) + '0'); // print third digit
+    printCharLCD(((irData % 100) / 10) + '0'); // print second digit 
+    printCharLCD((irData % 10) + '0'); // print first digit 
+
     printCharLCD(((irData % 10000) / 1000) + '0'); // print fourth digit
-    printCharLCD(((irData % 100000) / 10000) + '0'); // print first digit 
-    printCharLCD(((irData % 1000000) / 100000) + '0'); // print second digit 
-    printCharLCD(((irData % 10000000) / 1000000) + '0'); // print third digit
-    printCharLCD(((irData % 100000000) / 10000000) + '0'); // print fourth digit
+    
+    
+   
+   
+   
 }
 
 void testMotorAndIR() {
@@ -310,11 +320,11 @@ int trackLine() {
 
     // ### 000
     //    00000
-    
+
 #ifdef use_analog_ir
     analogPrintIR();
 #endif
-    
+
 #ifdef use_digital_ir
     printIRStateCode(lastTrackLineState);
     printCharLCD(' ');
@@ -343,7 +353,7 @@ int trackLine() {
     //        printCharLCD(((lastTrackLineState & 4) >> 2) + '0'); 
     //        printCharLCD(((lastTrackLineState & 2) >> 1) + '0');
     //        printCharLCD(((lastTrackLineState & 1) >> 0) + '0');
-    
+
 #endif
 
 #endif
