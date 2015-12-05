@@ -10,14 +10,14 @@
 void initADC() {
     
     //Map pins to analog
-    ANSELBbits.ANSB0 = 1;
-    ANSELBbits.ANSB1 = 1;
-    ANSELBbits.ANSB2 = 1;
-    ANSELBbits.ANSB3 = 1;
-    ANSELBbits.ANSB4 = 1;
-    ANSELBbits.ANSB5 = 1;
-    ANSELBbits.ANSB8 = 1;
-    ANSELBbits.ANSB9 = 1;
+    ANSELBbits.ANSB0 = 0;
+    ANSELBbits.ANSB1 = 0;
+    ANSELBbits.ANSB2 = 0;
+    ANSELBbits.ANSB3 = 0;
+    ANSELBbits.ANSB4 = 0;
+    ANSELBbits.ANSB5 = 0;
+    ANSELBbits.ANSB8 = 0;
+    ANSELBbits.ANSB9 = 0;
 
 
     AD1CON1bits.FORM = 0; // 16 unsigned integer
