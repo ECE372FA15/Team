@@ -22,13 +22,13 @@
 //                                       front
 
 //               IR1port                IR2port                IR3port 
-//               pin 32                 pin 32                 pin 32
+//              J11 pin 34             J11 pin 33             J11 pin 32
     
 //left           IR4port                                       IR5port      right 
-//               pin 32             [top down view]            pin 32
+//              J11 pin 31             [top down view]       J11 pin 30
     
 //               IR6port                IR7port                IR8port 
-//               pin 32                 pin 32                 pin 32
+//              J11 pin 29             J10 pin 33             J10 pin 34
 //                                      back
 #define IR1port PORTBbits.RB0
 #define IR2port PORTBbits.RB1
