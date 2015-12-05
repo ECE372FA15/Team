@@ -98,6 +98,7 @@ int main (void){
     initTimer3();
     initTimer1();
     initLCD();
+    initADC();
     clearLCD();
     writeLCD(0b00001111, 0, 50);
     //initPWM();

@@ -11,7 +11,6 @@
       <itemPath>ir.h</itemPath>
       <itemPath>lcd.h</itemPath>
       <itemPath>pwm.h</itemPath>
-      <itemPath>HC_SR04.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -27,7 +26,6 @@
       <itemPath>ir.c</itemPath>
       <itemPath>lcd.c</itemPath>
       <itemPath>pwm.c</itemPath>
-      <itemPath>HC_SR04.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -189,6 +187,7 @@
         <property key="ToolFirmwareFilePath"
                   value="Press to browse for a specific firmware version"/>
         <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="memories.configurationmemory" value="true"/>
         <property key="memories.dataflash" value="true"/>
         <property key="memories.eeprom" value="true"/>

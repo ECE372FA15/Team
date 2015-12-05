@@ -7,17 +7,19 @@
 #include <xc.h>
 #include "adc.h"
 
-void initADC(){
-   
-    ANSELE = 0;
-  
-    //Just in case digital thresholds don't work like we want, uncomment the next
-    //four lines
-    //ANSELBbits.ANSB0 = 0; 
-    //ANSELBbits.ANSB1 = 0;
-    //ANSELBbits.ANSB2 = 0;
-    //ANSELBbits.ANSB3 = 0;
-    ANSELBbits.ANSB5 = 0;
+void initADC() {
+    
+    //Map pins to analog
+    ANSELBbits.ANSB0 = 1;
+    ANSELBbits.ANSB1 = 1;
+    ANSELBbits.ANSB2 = 1;
+    ANSELBbits.ANSB3 = 1;
+    ANSELBbits.ANSB4 = 1;
+    ANSELBbits.ANSB5 = 1;
+    ANSELBbits.ANSB8 = 1;
+    ANSELBbits.ANSB9 = 1;
+
+
     AD1CON1bits.FORM = 0; // 16 unsigned integer
     AD1CON1bits.SSRC = 7; // Auto-convert mode
     AD1CON1bits.ASAM = 1; // Auto-sampling
@@ -30,19 +32,20 @@ void initADC(){
     AD1CON3bits.ADCS = 1; // 4 times the PBCLK
     AD1CHSbits.CH0NA = 0; // Use Vref- as negative reference
     AD1CHSbits.CH0SA = 9; //Scan in AN0 to AN9
+    AD1CSSL = 0; //Disable scanning again
     IFS0bits.AD1IF = 0; //put the flag down
-    IEC0bits.AD1IE = 1; //Enable ADC interrupts
-    IPC5bits.AD1IP = 7; //Enable ADC priority
-    AD1CON1bits.ADON = 1;       // Turn on A/D
+    //    IEC0bits.AD1IE = 1; //Enable ADC interrupts
+    //    IPC5bits.AD1IP = 7; //Enable ADC priority
+    AD1CON1bits.ADON = 1; // Turn on A/D
 }
 
-void printVoltage(int ADCBufferValue){
-    
+void printVoltage(int ADCBufferValue) {
+
     float tempVoltage = ADCBufferValue;
     char s [8];
     tempVoltage = tempVoltage / 1024;
     tempVoltage = tempVoltage * 3.3;
     sprintf(s, "%.2f", tempVoltage);
-   
+
     printStringLCD(s);
 }
