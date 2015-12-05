@@ -8,16 +8,16 @@
 #include "adc.h"
 
 void initADC() {
-    
+
     //Map pins to analog
-    ANSELBbits.ANSB0 = 1;
-    ANSELBbits.ANSB1 = 1;
-    ANSELBbits.ANSB2 = 1;
-    ANSELBbits.ANSB3 = 1;
-    ANSELBbits.ANSB4 = 1;
-    ANSELBbits.ANSB5 = 1;
-    ANSELBbits.ANSB8 = 1;
-    ANSELBbits.ANSB9 = 1;
+    ANSELBbits.ANSB0 = 0;
+    ANSELBbits.ANSB1 = 0;
+    ANSELBbits.ANSB2 = 0;
+    ANSELBbits.ANSB3 = 0;
+    ANSELBbits.ANSB4 = 0;
+    ANSELBbits.ANSB5 = 0;
+    ANSELBbits.ANSB8 = 0;
+    ANSELBbits.ANSB9 = 0;
 
 
     AD1CON1bits.FORM = 0; // 16 unsigned integer
@@ -31,6 +31,13 @@ void initADC() {
     AD1CON3bits.SAMC = 2; // 2 Tad per sample
     AD1CON3bits.ADCS = 1; // 4 times the PBCLK
     AD1CHSbits.CH0NA = 0; // Use Vref- as negative reference
+    AD1CHSbits.CH0SA = 0; //Scan in AN0 to AN9
+    AD1CHSbits.CH0SA = 1; //Scan in AN0 to AN9
+    AD1CHSbits.CH0SA = 2; //Scan in AN0 to AN9
+    AD1CHSbits.CH0SA = 3; //Scan in AN0 to AN9
+    AD1CHSbits.CH0SA = 4; //Scan in AN0 to AN9
+    AD1CHSbits.CH0SA = 5; //Scan in AN0 to AN9
+    AD1CHSbits.CH0SA = 8; //Scan in AN0 to AN9
     AD1CHSbits.CH0SA = 9; //Scan in AN0 to AN9
     AD1CSSL = 0; //Disable scanning again
     IFS0bits.AD1IF = 0; //put the flag down
