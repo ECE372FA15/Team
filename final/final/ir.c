@@ -314,18 +314,27 @@ int trackLine(){
     
     #ifdef debug_ir
           clearLCD(); 
+          
+        // the following print Char statments output the state name as a 3 char
+        // code ### and code info  ( as shown below )
+          
+         // ### 000
+         //    00000
           printIRStateCode(lastTrackLineState); 
-        moveCursorLCD(1,1);
-        
+          
         printCharLCD(((irData & 128) >> 7) + '0');
         printCharLCD(((irData & 64) >> 6) + '0');
         printCharLCD(((irData & 32) >> 5) + '0');
+        
+        moveCursorLCD(1,1);
+        printStringLCD("   "); 
         printCharLCD(((irData & 16) >> 4) + '0');
           
-        printCharLCD(((irData & 8) >> 3) + '0');
         printCharLCD(((irData & 4) >> 2) + '0'); 
         printCharLCD(((irData & 2) >> 1) + '0');
         printCharLCD(((irData & 1) >> 0) + '0');
+        
+        printCharLCD(((irData & 8) >> 3) + '0');
         
 //        printCharLCD(((trackLineState & 8) >> 3) + '0');
 //        printCharLCD(((trackLineState & 4) >> 2) + '0'); 
@@ -413,69 +422,41 @@ irStateType parseIRData(int data){
 
 irStateType parseNewIRData(int data){
     //  IR emitter/ collecter configuration (for refrence)
-    
+//                                       front
+
 //               IR1port                IR2port                IR3port 
-//               pin 32                 pin 32                 pin 32
+//              J11 pin 34             J11 pin 33             J11 pin 32
     
-//               IR4port                                       IR5port 
-//               pin 32                                        pin 32
+//left           IR4port                                       IR5port      right 
+//              J11 pin 31             [top down view]       J11 pin 30
     
 //               IR6port                IR7port                IR8port 
-//               pin 32                 pin 32                 pin 32
+//              J11 pin 29             J10 pin 33             J10 pin 34
+//                                      back
 
     
     
-    // table is not filled out all of the way...
-    //IDK what to do for some of it 
+    // since the DEFAULT value is goFwd, don't bother 
+    // defining the cases in which we will go Fwd,
+    // Focus on the other cases 
     switch(data){
         //Middle front, middle back, right, left
-        case 0b0000:        //bbbb
-            return goFwd; 
-        case 0b0001:        //bbbw
-            return turnRight;
-        case 0b0010:        //bbwb
-            return turnLeft;  
-        case 0b0011:        //bbw.... haha bbw...
-            return goFwd;
-        case 0b0100:        //bwbb
-            //TESTING
-            return goFwd;
-            //break ;
-        case 0b0101://bwbw
-            return turnRight;
-            //break ;
-        case 0b0110:        //bwwb
-            return turnLeft;
-            // ;
-        case 0b0111:        //bwww
-            return goFwd;
-        case 0b1000:        //wbbb
-            return goFwd;
-            //break ;
-        case 0b1001:        //wbbw
-            return turnRight;
-            break ;
-        case 0b1010:        //wbwb
-            return turnLeft;
-            break ;
-        case 0b1011:        //wbww
-            return goFwd; 
-            //return turnRight;
-        case 0b1100:        //wwbb
-            return turnRight;
-            break ;
-        case 0b1101:        //wwbw
-            return turnRight;
-            break ; 
-        case 0b1110:        //wwwb
-            return turnLeft;
-            break ;// maybe goBck;
-        case 0b1111:        //wwww
-            return goBck;
+        case 0b:        //
+            
+            return turnRight; 
+        case 0b:        //
+            
+            return turnLeft; 
+        case 0b:        //
+            
+            return motorPiviotLeft; 
+        case 0b:        //
+            
+            return motorPiviotRight; 
          
     }
     // default is to findLine
-    return findLine; 
+    return goFwd; 
 };
 
 void printIRStateCode(irStateType data){
@@ -484,25 +465,31 @@ void printIRStateCode(irStateType data){
     //IDK what to do for some of it 
     switch(data){
         case findLine:  // turn in circles until line is found 
-            printStringLCD("findLine");
+            printStringLCD("FL ");
             return;
         case turnLeft:  // turn left
-            printStringLCD("turnLeft");
+            printStringLCD("TL ");
             return;
         case turnRight: // turn right 
-            printStringLCD("turnRight");
+            printStringLCD("TR ");
             return;
         case goFwd:     // go forward 
-            printStringLCD("goFwd");
+            printStringLCD("FWD");
             return;
         case goBck:     // fo backward 
-            printStringLCD("goBck");
+            printStringLCD("BCK");
             return;
         case maintainSetting: // keep previous states speed setting 
-            printStringLCD("maintainSetting");
+            printStringLCD("MS ");
+            return;
+        case motorPiviotLeft:
+            printStringLCD("PL ");
+            return;
+        case motorPiviotRight:
+            printStringLCD("PR ");
             return;
         case stop:       // stop! 
-            printStringLCD("stop!");
+            printStringLCD("S! ");
             return;
     }
     return; 
