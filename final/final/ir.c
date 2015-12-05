@@ -441,18 +441,18 @@ irStateType parseNewIRData(int data){
     // Focus on the other cases 
     switch(data){
         //Middle front, middle back, right, left
-        case 0b:        //
+        case 0b01:        //
             
             return turnRight; 
-        case 0b:        //
+        case 0b011:        //
             
             return turnLeft; 
-        case 0b:        //
+        case 0b0111:        //
             
-            return motorPiviotLeft; 
-        case 0b:        //
+            return motorPiviotLeft_; 
+        case 0b01111:        //
             
-            return motorPiviotRight; 
+            return motorPiviotRight_; 
          
     }
     // default is to findLine
@@ -482,10 +482,10 @@ void printIRStateCode(irStateType data){
         case maintainSetting: // keep previous states speed setting 
             printStringLCD("MS ");
             return;
-        case motorPiviotLeft:
+        case motorPiviotLeft_:
             printStringLCD("PL ");
             return;
-        case motorPiviotRight:
+        case motorPiviotRight_:
             printStringLCD("PR ");
             return;
         case stop:       // stop! 

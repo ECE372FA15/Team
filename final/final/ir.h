@@ -48,8 +48,8 @@ typedef enum irstateTypeEnum{
     findLine,  // turn in circles until line is found 
     turnLeft,  // turn left
     turnRight, // turn right 
-    motorPiviotLeft,
-    motorPiviotRight,
+    motorPiviotLeft_,
+    motorPiviotRight_,
     goFwd,     // go forward 
     goBck,     // fo backward 
     maintainSetting, // keep previous states speed setting 
