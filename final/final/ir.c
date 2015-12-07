@@ -92,7 +92,7 @@ void printIR() {
     //    printCharLCD(((irData & 8) >> 3) + '0'); // print fourth bit    
 }
 
-void analogPrintIR() {
+void analogPrintIR(int irData) {
     // gather data from ports 
     // may need to swap port1-2-3-4 function inupts with global definitions...
 
@@ -114,31 +114,39 @@ void analogPrintIR() {
     ////////
     ////////    printCharLCD(((irData & 8) >> 3) + '0');
 
-    int irData = analogReadIR();
+    
 
     clearLCD();
 
     printIRStateCode(lastTrackLineState);
     printCharLCD(' ');
 
-    printCharLCD(((irData % 100000000) / 10000000) + '0'); // print eight digit
-    printCharLCD(((irData % 10000000) / 1000000) + '0'); // print seventh digit
-    printCharLCD(((irData % 1000000) / 100000) + '0'); // print sixth digit 
-
-    moveCursorLCD(1, 1);
+        
+////////  printCharLCD(((irData % 100000000) / 10000000) + '0'); // print eight digit
+////////    printCharLCD(((irData % 10000000) / 1000000) + '0'); // print seventh digit
+////////    printCharLCD(((irData % 1000000) / 100000) + '0'); // print sixth digit
+////////    moveCursorLCD(1, 1);
+////////    printStringLCD("   ");
+////////    
+////////    
+////////    printCharLCD(((irData % 100000) / 10000) + '0'); // print fifth digit
+////////    printCharLCD(((irData % 10000) / 1000) + '0'); // print fourth digit
+////////     printCharLCD(((irData % 100) / 10) + '0'); // print second digit 
+////////    printCharLCD((irData % 10) + '0'); // print first digit 
+////////    printCharLCD(((irData % 1000) / 100) + '0'); // print fourth digit
+////////   
+      printCharLCD(((irData % 100) / 10) + '0'); // print second digit 
+   printCharLCD(((irData % 100000000) / 10000000) + '0'); // print eight digit 
+      printCharLCD(((irData % 100000) / 10000) + '0'); // print fifth digit
+     moveCursorLCD(1, 1);
     printStringLCD("   ");
-
-    printCharLCD(((irData % 100000) / 10000) + '0'); // print fifth digit
-    printCharLCD(((irData % 1000) / 100) + '0'); // print third digit
-    printCharLCD(((irData % 100) / 10) + '0'); // print second digit 
+    printCharLCD(((irData % 10000) / 1000) + '0'); // print fourth digit 
+    printCharLCD(((irData % 1000000) / 100000) + '0'); // print sixth digit 
     printCharLCD((irData % 10) + '0'); // print first digit 
-
-    printCharLCD(((irData % 10000) / 1000) + '0'); // print fourth digit
-    
-    
-   
-   
-   
+        printCharLCD(((irData % 10000000) / 1000000) + '0'); // print seventh digit
+            printCharLCD(((irData % 1000) / 100) + '0'); // print fourth digit
+            
+            return;
 }
 
 void testMotorAndIR() {
@@ -164,13 +172,10 @@ void testMotorAndIR() {
 
 
 }
-
+ //**************REMOVE?****************
 void testIR() {
 #ifdef use_digital_ir
     printIR();
-#endif
-#ifdef use_analog_ir
-    analogPrintIR();
 #endif
     moveCursorLCD(1, 2);
     printStringLCD("testing");
@@ -229,21 +234,75 @@ int analogReadIR() {
     //  ADCFlag = 0;            // reset adc thing 
     //  while(ADCDone == 0 );
     //  setMotorsSweepForward(ADC1BUF0);
-    
+    int data = 0;
         
-    int one_ = readADC(0); // get value for AN0
-    int two_ = readADC(1);
-    int three_ = readADC(2);
-    int four_ = readADC(3);
-    int five_ = readADC(4);
-    int six_ = readADC(5);
-    int seven_ = readADC(8);
-    int eight_ = readADC(9);
-    return (one_ + (two_ * 10) + (three_ * 100) + (four_ * 1000) +
+    int one_ = readADC(9); // get value for AN0
+    int two_ = readADC(8);
+    int three_ = readADC(5);
+    int four_ = readADC(4);
+    int five_ = readADC(3);
+    int six_ = readADC(2);
+    int seven_ = readADC(1);
+    int eight_ = readADC(0);
+   
+    
+    data = (one_ + (two_ * 10) + (three_ * 100) + (four_ * 1000) +
             (five_ * 10000) + (six_ * 100000) + (seven_ * 1000000) +
             (eight_ * 10000000));
     
 
+    
+    analogPrintIR(data);
+    
+    if(one_ >= 5){
+        one_ = 1;
+    }
+    else{
+        one_ = 0;
+    }
+    if(two_ >= 5){
+        two_ = 1;
+    }
+    else{
+        two_ = 0;
+    }if(three_ >= 5){
+        three_ = 1;
+    }
+    else{
+        three_ = 0;
+    }if(four_ >= 5){
+        four_ = 1;
+    }
+    else{
+        four_ = 0;
+    }if(five_ >= 5){
+        five_ = 1;
+    }
+    else{
+        five_ = 0;
+    }if(six_ >= 5){
+        six_ = 1;
+    }
+    else{
+        six_ = 0;
+    }if(seven_ >= 5){
+        seven_ = 1;
+    }
+    else{
+        seven_ = 0;
+    }if(eight_ >= 5){
+        eight_ = 1;
+    }
+    else{
+        eight_ = 0;
+    }
+    
+
+    return (one_ + (two_ * 10) + (three_ * 100) + (four_ * 1000) +
+            (five_ * 10000) + (six_ * 100000) + (seven_ * 1000000) +
+            (eight_ * 10000000));
+   
+    
 }
 
 int trackLine() {
@@ -297,7 +356,7 @@ int trackLine() {
 #endif
 #ifdef use_analog_ir
             irData = analogReadIR();
-            nextState = parseIRData(irData);
+            nextState = parseNewIRData(irData);
 #endif 
             // only change states if necessary 
             if (nextState != lastTrackLineState) {
@@ -310,18 +369,15 @@ int trackLine() {
 
     }
 
+    //****************REMOVE?***************
 #ifdef debug_ir
-    clearLCD();
+    //clearLCD();
 
     // the following print Char statments output the state name as a 3 char
     // code ### and code info  ( as shown below )
 
     // ### 000
     //    00000
-
-#ifdef use_analog_ir
-    analogPrintIR();
-#endif
 
 #ifdef use_digital_ir
     printIRStateCode(lastTrackLineState);
@@ -443,28 +499,39 @@ irStateType parseNewIRData(int data) {
     //                                      back
 
 
-
+    //declare counter to keep track of nodes
+    int count = 0;
+    
     // since the DEFAULT value is goFwd, don't bother 
     // defining the cases in which we will go Fwd,
     // Focus on the other cases 
+    
     switch (data) {
             //Middle front, middle back, right, left
-        case 0b01: //
+        case 00000000:
+        case 01000100:
+        case 11111011:
+        case 11111111://
 
             return turnRight;
-        case 0b011: //
+            break;
+        case 011: //
 
             return turnLeft;
-        case 0b0111: //
+            break;
+        case 0111: //
 
             return motorPiviotLeft_;
-        case 0b01111: //
+            break;
+        case 01111: //
 
             return motorPiviotRight_;
-
+            break;
+        default:
+            return goFwd;
     }
     // default is to findLine
-    return goFwd;
+    
 };
 
 void printIRStateCode(irStateType data) {

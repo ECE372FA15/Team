@@ -3,4 +3,5 @@ ir.c  \
 lcd.h  \
 ir.h  \
 timer.h  \
-pwm.h 
+pwm.h  \
+adc.h 

@@ -21,13 +21,13 @@
 #define IR8tri TRISBbits.TRISB9 //J10 pin 34
 //                                       front
 
-//               IR1port                IR2port                IR3port 
+//               IR1port  0              IR2port 1               IR3port 2
 //              J11 pin 34             J11 pin 33             J11 pin 32
     
-//left           IR4port                                       IR5port      right 
+//left           IR4port   3                                   IR5port  4    right 
 //              J11 pin 31             [top down view]       J11 pin 30
     
-//               IR6port                IR7port                IR8port 
+//               IR6port 5               IR7port  8              IR8port 9
 //              J11 pin 29             J10 pin 33             J10 pin 34
 //                                      back
 #define IR1port PORTBbits.RB0
@@ -81,7 +81,7 @@ void initIR();
 
 void printIR();
 
-void analogPrintIR();
+void analogPrintIR(int irData);
 
 int readIR();
 
