@@ -1,4 +1,4 @@
- /* 
+/* 
  * File: main.c
  * Authors: Brandon Lipjanic, Jonny Hawkins, Abigail Francis, Pierce Simpson
  * Team 203
@@ -19,60 +19,18 @@
 #ifndef STATETYPE_
 #define STATETYPE_
 
-typedef enum stateTypeEnum{
+typedef enum stateTypeEnum {
     trackLines, attackBot, snooze
 } stateType;
 #endif // STATETYPE_
 
-volatile stateType mainState; 
-#ifdef RUN
-
-int main(void){
-
-    SYSTEMConfigPerformance(40000000);
-    // initialize 
-    mainState = trackLines;
-    initTimer3();
-    initTimer1();
-    initLCD();
-    clearLCD();
-    writeLCD(0b00001111, 0, 50);
-    initPWM();
-    //initADC();
-    initIR(); 
-    disableInterrupts();
-    int *count = 0;
-    while(1){   
-//        
-//    testIR(); 
-////     testMotorAndIR();
-      
-        switch(mainState){
-            case trackLines: 
-               // analogPrintIR(); 
-                    trackLine(); 
-                break;
-            case attackBot:
-                break;
-            case snooze:
-                break;
-        }
-        
-        
-    }
-    
-    return 0;
-}
-#endif
-/*void __ISR(_ADC_VECTOR, IPL7SRS) _ADCInterrupt(void){
-    IFS0bits.AD1IF = 0;
-    OC2RS = ADC1BUF0;
-}*/
+volatile stateType mainState;
 
 
 #ifdef TEST_SENSOR
-int main (void){
-     SYSTEMConfigPerformance(40000000);
+
+int main(void) {
+    SYSTEMConfigPerformance(40000000);
 
     initTimer3();
     initTimer1();
@@ -90,8 +48,8 @@ int main (void){
 
 //Right, Fwd, Left, Fwd, Left, Fwd, Right, Fwd
 
-int main (void){
-    
+int main(void) {
+
     SYSTEMConfigPerformance(40000000);
     // initialize 
     mainState = trackLines;
@@ -102,102 +60,69 @@ int main (void){
     clearLCD();
     writeLCD(0b00001111, 0, 50);
     initPWM();
-    initIR(); 
+    initIR();
     disableInterrupts();
     int i = 0;
     int Distance = 0;
     char Dist [3];
-    while (1){
-        // over ride 
-        while(1)
-        {       
+    while (1) {
+        // override 
+        while (1) {
             trackLine(i);
-            if(i == 0){ 
+            if (i == 0) {
                 i = 1;
-            }
-            else{
+            } else {
                 i = 0;
             }
         }
-        
+
         setMotorsForward(100);
         Distance = FindDistance();
-    
-     
-        while( Distance > 5){
+
+
+        while (Distance > 5) {
             Distance = FindDistance();
-     
+
             delayUs(1000);
         }
         clearLCD();
-        
+
         setMotorsRight(100);
         printStringLCD("Right");
-        for(i=0; i < 750; i++){
+        for (i = 0; i < 750; i++) {
             delayUs(1000);
-            
+
         }
         clearLCD();
-        
+
         setMotorsForward(100);
         printStringLCD("Fwd");
-        for(i=0; i < 700; i++){
+        for (i = 0; i < 700; i++) {
             delayUs(1000);
-            
+
         }
         clearLCD();
-        
+
         setMotorsLeft(100);
         printStringLCD("Left");
-         for(i=0; i < 700; i++){
+        for (i = 0; i < 700; i++) {
             delayUs(1000);
         }
         clearLCD();
-        
+
         setMotorsForward(100);
         printStringLCD("Fwd");
-        for(i=0; i < 700; i++){
+        for (i = 0; i < 700; i++) {
             delayUs(1000);
-            
+
         }
         clearLCD();
-        /*
-        setMotorsLeft(100);
-        printStringLCD("Left");
-         for(i=0; i < 700; i++){
-            delayUs(1000);
-        }
-        clearLCD();
-        
-        setMotorsForward(100);
-        printStringLCD("Fwd");
-        for(i=0; i < 700; i++){
-            delayUs(1000);
-            
-        }
-        clearLCD();
-        */
-          /*
-        setMotorsRight(100);
-        printStringLCD("Right");
-         for(i=0; i < 650; i++){
-            delayUs(1000);
-        }
-        clearLCD();
-        
-        setMotorsForward(100);
-        printStringLCD("Fwd");
-        for(i=0; i < 400; i++){
-            delayUs(1000);
-            
-        }*/
-        clearLCD();
-       
-        
+
+
     }
 
-    
-    
+
+
     return 0;
 }
 

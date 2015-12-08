@@ -23,10 +23,10 @@
 
 //               IR1port  0              IR2port 1               IR3port 2
 //              J11 pin 34             J11 pin 33             J11 pin 32
-    
+
 //left           IR4port   3                                   IR5port  4    right 
 //              J11 pin 31             [top down view]       J11 pin 30
-    
+
 //               IR6port 5               IR7port  8              IR8port 9
 //              J11 pin 29             J10 pin 33             J10 pin 34
 //                                      back
@@ -44,16 +44,17 @@
 
 #ifndef irstateTypeEnum
 #define irStateTypeEnum
-typedef enum irstateTypeEnum{
-    findLine,  // turn in circles until line is found 
-    turnLeft,  // turn left
+
+typedef enum irstateTypeEnum {
+    findLine, // turn in circles until line is found 
+    turnLeft, // turn left
     turnRight, // turn right 
     motorPiviotLeft_,
     motorPiviotRight_,
-    goFwd,     // go forward 
-    goBck,     // fo backward 
+    goFwd, // go forward 
+    goBck, // fo backward 
     maintainSetting, // keep previous states speed setting 
-    stop       // stop! 
+    stop // stop! 
 } irStateType;
 #endif
 
@@ -64,26 +65,12 @@ volatile irStateType trackLineState;
 
 #ifndef lastTrackLineState_
 #define lastTrackLineState_
-volatile irStateType lastTrackLineState; 
+volatile irStateType lastTrackLineState;
 #endif // lastTrackLineStte_
-
-
-//               IR3port 
-//               pin 32
-
-//               IR4port 
-//               pin 31
-
-// IR2port                    IR1port 
-// pin 33                     pin 34
 
 void initIR();
 
-void printIR();
-
 void analogPrintIR(int irData);
-
-int readIR();
 
 int analogReadIR();
 
@@ -94,10 +81,8 @@ void testIR();
 void testMotorAndIR();
 
 irStateType parseNewIRData(int data);
-int readNewIR(); 
+int readNewIR();
 
-irStateType parseIRData(int data);
-irStateType parseIRDataAnalog(int data);
 void printIRStateCode(irStateType data);
 
 
