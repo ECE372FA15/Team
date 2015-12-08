@@ -305,7 +305,7 @@ int analogReadIR() {
     
 }
 
-int trackLine() {
+int trackLine(int i) {
 
     irStateType nextState = maintainSetting;
     //increased motor speed from 85 to 100
@@ -356,7 +356,15 @@ int trackLine() {
 #endif
 #ifdef use_analog_ir
             irData = analogReadIR();
-            nextState = parseNewIRData(irData);
+           // nextState = parseNewIRData(irData);
+            if(i == 0){
+                nextState = turnLeft;
+                delayUs(1000000);
+            }
+            else{
+            nextState = turnRight;
+            delayUs(5000000);
+            }
 #endif 
             // only change states if necessary 
             if (nextState != lastTrackLineState) {
@@ -500,7 +508,6 @@ irStateType parseNewIRData(int data) {
 
 
     //declare counter to keep track of nodes
-    int count = 0;
     
     // since the DEFAULT value is goFwd, don't bother 
     // defining the cases in which we will go Fwd,

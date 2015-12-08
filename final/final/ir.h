@@ -87,7 +87,7 @@ int readIR();
 
 int analogReadIR();
 
-int trackLine();
+int trackLine(int i);
 
 void testIR();
 

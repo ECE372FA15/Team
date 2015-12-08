@@ -101,7 +101,7 @@ int main (void){
     initADC();
     clearLCD();
     writeLCD(0b00001111, 0, 50);
-    //initPWM();
+    initPWM();
     initIR(); 
     disableInterrupts();
     int i = 0;
@@ -111,7 +111,13 @@ int main (void){
         // over ride 
         while(1)
         {       
-            trackLine(); 
+            trackLine(i);
+            if(i == 0){ 
+                i = 1;
+            }
+            else{
+                i = 0;
+            }
         }
         
         setMotorsForward(100);
